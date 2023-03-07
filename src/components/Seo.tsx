@@ -1,19 +1,21 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 
+export const productionUrl = 'https://medical-records-web.vercel.app';
+
 // !STARTERCONF Change these default meta
 const defaultMeta = {
   title: 'Medical Records',
   siteName: 'Medical Records',
   description: 'medical records tracking app  ',
-  url: 'https://medical-records-web.vercel.app',
+  url: productionUrl,
   type: 'website',
   robots: 'follow, index',
   /**
    * No need to be filled, will be populated with openGraph function
    * If you wish to use a normal image, just specify the path below
    */
-  image: 'https://tsnext-tw.thcl.dev/images/medical-records-og.png',
+  image: `${productionUrl}/images/medical-records-og.png`,
 };
 
 type SeoProps = {
