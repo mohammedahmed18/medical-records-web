@@ -7,6 +7,8 @@ import UnderlineLink from '@/components/links/UnderlineLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Seo from '@/components/Seo';
 
+import { useAuth } from '@/contexts/authContext';
+
 /**
  * SVGR Support
  * Caveat: No React Props Type.
@@ -21,6 +23,7 @@ import Vercel from '~/svg/Vercel.svg';
 // to customize the default configuration.
 
 export default function HomePage() {
+  const { user } = useAuth();
   return (
     <Layout>
       {/* <Seo templateTitle='Home' /> */}
@@ -28,6 +31,7 @@ export default function HomePage() {
 
       <main>
         <section className='bg-white'>
+          <span>{user.name}</span>
           <div className='layout relative flex min-h-screen flex-col items-center justify-center py-12 text-center'>
             <Vercel className='text-5xl' />
             <h1 className='mt-4'>
