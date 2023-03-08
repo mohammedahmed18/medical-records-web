@@ -27,6 +27,7 @@ type User = {
   employmentStatus?: string;
   maritalStatus?: string;
   educationalLevel?: string;
+  isAnonymous: boolean;
 };
 
 // TODO: set the image_src to the default image
@@ -45,6 +46,7 @@ const defaultUser: User = {
   employmentStatus: '',
   maritalStatus: '',
   educationalLevel: '',
+  isAnonymous: true,
 };
 
 type ContextType = {
@@ -76,31 +78,28 @@ export const AuthProvider = ({ children }: props) => {
   const [user, setUser] = useState<User>(defaultUser);
   const [loading, setLoading] = useState(true);
 
+  async function validateTokenAndSetUser(token: string) {
+    // validate the token
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+    const response = await api.get('users/me');
+    const user = response?.data;
+    if (user) setUser({ ...user, isAnonymous: false });
+  }
   async function loadUserFromCookies() {
     const token = Cookies.get('token');
-    if (token) {
-      // validate the token
-      api.defaults.headers.Authorization = `Bearer ${token}`;
-      const response = await api.get('users/me');
-      const user = response?.data;
-      if (user) setUser(user);
-    }
+    if (token) validateTokenAndSetUser(token);
     setLoading(false);
   }
 
   useEffect(() => {
     loadUserFromCookies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const { data } = await api.post('auth/login', { email, password });
-    const token = data.accessToken;
-    if (token) {
-      Cookies.set('token', token, { expires: 60 });
-      api.defaults.headers.Authorization = `Bearer ${token.token}`;
-      const { data: user } = await api.get('users/me');
-      setUser(user);
-    }
+  const login = async (nationalId: string, password: string) => {
+    const res = await api.post('auth/login', { nationalId, password });
+    const token = res?.data.accessToken;
+    if (token) validateTokenAndSetUser(token);
   };
 
   const logout = () => {

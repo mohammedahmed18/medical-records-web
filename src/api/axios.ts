@@ -18,11 +18,22 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
-      Cookies.remove('token');
-      Router.push('/login');
-    } else {
-      return Promise.reject(error);
+    if (error.response) {
+      const status = error.response.status;
+      const message = error.response.data?.message;
+      switch (status) {
+        case 401:
+          alert('boooooo');
+          Cookies.remove('token');
+          Router.push('/login');
+          break;
+        case 400:
+          // show toast
+          alert(message);
+          break;
+        case 403:
+          alert(message);
+      }
     }
   }
 );
