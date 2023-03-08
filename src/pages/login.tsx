@@ -10,7 +10,7 @@ export default function LoginPage() {
 
       <main>
         <section className=''>
-          <div className='layout'>hello</div>
+          <div className='layout'>hello login</div>
         </section>
       </main>
     </Layout>
