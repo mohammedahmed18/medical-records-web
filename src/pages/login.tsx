@@ -1,6 +1,5 @@
-import * as React from 'react';
-
 import Layout from '@/components/layout/Layout';
+import LoginForm from '@/components/loginForm';
 import Seo from '@/components/Seo';
 
 export default function LoginPage() {
@@ -9,9 +8,7 @@ export default function LoginPage() {
       <Seo templateTitle='Login' />
 
       <main>
-        <section className=''>
-          <div className='layout'>hello login</div>
-        </section>
+        <LoginForm />
       </main>
     </Layout>
   );
