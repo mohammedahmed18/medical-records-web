@@ -15,7 +15,8 @@ const nextConfig = {
   // },
 
   // SVGR
-  webpack(config) {
+  webpack(config, { isServer }) {
+    config.resolve.modules.push(__dirname + '/public');
     config.module.rules.push({
       test: /\.svg$/i,
       issuer: /\.[jt]sx?$/,
@@ -29,7 +30,9 @@ const nextConfig = {
         },
       ],
     });
-
+    if (isServer) {
+      config.resolve.alias['~'] = __dirname + '/public';
+    }
     return config;
   },
 };
