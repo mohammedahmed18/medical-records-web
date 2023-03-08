@@ -405,7 +405,7 @@ export default function ComponentsPage() {
                 </p>
                 <div className='space-x-2'>
                   <TextButton>Primary Variant</TextButton>
-                  <TextButton variant='basic'>Basic Variant</TextButton>
+                  <TextButton>Basic Variant</TextButton>
                 </div>
               </li>
               <li className='space-y-2'>
