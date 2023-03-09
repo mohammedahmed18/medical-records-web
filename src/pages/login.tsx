@@ -1,8 +1,9 @@
+import ProtectedRoute from '@/components/common/protectedRoute';
 import Layout from '@/components/layout/Layout';
 import LoginForm from '@/components/loginForm';
 import Seo from '@/components/Seo';
 
-export default function LoginPage() {
+function LoginPage() {
   return (
     <Layout>
       <Seo templateTitle='Login' />
@@ -11,5 +12,12 @@ export default function LoginPage() {
         <LoginForm />
       </main>
     </Layout>
+  );
+}
+export default function Login() {
+  return (
+    <ProtectedRoute reverse>
+      <LoginPage />
+    </ProtectedRoute>
   );
 }

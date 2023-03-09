@@ -50,7 +50,7 @@ const defaultUser: User = {
 };
 
 type ContextType = {
-  isAuthenticated: boolean;
+  isAnonymous: boolean;
   user: User;
   loading: boolean;
   login: (username: string, password: string) => void;
@@ -58,7 +58,7 @@ type ContextType = {
 };
 
 const initialContextValue: ContextType = {
-  isAuthenticated: false,
+  isAnonymous: false,
   user: defaultUser,
   loading: false,
   login: () => {
@@ -88,7 +88,7 @@ export const AuthProvider = ({ children }: props) => {
   }
   async function loadUserFromCookies() {
     const token = Cookies.get('token');
-    validateTokenAndSetUser(token);
+    await validateTokenAndSetUser(token);
     setLoading(false);
   }
 
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }: props) => {
   };
 
   const logout = () => {
-    Cookies.remove('token');
+    Cookies.remove('token'); //will be removed in development
     setUser(defaultUser);
     delete api.defaults.headers.Authorization;
     window.location.pathname = '/login';
@@ -112,7 +112,7 @@ export const AuthProvider = ({ children }: props) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: !!user, user, login, loading, logout }}
+      value={{ isAnonymous: user.isAnonymous, user, login, loading, logout }}
     >
       {children}
     </AuthContext.Provider>
