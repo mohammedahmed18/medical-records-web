@@ -14,27 +14,33 @@ const ProtectedRoute = ({
   reverse,
 }: props): JSX.Element => {
   const { isAnonymous, loading } = useAuth();
+
   const router = useRouter();
+  const { redirect_url } = router.query;
+
+  const loggedIn = !isAnonymous;
   const LoadingComponent = () => {
     if (typeof Skeleton !== 'undefined') return <Skeleton />;
-    return <span>loading...</span>;
+    // TODO: creat global loading
+    return <h1>loading...</h1>;
   };
+
   useEffect(() => {
     if (loading) return;
     // the authentication proccess is finished
-    if (reverse && !isAnonymous) {
+    if (reverse && loggedIn) {
       // means that the user is logged in so he can't viewe this page like the login for example
-      router.push('/');
+      router.push(redirect_url?.toString() || '/');
     }
     if (isAnonymous && !reverse) {
       // if the user still Anonymous then redirect him to the login
-      router.push('/login');
+      router.push(`/login?redirect=${router.pathname}`);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loading]);
+  }, [loading, isAnonymous]);
 
-  if (loading || isAnonymous) {
+  if (loading || (isAnonymous && !reverse)) {
     return <LoadingComponent />;
   }
 
