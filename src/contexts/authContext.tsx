@@ -78,16 +78,17 @@ export const AuthProvider = ({ children }: props) => {
   const [user, setUser] = useState<User>(defaultUser);
   const [loading, setLoading] = useState(true);
 
-  async function validateTokenAndSetUser(token: string) {
+  async function validateTokenAndSetUser(token: string | undefined) {
     // validate the token
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    // NOTE: the token will be undefined in production because it's set as an http only cookie
+    if (token) api.defaults.headers.Authorization = `Bearer ${token}`;
     const response = await api.get('users/me');
     const user = response?.data;
     if (user) setUser({ ...user, isAnonymous: false });
   }
   async function loadUserFromCookies() {
     const token = Cookies.get('token');
-    if (token) validateTokenAndSetUser(token);
+    validateTokenAndSetUser(token);
     setLoading(false);
   }
 
