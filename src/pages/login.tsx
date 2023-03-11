@@ -1,4 +1,4 @@
-import ProtectedRoute from '@/components/common/protectedRoute';
+import protectedRoute from '@/components/common/protectedRoute';
 import Layout from '@/components/layout/Layout';
 import LoginForm from '@/components/loginForm';
 import Seo from '@/components/Seo';
@@ -14,10 +14,5 @@ function LoginPage() {
     </Layout>
   );
 }
-export default function Login() {
-  return (
-    <ProtectedRoute reverse>
-      <LoginPage />
-    </ProtectedRoute>
-  );
-}
+
+export default protectedRoute(LoginPage, null, true);

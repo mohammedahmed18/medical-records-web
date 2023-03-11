@@ -11,7 +11,8 @@ import {
 
 import { api } from '@/api/axios';
 
-type User = {
+// TODO: change the location of this
+export type User = {
   id?: string;
   nationalId?: string;
   name?: string;
@@ -103,11 +104,11 @@ export const AuthProvider = ({ children }: props) => {
     if (token) validateTokenAndSetUser(token);
   };
 
-  const logout = () => {
+  const logout = async () => {
     Cookies.remove('token'); //will be removed in development
-    setUser(defaultUser);
+    setUser(defaultUser); // this is very important , it won't only remove the user details from the context but it will cause the components that uses this context to rerender
     delete api.defaults.headers.Authorization;
-    window.location.pathname = '/login';
+    await api.post('auth/logout');
   };
 
   return (
