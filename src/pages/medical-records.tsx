@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
-import { useIsFetching, useQuery } from 'react-query';
+import { useState } from 'react';
+import { useQuery } from 'react-query';
 
 import protectedRoute from '@/components/common/protectedRoute';
 import Container from '@/components/container';
@@ -38,25 +38,18 @@ const FilterItem = ({
 };
 function MedicalRecordsPage() {
   const [actionType, setActionType] = useState('');
-  const {
-    data: recordsData,
-    isLoading,
-    refetch,
-  } = useQuery({
-    queryKey: [MEDICAL_RECORDS_KEY, actionType],
-    queryFn: () =>
+  const { data: recordsData, isLoading } = useQuery({
+    queryKey: [MEDICAL_RECORDS_KEY, { actionType }],
+    queryFn: ({ queryKey }) =>
       getMedicalRecords({
-        actionType: actionType !== '' ? actionType : undefined,
+        actionType:
+          queryKey[1] &&
+          typeof queryKey[1] === 'object' &&
+          queryKey[1].actionType !== ''
+            ? queryKey[1].actionType
+            : undefined,
       }),
-    enabled: false,
-    staleTime: Infinity,
   });
-
-  useEffect(() => {
-    refetch();
-  }, [actionType, refetch]);
-  const isFetching = useIsFetching([MEDICAL_RECORDS_KEY, actionType]);
-  const finalLoading = isFetching || isLoading;
 
   const NoRecords = (
     <span className='block text-center text-5xl capitalize text-gray-400'>
@@ -69,7 +62,7 @@ function MedicalRecordsPage() {
       <main>
         <Container className='my-7'>
           <div className='flex flex-col gap-3 md:flex-row'>
-            <div className='flex flex-col gap-7 p-3 shadow-md md:w-1/4'>
+            <div className='flex h-fit flex-col gap-7 p-3 shadow-md md:w-1/4'>
               <FilterItem
                 setType={() => setActionType('')}
                 active={actionType === ''}
@@ -85,9 +78,9 @@ function MedicalRecordsPage() {
               ))}
             </div>
             <div className='flex-1'>
-              {finalLoading && <MedicalRecordsSkeleton />}
+              {isLoading && <MedicalRecordsSkeleton />}
               {recordsData && <MedicalRecordsList records={recordsData} />}
-              {recordsData?.length == 0 && !finalLoading && NoRecords}
+              {recordsData?.length == 0 && !isLoading && NoRecords}
             </div>
           </div>
         </Container>
