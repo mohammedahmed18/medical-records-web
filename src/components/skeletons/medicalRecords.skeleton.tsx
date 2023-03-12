@@ -3,7 +3,7 @@ import _ from 'lodash';
 import Skeleton from '../Skeleton';
 
 const MedicalRecordsSkeleton = () => {
-  const numberOfRecords = 1;
+  const numberOfRecords = 4;
   const OneRecordSkeleton = () => (
     // <div className='w-full rounded-md p-7 shadow-md'>
     //   <Skeleton className='mb-2 h-8 w-1/2' />
