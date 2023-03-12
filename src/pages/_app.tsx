@@ -13,7 +13,13 @@ import { AuthProvider } from '@/contexts/authContext';
  */
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
