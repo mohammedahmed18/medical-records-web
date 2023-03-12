@@ -14,11 +14,11 @@ const DoctorMiniProfile = ({
   medicalSpecialization,
 }: props) => {
   return (
-    <div className='my-3 flex w-fit gap-4 rounded-2xl p-4 shadow-sm'>
+    <div className='my-3 flex w-fit gap-4 rounded-2xl p-4 shadow-sm ring-1 ring-gray-100'>
       <Image
-        width={40}
-        height={40}
-        className='rounded-full ring-2'
+        width={70}
+        height={70}
+        className='h-20 w-20 rounded-full object-cover ring-2'
         src={image_src || DefaultImage}
         alt={name || 'doctor profile image'}
       />
