@@ -6,7 +6,7 @@ type props = {
 };
 const Container = ({ children, className }: props) => {
   return (
-    <div className={clsx('mx-auto max-w-screen-xl px-4 lg:px-0', className)}>
+    <div className={clsx('mx-auto max-w-screen-lg px-4 lg:px-0', className)}>
       {children}
     </div>
   );
