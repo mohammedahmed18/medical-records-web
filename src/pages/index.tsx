@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import * as React from 'react';
 
 import TextButton from '@/components/buttons/TextButton';
@@ -17,6 +18,8 @@ function HomePage({ gender }: props) {
 
       <main>
         <h1 className='text-3xl'>{gender}</h1>
+
+        <Link href='/medical-records'>Medical Records</Link>
         <TextButton onClick={logout} className='bg-indigo-800 text-white'>
           logout
         </TextButton>

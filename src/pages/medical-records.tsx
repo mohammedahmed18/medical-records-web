@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 
 import protectedRoute from '@/components/common/protectedRoute';
+import Container from '@/components/container';
 import Layout from '@/components/layout/Layout';
 import MedicalRecordsList from '@/components/medicalRecordsList';
 import Seo from '@/components/Seo';
@@ -20,8 +21,10 @@ function MedicalRecordsPage() {
     <Layout>
       <Seo templateTitle='Medical Records' />
       <main>
-        {isLoading && <MedicalRecordsSkeleton />}
-        {recordsData && <MedicalRecordsList records={recordsData} />}
+        <Container>
+          {isLoading && <MedicalRecordsSkeleton />}
+          {recordsData && <MedicalRecordsList records={recordsData} />}
+        </Container>
       </main>
     </Layout>
   );
