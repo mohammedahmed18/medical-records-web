@@ -1,5 +1,6 @@
 import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -24,6 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <Component {...pageProps} />
+        <ReactQueryDevtools />
       </AuthProvider>
     </QueryClientProvider>
   );
