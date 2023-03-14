@@ -1,10 +1,12 @@
 import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { ToastContainer } from 'react-toastify';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 import { AuthProvider } from '@/contexts/authContext';
 
@@ -24,6 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
+        <ToastContainer />
         <Component {...pageProps} />
         <ReactQueryDevtools />
       </AuthProvider>

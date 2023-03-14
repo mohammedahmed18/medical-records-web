@@ -18,7 +18,7 @@ const DoctorMiniProfile = ({
       <Image
         width={70}
         height={70}
-        className='h-20 w-20 rounded-full object-cover ring-2'
+        className='h-20 w-20 rounded-full object-cover ring-4 ring-primary-50'
         src={image_src || DefaultImage}
         alt={name || 'doctor profile image'}
       />

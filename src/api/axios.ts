@@ -2,6 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 import { isProd } from '@/constant/env';
+import { showToast } from '@/utils/toast';
 
 export const API_BASE_URL = isProd
   ? 'https://medical-records-server1.onrender.com/api/v1'
@@ -23,18 +24,26 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-      const message = error.response.data?.message;
+      const { message, errorCode } = error.response.data;
+      // check error codes first
+      if (errorCode === ERROR_CODES.INVALID_LOGIN) {
+        // wrong national id or password
+        return showToast(message, 'error');
+      }
+
       switch (status) {
         case 401:
           Cookies.remove('token');
           break;
         case 400:
-          // show toast
-          alert(message);
           break;
         case 403:
-          alert(message);
+          break;
       }
     }
   }
 );
+
+const ERROR_CODES = {
+  INVALID_LOGIN: '04557',
+};

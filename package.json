@@ -31,7 +31,9 @@
     "react-hook-form": "^7.43.5",
     "react-icons": "^4.8.0",
     "react-query": "^3.39.3",
+    "react-toastify": "^9.1.1",
     "tailwind-merge": "^1.10.0",
+    "uuid": "^9.0.0",
     "yup": "^1.0.2"
   },
   "devDependencies": {
@@ -42,6 +44,7 @@
     "@testing-library/react": "^13.4.0",
     "@types/js-cookie": "^3.0.3",
     "@types/react": "^18.0.28",
+    "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "autoprefixer": "^10.4.13",

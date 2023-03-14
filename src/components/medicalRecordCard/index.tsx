@@ -33,7 +33,7 @@ const MedicalRecordCard = ({ medicalRecord, prevDate }: props) => {
         </span>
       )}
       <span className='absolute -left-14 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 p-2 shadow-lg ring-4 ring-white'>
-        <CalenderIcon className='fill-indigo-800 text-4xl' />
+        <CalenderIcon className='fill-primary-200 text-4xl' />
       </span>
       <div className='ml-10 rounded-lg bg-white p-7 shadow-md ring-1 ring-gray-200/75'>
         <h3 className='mb-10 text-3xl capitalize'>{medicalRecord.title}</h3>

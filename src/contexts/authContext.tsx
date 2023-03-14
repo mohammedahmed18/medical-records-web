@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }: props) => {
 
   const login = async (nationalId: string, password: string) => {
     const res = await api.post('auth/login', { nationalId, password });
-    const token = res?.data.accessToken;
+    const token = res?.data?.accessToken;
     if (token) validateTokenAndSetUser(token);
   };
 
