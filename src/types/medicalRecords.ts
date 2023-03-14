@@ -4,7 +4,7 @@ export type MedicalRecord = {
   id: string;
   userId: string;
   title: string;
-  details: [];
+  details: MedicalRecordDetail[];
   doctorId?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -28,4 +28,9 @@ export enum MedicalRecordsActionTypes {
   Allergy = 'Allergy',
   LabTest = 'LabTest',
 }
+export type MedicalRecordDetail = {
+  type: 'date' | 'text' | 'list' | 'email' | 'url' | 'phone';
+  value: string;
+  key: string;
+};
 export type MedicalRecordsResponseType = AxiosResponse<MedicalRecord[]>;

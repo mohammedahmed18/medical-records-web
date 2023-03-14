@@ -29,6 +29,8 @@ export type User = {
   maritalStatus?: string;
   educationalLevel?: string;
   isAnonymous: boolean;
+  isDoctor: boolean;
+  medicalSpecialization: string; // change this to enum later when you want to use the type
 };
 
 // TODO: set the image_src to the default image
@@ -47,6 +49,8 @@ const defaultUser: User = {
   employmentStatus: '',
   maritalStatus: '',
   educationalLevel: '',
+  isDoctor: false,
+  medicalSpecialization: '',
   isAnonymous: true,
 };
 
@@ -84,8 +88,9 @@ export const AuthProvider = ({ children }: props) => {
     // NOTE: the token will be undefined in production because it's set as an http only cookie
     if (token) api.defaults.headers.Authorization = `Bearer ${token}`;
     const response = await api.get('users/me');
-    const user = response?.data;
-    if (user) setUser({ ...user, isAnonymous: false });
+    const user: User = response?.data;
+    const isDoctor = !!user?.medicalSpecialization;
+    if (user) setUser({ ...user, isAnonymous: false, isDoctor });
   }
   async function loadUserFromCookies() {
     const token = Cookies.get('token');
