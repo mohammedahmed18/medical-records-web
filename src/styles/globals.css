@@ -4,27 +4,26 @@
 
 :root {
   /* #region  /**=========== Primary Color =========== */
-  /* !STARTERCONF Customize these variable, copy and paste from /styles/colors.css for list of colors */
-  --tw-color-primary-50: 240 249 255;
-  --tw-color-primary-100: 224 242 254;
-  --tw-color-primary-200: 186 230 253;
-  --tw-color-primary-300: 125 211 252;
-  --tw-color-primary-400: 56 189 248;
-  --tw-color-primary-500: 14 165 233;
-  --tw-color-primary-600: 2 132 199;
-  --tw-color-primary-700: 3 105 161;
-  --tw-color-primary-800: 7 89 133;
-  --tw-color-primary-900: 12 74 110;
-  --color-primary-50: rgb(var(--tw-color-primary-50)); /* #f0f9ff */
-  --color-primary-100: rgb(var(--tw-color-primary-100)); /* #e0f2fe */
-  --color-primary-200: rgb(var(--tw-color-primary-200)); /* #bae6fd */
-  --color-primary-300: rgb(var(--tw-color-primary-300)); /* #7dd3fc */
-  --color-primary-400: rgb(var(--tw-color-primary-400)); /* #38bdf8 */
-  --color-primary-500: rgb(var(--tw-color-primary-500)); /* #0ea5e9 */
-  --color-primary-600: rgb(var(--tw-color-primary-600)); /* #0284c7 */
-  --color-primary-700: rgb(var(--tw-color-primary-700)); /* #0369a1 */
-  --color-primary-800: rgb(var(--tw-color-primary-800)); /* #075985 */
-  --color-primary-900: rgb(var(--tw-color-primary-900)); /* #0c4a6e */
+  --tw-color-primary-50: #928bf2;
+  --tw-color-primary-100: #7973cf;
+  --tw-color-primary-200: #6e69bf;
+  --tw-color-primary-300: #5c58a2;
+  --tw-color-primary-400: #4a4784;
+  --tw-color-primary-500: #383563;
+  --tw-color-primary-600: #323058;
+  --tw-color-primary-700: #282748;
+  --tw-color-primary-800: #1e1d37;
+  --tw-color-primary-900: #121122;
+  --color-primary-50: rgb(var(--tw-color-primary-50));
+  --color-primary-100: rgb(var(--tw-color-primary-100));
+  --color-primary-200: rgb(var(--tw-color-primary-200));
+  --color-primary-300: rgb(var(--tw-color-primary-300));
+  --color-primary-400: rgb(var(--tw-color-primary-400));
+  --color-primary-500: rgb(var(--tw-color-primary-500));
+  --color-primary-600: rgb(var(--tw-color-primary-600));
+  --color-primary-700: rgb(var(--tw-color-primary-700));
+  --color-primary-800: rgb(var(--tw-color-primary-800));
+  --color-primary-900: rgb(var(--tw-color-primary-900));
   /* #endregion  /**======== Primary Color =========== */
 }
 
@@ -121,4 +120,21 @@
 }
 .loginClipper {
   clip-path: polygon(0 0, 50% 0, 100% 100%, 0% 100%);
+}
+
+.alert {
+  animation: slide-in 0.5s ease-out;
+}
+
+@keyframes slide-in {
+  0% {
+    top: -50px;
+    opacity: 0;
+    position: absolute;
+  }
+  100% {
+    top: 3;
+    position: block;
+    opacity: 1;
+  }
 }

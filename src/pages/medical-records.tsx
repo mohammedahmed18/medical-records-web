@@ -29,7 +29,7 @@ const FilterItem = ({
       onClick={setType}
       className={clsx(
         'cursor-pointer rounded-lg p-4 text-2xl transition-colors duration-300',
-        active ? 'bg-indigo-700 text-white' : 'hover:bg-gray-100'
+        active ? 'bg-primary-200 text-white' : 'hover:bg-gray-100'
       )}
     >
       {value}
