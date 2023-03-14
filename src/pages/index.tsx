@@ -10,17 +10,22 @@ import HomepageSkeleton from '@/components/skeletons/homepage.skeleton';
 import { useAuth, User } from '@/contexts/authContext';
 
 type props = User;
-function HomePage({ gender }: props) {
+function HomePage({ ...props }: props) {
   const { logout } = useAuth();
   return (
     <Layout>
       <Seo templateTitle='Home' />
 
       <main>
-        <h1 className='text-3xl'>{gender}</h1>
+        <pre className='text-3xl'>{JSON.stringify(props, null, 2)}</pre>
 
-        <Link href='/medical-records'>Medical Records</Link>
-        <TextButton onClick={logout} className='bg-indigo-800 text-white'>
+        <Link
+          href='/medical-records'
+          className='rounded-lg bg-primary-500 py-7 px-4 text-lg font-bold text-white'
+        >
+          Medical Records
+        </Link>
+        <TextButton onClick={logout} className='bg-red-500 text-white'>
           logout
         </TextButton>
       </main>

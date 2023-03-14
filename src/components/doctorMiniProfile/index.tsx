@@ -1,20 +1,20 @@
 import Image from 'next/image';
 
-import DefaultImage from '~/images/default-user.png';
-type props = Partial<{
-  id: string;
-  image_src: string;
-  name: string;
-  medicalSpecialization?: string;
-  email?: string;
-}>;
-const DoctorMiniProfile = ({
-  image_src,
-  name,
-  medicalSpecialization,
-}: props) => {
+import DefaultImage from '@/constant/ui';
+
+type props = {
+  doctor: Partial<{
+    id: string;
+    image_src: string;
+    name: string;
+    medicalSpecialization?: string;
+    email?: string;
+  }>;
+};
+const DoctorMiniProfile = ({ doctor }: props) => {
+  const { image_src, name, medicalSpecialization } = doctor;
   return (
-    <div className='my-3 flex w-fit gap-4 rounded-2xl p-4 shadow-sm ring-1 ring-gray-100'>
+    <div className='my-3 flex w-fit gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-100'>
       <Image
         width={70}
         height={70}
