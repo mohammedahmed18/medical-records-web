@@ -14,7 +14,7 @@ const SideModal = ({ children, shown, closePanel }: Props) => {
       ></div>
       <div
         className={clsx(
-          'fixed top-0 bottom-0 z-[1000] w-full overflow-auto bg-white p-7 drop-shadow-2xl transition-all duration-300 md:w-1/2 lg:w-1/3',
+          'transition-[right width] fixed top-0 bottom-0 z-[1000] w-full overflow-auto bg-white p-7 drop-shadow-2xl duration-300 md:w-1/2 lg:w-1/3',
           shown ? 'right-0' : '-right-full'
         )}
         onClick={(event) => event.stopPropagation()}
