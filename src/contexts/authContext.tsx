@@ -1,6 +1,7 @@
 // contexts/auth.js
 
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import {
   createContext,
   ReactNode,
@@ -82,6 +83,8 @@ type props = {
 export const AuthProvider = ({ children }: props) => {
   const [user, setUser] = useState<User>(defaultUser);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const { redirect } = router.query;
 
   async function validateTokenAndSetUser(token: string | undefined) {
     // validate the token
@@ -90,7 +93,10 @@ export const AuthProvider = ({ children }: props) => {
     const response = await api.get('users/me');
     const user: User = response?.data;
     const isDoctor = !!user?.medicalSpecialization;
-    if (user) setUser({ ...user, isAnonymous: false, isDoctor });
+    if (user) {
+      setUser({ ...user, isAnonymous: false, isDoctor });
+      return { success: true };
+    }
   }
   async function loadUserFromCookies() {
     const token = Cookies.get('token');
@@ -106,7 +112,11 @@ export const AuthProvider = ({ children }: props) => {
   const login = async (nationalId: string, password: string) => {
     const res = await api.post('auth/login', { nationalId, password });
     const token = res?.data?.accessToken;
-    if (token) validateTokenAndSetUser(token);
+    if (token) {
+      const result = await validateTokenAndSetUser(token);
+
+      if (result?.success) router.push(redirect?.toString() || '/');
+    }
   };
 
   const logout = async () => {

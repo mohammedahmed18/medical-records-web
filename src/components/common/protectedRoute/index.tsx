@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 
 import { useAuth } from '@/contexts/authContext';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const protectedRoute = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   Page: (props: any) => JSX.Element,
   Skeleton?: (() => JSX.Element) | null,
   reverse = false
