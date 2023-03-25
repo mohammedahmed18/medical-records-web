@@ -11,7 +11,7 @@ const Modal: React.FC<props> = ({ children, shown, onClose }) => {
   return (
     <>
       <div
-        className='fixed inset-0 z-50 h-screen backdrop-blur-sm'
+        className='fixed inset-0 z-50 h-screen bg-black/50'
         onClick={onClose}
       ></div>
       <div className={clsx('absolute z-[90] w-fit', styles.content)}>
