@@ -151,3 +151,7 @@
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+.center-content {
+  @apply flex items-center justify-center;
+}

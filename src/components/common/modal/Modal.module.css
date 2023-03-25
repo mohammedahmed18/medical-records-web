@@ -1,7 +1,18 @@
 .content {
-  top: 25%;
+  top: 40%;
   left: 50%;
-  transform: translate(-50%, -50%);
   min-width: 400px;
-  @apply rounded-md bg-white/75 px-7 py-14 shadow-md backdrop-blur-sm;
+  transform: translate(-50%, -50%);
+  @apply rounded-2xl bg-white px-7 py-14 shadow-md;
+  animation: slide ease-in-out 300ms;
+}
+@keyframes slide {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -70%);
+  }
+  to {
+    opacity: 100;
+    transform: translate(-50%, -50%);
+  }
 }
