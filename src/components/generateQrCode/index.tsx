@@ -34,13 +34,13 @@ const GenerateQrCode: React.FC = () => {
   });
 
   const handleGenerateQrcode = () => {
+    setShowQrcode(true);
     if (!canRefresh) {
       return showToast(
         `you must wait ${QR_LIFETIME_MINS} minute(s) to refresh the qr code`,
         'default'
       );
     }
-    setShowQrcode(true);
     setCanRefresh(false);
     refetch();
   };
