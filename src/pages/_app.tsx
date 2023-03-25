@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
+import { isProd } from '@/constant/env';
 import { AuthProvider } from '@/contexts/authContext';
 
 /**
@@ -28,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <ToastContainer />
         <Component {...pageProps} />
-        <ReactQueryDevtools />
+        {!isProd && <ReactQueryDevtools />}
       </AuthProvider>
     </QueryClientProvider>
   );

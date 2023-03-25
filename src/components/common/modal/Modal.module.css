@@ -1,0 +1,7 @@
+.content {
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 400px;
+  @apply rounded-md bg-white/75 px-7 py-14 shadow-md backdrop-blur-sm;
+}

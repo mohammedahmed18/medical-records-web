@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import { HiChevronRight } from 'react-icons/hi';
+
+import Tooltip from '../tooltip';
 interface Props {
   children: React.ReactNode;
   closePanel: () => void;
@@ -19,12 +21,15 @@ const SideModal = ({ children, shown, closePanel }: Props) => {
         )}
         onClick={(event) => event.stopPropagation()}
       >
-        <span
-          className='mb-10 inline-block cursor-pointer rounded-lg p-2 text-3xl text-gray-500 hover:bg-zinc-200'
-          onClick={closePanel}
-        >
-          <HiChevronRight />
-        </span>
+        <Tooltip title='close' className='mb-20'>
+          <span
+            className='inline-block cursor-pointer rounded-lg p-2 text-3xl text-gray-500 hover:bg-zinc-200'
+            onClick={closePanel}
+          >
+            <HiChevronRight />
+          </span>
+        </Tooltip>
+
         {children}
       </div>
     </>
