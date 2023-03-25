@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from 'react';
 
 import styles from './MedicalRecordCard.module.css';
 
-import Tooltip from '../common/tooltip';
 import DoctorMiniProfile from '../doctorMiniProfile';
 import MedicalRecordDetails from '../medicalRecordDetails';
 
@@ -35,11 +34,9 @@ const MedicalRecordCard = ({ medicalRecord, prevDate, showDetails }: props) => {
   return (
     <li className={clsx('relative ml-6 p-2 md:p-5 ', styles.card)}>
       {showDate && (
-        <Tooltip title='hello'>
-          <span className='mx-auto mb-4 block w-fit rounded-lg bg-zinc-200 px-4 py-1 text-center text-lg text-gray-600'>
-            {moment(medicalRecord.createdAt).format('MMMM YYYY')}
-          </span>
-        </Tooltip>
+        <span className='mx-auto mb-4 block w-fit rounded-lg bg-zinc-200 px-4 py-1 text-center text-lg text-gray-600'>
+          {moment(medicalRecord.createdAt).format('MMMM YYYY')}
+        </span>
       )}
       <span className='absolute -left-14 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 p-2 shadow-lg ring-4 ring-white'>
         <CalenderIcon className='fill-primary-200 text-4xl' />

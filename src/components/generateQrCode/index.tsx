@@ -9,11 +9,12 @@ import IconButton from '@/components/buttons/IconButton';
 import Modal from '@/components/common/modal';
 import Spinner from '@/components/common/spinner';
 import Tooltip from '@/components/common/tooltip';
+import NavbarButton from '@/components/navbarButton';
 
 import { generateQrcode } from '@/api/users';
 import { showToast } from '@/utils/toast';
 
-import QrcodeIcon from '~/svg/qr-code.svg';
+import QrCodeIcon from '~/svg/qr-code.svg';
 import RefreshIcon from '~/svg/refresh.svg';
 
 const GenerateQrCode: React.FC = () => {
@@ -57,9 +58,7 @@ const GenerateQrCode: React.FC = () => {
 
   return (
     <>
-      <button onClick={handleShowQrModal}>
-        <QrcodeIcon className='text-6xl transition-transform duration-300 hover:-translate-y-2' />
-      </button>
+      <NavbarButton onClick={handleShowQrModal} Icon={QrCodeIcon} />
 
       <Modal shown={showQrcode} onClose={() => setShowQrcode(false)}>
         <div className='flex flex-col items-center justify-center gap-4'>
@@ -77,7 +76,7 @@ const GenerateQrCode: React.FC = () => {
 
           <div className='center-content min-h-[200px]'>
             {loading && <Spinner size={70} color='primary-100' />}
-            {qrcode && (
+            {qrcode && !isRefetching && (
               <QRCode
                 value={qrcode}
                 size={200}

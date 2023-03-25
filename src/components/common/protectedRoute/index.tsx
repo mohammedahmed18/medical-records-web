@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
+import GlobalLoading from '@/components/common/globalLoading';
+
 import { useAuth } from '@/contexts/authContext';
 
 const protectedRoute = (
@@ -18,8 +20,7 @@ const protectedRoute = (
     const loggedIn = !isAnonymous;
     const LoadingComponent = () => {
       if (Skeleton) return <Skeleton />;
-      // TODO: creat global loading
-      return <h1>loading...</h1>;
+      return <GlobalLoading />;
     };
     const userData = reverse ? {} : { ...user };
 
