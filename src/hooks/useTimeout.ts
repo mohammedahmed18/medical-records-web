@@ -26,5 +26,9 @@ export default function useTimeout(callback: () => void, delay: number) {
     set();
   }, [clear, set]);
 
-  return { reset, clear };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const setCallback = (callback: any) => {
+    callbackRef.current = callback;
+  };
+  return { reset, clear, set, setCallback };
 }
