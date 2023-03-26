@@ -3,10 +3,15 @@
   left: 50%;
   min-width: 400px;
   transform: translate(-50%, -50%);
-  @apply rounded-2xl bg-white px-7 py-14 shadow-md;
-  animation: slide ease-in-out 300ms;
+  @apply min-w-[90vw] rounded-2xl bg-white px-7 py-14 shadow-md md:min-w-[600px];
+  animation: slide-in ease-in-out 300ms;
 }
-@keyframes slide {
+.hiddenModal {
+  transform: translate(-50%, -70%);
+  opacity: 0;
+  animation: slide-out ease-in-out 300ms;
+}
+@keyframes slide-in {
   from {
     opacity: 0;
     transform: translate(-50%, -70%);
@@ -14,5 +19,16 @@
   to {
     opacity: 100;
     transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes slide-out {
+  from {
+    opacity: 100;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -70%);
   }
 }
