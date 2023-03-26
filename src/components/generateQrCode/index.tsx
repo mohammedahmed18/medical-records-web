@@ -75,7 +75,7 @@ const GenerateQrCode: React.FC = () => {
           </Tooltip>
 
           <div className='center-content min-h-[200px]'>
-            {loading && <Spinner size={70} color='primary-100' />}
+            {(loading || isRefetching) && <Spinner size={70} />}
             {qrcode && !isRefetching && (
               <QRCode
                 value={qrcode}
