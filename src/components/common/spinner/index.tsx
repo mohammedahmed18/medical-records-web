@@ -11,8 +11,8 @@ const Spinner = ({
     <div
       className={clsx(
         styles.spinner,
-        className,
-        `border-2 border-${color} border-t-transparent`
+        `border-2 border-${color} border-t-transparent`,
+        className
       )}
       style={{ width: size, height: size, ...customStyle }}
     ></div>

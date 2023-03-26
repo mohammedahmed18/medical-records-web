@@ -16,6 +16,7 @@ import LogoutIcon from '~/svg/logout.svg';
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
+  if (user.isAnonymous) return null;
   return (
     <nav className='py-4 shadow-md'>
       <Container className='flex items-center justify-between'>
