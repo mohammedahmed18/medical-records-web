@@ -36,6 +36,13 @@ const FilterItem = ({
     </span>
   );
 };
+
+const NoRecords = (
+  <span className='block text-center text-5xl capitalize text-gray-400'>
+    No records to show
+  </span>
+);
+
 function MedicalRecordsPage() {
   const [actionType, setActionType] = useState('');
   const { data: recordsData, isLoading } = useQuery({
@@ -51,14 +58,10 @@ function MedicalRecordsPage() {
       }),
   });
 
-  const NoRecords = (
-    <span className='block text-center text-5xl capitalize text-gray-400'>
-      No records to show
-    </span>
-  );
   return (
     <Layout>
       <Seo templateTitle='Medical Records' />
+
       <main>
         <ProtectedRoute Skeleton={MedicalRecordsPageSkeleton}>
           <Container className='my-7'>
