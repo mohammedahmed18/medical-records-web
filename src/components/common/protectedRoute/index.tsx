@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import GlobalLoading from '@/components/common/globalLoading';
 
@@ -7,7 +7,7 @@ import { useAuth } from '@/contexts/authContext';
 
 const protectedRoute = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Page: (props: any) => JSX.Element,
+  Page: ((props: any) => JSX.Element) | JSX.Element,
   Skeleton?: (() => JSX.Element) | null,
   reverse = false
 ) => {
@@ -24,6 +24,12 @@ const protectedRoute = (
     };
     const userData = reverse ? {} : { ...user };
 
+    const PageComp = ({ ...props }) => {
+      if (typeof Page === 'function') {
+        return <Page {...props} />;
+      }
+      return Page; // please note that when using the protected route without the HOC it won't have the user data so you have to get them from the context.
+    };
     useEffect(() => {
       if (loading) return;
       // the authentication proccess is finished
@@ -48,7 +54,7 @@ const protectedRoute = (
     return reverse && !isAnonymous ? (
       <LoadingComponent />
     ) : (
-      <Page {...props} {...userData} />
+      <PageComp {...props} {...userData} />
     );
   };
 
@@ -57,3 +63,4 @@ const protectedRoute = (
   return Component;
 };
 export default protectedRoute;
+export * from './ProtectedRouteComp';
