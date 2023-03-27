@@ -1,4 +1,4 @@
-import protectedRoute from '@/components/common/protectedRoute';
+import { ProtectedRoute } from '@/components/common/protectedRoute';
 import LoginForm from '@/components/loginForm';
 import Seo from '@/components/Seo';
 
@@ -8,10 +8,12 @@ function LoginPage() {
       <Seo templateTitle='Login' />
 
       <main>
-        <LoginForm />
+        <ProtectedRoute reverse>
+          <LoginForm />
+        </ProtectedRoute>
       </main>
     </>
   );
 }
 
-export default protectedRoute(LoginPage, null, true);
+export default LoginPage;
