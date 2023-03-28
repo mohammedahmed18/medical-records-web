@@ -8,7 +8,6 @@ import { useTimeoutAsync } from '@/hooks/useTimeoutAsync';
 import IconButton from '@/components/buttons/IconButton';
 import Modal from '@/components/common/modal';
 import Spinner from '@/components/common/spinner';
-import Tooltip from '@/components/common/tooltip';
 import NavbarButton from '@/components/navbarButton';
 
 import { generateQrcode } from '@/api/users';
@@ -62,17 +61,15 @@ const GenerateQrCode: React.FC = () => {
 
       <Modal shown={showQrcode} onClose={() => setShowQrcode(false)}>
         <div className='flex flex-col items-center justify-center gap-4'>
-          <Tooltip title='refresh'>
-            <IconButton
-              onClick={handleGenerateQrcode}
-              icon={RefreshIcon}
-              variant='light'
-              className={clsx(
-                'rounded-full text-2xl',
-                isRefetching ? 'animate-spin' : ''
-              )}
-            />
-          </Tooltip>
+          <IconButton
+            onClick={handleGenerateQrcode}
+            icon={RefreshIcon}
+            variant='light'
+            className={clsx(
+              'rounded-full text-2xl',
+              isRefetching ? 'animate-spin' : ''
+            )}
+          />
 
           <div className='center-content min-h-[200px]'>
             {(loading || isRefetching) && <Spinner size={70} />}
