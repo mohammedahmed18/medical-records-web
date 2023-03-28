@@ -58,7 +58,12 @@ export default function Seo(props: SeoProps) {
       <meta property='og:image:type' content='image/png' />
       <meta property='og:image:width' content='1094' />
       <meta property='og:image:height' content='630' />
-      <meta name='image' property='og:image' content={meta.image} />
+      <meta
+        name='image'
+        property='og:image'
+        itemProp='image'
+        content={meta.image}
+      />
       {meta.date && (
         <>
           <meta property='article:published_time' content={meta.date} />
