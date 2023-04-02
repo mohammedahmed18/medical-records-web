@@ -47,7 +47,7 @@ const ScanQrCode = ({ showQrModal, onClose, mutate, isLoading }: props) => {
                 //camera not found
                 return showToast('no camera device found', 'error');
               }
-              showToast('something went wrong', 'error');
+              showToast('something went wrong : ' + err.message, 'error');
             }
           }}
           scanDelay={300}
