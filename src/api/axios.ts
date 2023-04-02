@@ -24,11 +24,24 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-      const { message, errorCode } = error.response.data;
+      const { _message, errorCode } = error.response.data;
       // check error codes first
       if (errorCode === ERROR_CODES.INVALID_LOGIN) {
         // wrong national id or password
-        return showToast(message, 'error');
+        return showToast('wrong national id or password', 'error');
+      }
+
+      if (errorCode === ERROR_CODES.EXPIRED_QR_CODE) {
+        // qr code is expied
+        return showToast(
+          'the Qr code is expired , please refresh the code',
+          'error'
+        );
+      }
+
+      if (errorCode === ERROR_CODES.INVALID_QR_CODE) {
+        // qr code is invalid
+        return showToast('Invalid Qr code', 'error');
       }
 
       switch (status) {
@@ -46,4 +59,6 @@ api.interceptors.response.use(
 
 const ERROR_CODES = {
   INVALID_LOGIN: '04557',
+  EXPIRED_QR_CODE: 'P__ee04557',
+  INVALID_QR_CODE: 'P__ee05557',
 };
