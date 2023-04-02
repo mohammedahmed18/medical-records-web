@@ -58,7 +58,7 @@ const CreateRecordForm = () => {
         showQrModal={showQrModal}
         onClose={() => setShowQrModal(false)}
       />
-      {isLoading && <Spinner />}
+      {isLoading && <Spinner className='my-4' />}
       {/* patient info */}
       {patientData && <PatientCard patient={patientData} />}
       {/* fields */}
