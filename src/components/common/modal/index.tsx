@@ -8,7 +8,9 @@ type props = {
   onClose: () => void;
 };
 const Modal: React.FC<props> = ({ children, shown, onClose }) => {
-  const [finalShown, setFinalShown] = useState(shown);
+  const [finalShown, setFinalShown] = useState(() => {
+    return new Boolean(shown).valueOf(); // make sure to copy the shown value
+  });
 
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -24,6 +26,7 @@ const Modal: React.FC<props> = ({ children, shown, onClose }) => {
     }
     return () => clearTimeout(timer);
   }, [shown]);
+
   if (!finalShown) return null;
   return (
     <>

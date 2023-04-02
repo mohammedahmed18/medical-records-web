@@ -1,18 +1,22 @@
-import * as React from 'react';
-
 import DoctorProtectedRoute from '@/components/common/doctorProtectedRoute';
+import Container from '@/components/container';
+import CreateRecordForm from '@/components/doctors/createRecordForm';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
 function CreateMedicalRecordPage() {
   return (
-    <DoctorProtectedRoute>
-      <Layout>
-        <Seo templateTitle='Create-medical-record' />
+    <Layout>
+      <Seo templateTitle='Create-medical-record' />
 
-        <main></main>
-      </Layout>
-    </DoctorProtectedRoute>
+      <main>
+        <DoctorProtectedRoute>
+          <Container>
+            <CreateRecordForm />
+          </Container>
+        </DoctorProtectedRoute>
+      </main>
+    </Layout>
   );
 }
 

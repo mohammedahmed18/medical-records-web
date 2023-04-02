@@ -10,7 +10,7 @@ import styles from './TextInput.module.css';
 // TODO: add more properties for validation
 type props = {
   placeholder?: string;
-  type: string;
+  type?: string;
   className?: string;
   label?: string;
   registeredProps?: UseFormRegisterReturn<string>;
@@ -26,13 +26,14 @@ const TextInput = ({
 }: props) => {
   const errorMsg = error?.message?.toString();
   return (
-    <div className='my-4 flex flex-col gap-2'>
+    <div className='my-4 mb-7 flex flex-col gap-2'>
       {label && (
         <span className='text-2xl font-semibold capitalize text-zinc-600'>
           {label}
         </span>
       )}
       <input
+        {...registeredProps}
         type={type || 'text'}
         placeholder={placeholder || ''}
         className={clsx(
@@ -40,7 +41,6 @@ const TextInput = ({
           errorMsg && 'focus:border-b-red-900',
           className
         )}
-        {...registeredProps}
       />
       {errorMsg && (
         <span className='text-lg font-bold text-red-800'>{errorMsg}</span>

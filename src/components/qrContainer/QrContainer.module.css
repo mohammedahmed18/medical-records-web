@@ -1,0 +1,43 @@
+.qr_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+}
+.square {
+  display: grid;
+  position: absolute;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10rem;
+}
+
+.square div:nth-child(1) {
+  border-top: 3px solid;
+  border-left: 3px solid;
+  border-top-left-radius: 1rem;
+
+  @apply border-primary-50;
+}
+.square div:nth-child(2) {
+  border-top: 3px solid;
+  border-right: 3px solid;
+  border-top-right-radius: 1rem;
+
+  @apply border-primary-50;
+}
+.square div:nth-child(3) {
+  border-left: 3px solid;
+  border-bottom: 3px solid;
+  border-bottom-left-radius: 1rem;
+
+  @apply border-primary-50;
+}
+.square div:nth-child(4) {
+  border-right: 3px solid;
+  border-bottom: 3px solid;
+  border-bottom-right-radius: 1rem;
+
+  @apply border-primary-50;
+}

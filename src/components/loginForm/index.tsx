@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import loginSchema from '@/lib/formSchemas/loginSchema';
@@ -13,21 +12,17 @@ import { useAuth } from '@/contexts/authContext';
 import Container from '../container';
 const LoginForm = () => {
   const { login } = useAuth();
-  const [loading, setIsLoading] = useState(false);
   //  TODO: create a form builder instead of writing all of this every time
-  //  TODO: use react query or something
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
 
   const onLogin = async (data: FieldValues) => {
-    setIsLoading(true);
     await login(data.nationalId, data.password);
-    setIsLoading(false);
   };
   return (
     <form onSubmit={handleSubmit(onLogin)}>
@@ -56,9 +51,9 @@ const LoginForm = () => {
             <TextButton
               type='submit'
               className='mt-10 flex w-full justify-center bg-indigo-900 px-20 text-white'
-              disabled={loading}
+              disabled={isSubmitting}
             >
-              {loading ? <Spinner size={20} /> : 'Log in'}
+              {isSubmitting ? <Spinner size={20} /> : 'Log in'}
             </TextButton>
           </div>
         </section>

@@ -22,12 +22,22 @@ export enum MedicalRecordsActionTypes {
   Generic = 'Generic',
   Diagnosis = 'Diagnosis',
   Surgery = 'Surgery',
-  // Birth = 'Birth',
-  // Death = 'Death',
   Illness = 'Illness',
   Allergy = 'Allergy',
   LabTest = 'LabTest',
 }
+export enum AllMedicalRecordsActionTypes {
+  Generic = 'Generic',
+  Diagnosis = 'Diagnosis',
+  Surgery = 'Surgery',
+  Illness = 'Illness',
+  Allergy = 'Allergy',
+  LabTest = 'LabTest',
+
+  Birth = 'Birth',
+  Death = 'Death',
+}
+
 export type MedicalRecordDetail = {
   type: 'date' | 'text' | 'list' | 'email' | 'url' | 'phone';
   value: string;

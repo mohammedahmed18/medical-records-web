@@ -1,0 +1,40 @@
+.checkbox {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.checkbox input {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.checkbox label {
+  position: absolute;
+  left: 1.5rem;
+  top: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 4px;
+  background: #fff;
+  border: 2px solid #d3d3d3;
+  transform: translateY(-50%);
+  transition: all ease-in-out 0.2s;
+  @apply flex items-center justify-center rounded-lg;
+}
+
+.checkbox input:checked + label {
+  @apply bg-primary-100 ring-4 ring-primary-50;
+}
+
+.checkbox label::before {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.checkbox input:checked + label::before {
+  display: block;
+}
