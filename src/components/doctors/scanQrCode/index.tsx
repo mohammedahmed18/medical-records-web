@@ -40,12 +40,20 @@ const ScanQrCode = ({ showQrModal, onClose, mutate, isLoading }: props) => {
     <Modal shown={showQrModal} onClose={onClose}>
       <QrContainer width={250} height={220}>
         <QrReader
-          onResult={(result) => {
-            if (result) {
-              setQrToken(result.getText());
+          onResult={(result, err) => {
+            if (result) setQrToken(result.getText());
+            if (err) {
+              if (err.name === 'NotFoundError') {
+                //camera not found
+                return showToast('no camera device found', 'error');
+              }
+              showToast('something went wrong', 'error');
             }
           }}
-          constraints={{}}
+          scanDelay={300}
+          constraints={{
+            facingMode: 'environment',
+          }}
           className='h-[200px] w-[200px]'
         />
       </QrContainer>
