@@ -8,6 +8,7 @@ import logger from '@/lib/logger';
 
 import Button from '@/components/buttons/Button';
 import CheckInput from '@/components/common/CheckInput';
+import Spinner from '@/components/common/spinner';
 import TextInput from '@/components/common/textInput';
 import PatientCard from '@/components/doctors/patientCard';
 import ScanQrCode from '@/components/doctors/scanQrCode';
@@ -57,6 +58,7 @@ const CreateRecordForm = () => {
         showQrModal={showQrModal}
         onClose={() => setShowQrModal(false)}
       />
+      {isLoading && <Spinner />}
       {/* patient info */}
       {patientData && <PatientCard patient={patientData} />}
       {/* fields */}
