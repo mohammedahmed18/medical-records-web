@@ -42,7 +42,7 @@ const ScanQrCode = ({ showQrModal, onClose, mutate, isLoading }: props) => {
         <QrReader
           onResult={(result, err) => {
             if (result) return setQrToken(result.getText());
-            if (err?.name) {
+            if (!!err && JSON.stringify(err) !== JSON.stringify({})) {
               if (err.name === 'NotFoundError') {
                 //camera not found
                 return showToast('no camera device found', 'error');
