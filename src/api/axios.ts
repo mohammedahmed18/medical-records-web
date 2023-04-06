@@ -44,6 +44,11 @@ api.interceptors.response.use(
         return showToast('Invalid Qr code', 'error');
       }
 
+      if (errorCode === ERROR_CODES.SCAN_YOUR_SELF_ERR_CODE) {
+        // trying to scan qr of yourself
+        return showToast('you can\'t scan your qr code', 'error');
+      }
+
       switch (status) {
         case 401:
           Cookies.remove('token');
@@ -61,4 +66,5 @@ const ERROR_CODES = {
   INVALID_LOGIN: '04557',
   EXPIRED_QR_CODE: 'P__ee04557',
   INVALID_QR_CODE: 'P__ee05557',
+  SCAN_YOUR_SELF_ERR_CODE : 'S__yy2'
 };
