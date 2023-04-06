@@ -24,7 +24,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-      const { _message, errorCode } = error.response.data;
+      const { message, errorCode } = error.response.data;
       // check error codes first
       if (errorCode === ERROR_CODES.INVALID_LOGIN) {
         // wrong national id or password
