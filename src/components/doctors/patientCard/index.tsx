@@ -15,7 +15,7 @@ const PatientCard = ({ patient }: props) => {
           className='ring-4'
         />
 
-        <div className='grid grid-cols-2 px-4 text-2xl'>
+        <div className='grid grid-cols-2 gap-3 px-4 text-2xl'>
           <span>name</span>
           <span>{patient.name}</span>
         </div>

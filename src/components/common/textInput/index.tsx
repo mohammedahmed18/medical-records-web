@@ -7,6 +7,8 @@ import {
 } from 'react-hook-form';
 
 import styles from './TextInput.module.css';
+
+import ErrorMessage from '../errorMsg';
 // TODO: add more properties for validation
 type props = {
   placeholder?: string;
@@ -42,9 +44,7 @@ const TextInput = ({
           className
         )}
       />
-      {errorMsg && (
-        <span className='text-lg font-bold text-red-800'>{errorMsg}</span>
-      )}
+      {errorMsg && <ErrorMessage msg={errorMsg} />}
     </div>
   );
 };
