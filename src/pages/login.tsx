@@ -1,6 +1,6 @@
-import { ProtectedRoute } from '@/components/common/protectedRoute';
-import LoginForm from '@/components/loginForm';
-import Seo from '@/components/Seo';
+import { ProtectedRoute } from '@components/common/protectedRoute';
+import LoginForm from '@components/loginForm';
+import Seo from '@components/Seo';
 
 function LoginPage() {
   return (

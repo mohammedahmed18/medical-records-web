@@ -1,4 +1,4 @@
-import UserProfileImage from '@/components/common/UserProfileImage';
+import UserProfileImage from '@components/common/UserProfileImage';
 
 import { PatientQrInfo } from '@/types/user';
 

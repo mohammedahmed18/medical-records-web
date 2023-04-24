@@ -5,14 +5,14 @@ import { useMutation } from 'react-query';
 
 import createMedicalRecordSchema from '@/lib/formSchemas/createMedicalRecordSchema';
 
-import Button from '@/components/buttons/Button';
-import CheckInput from '@/components/common/CheckInput';
-import SelectInput from '@/components/common/selectInput';
-import Spinner from '@/components/common/spinner';
-import TextInput from '@/components/common/textInput';
-import DetailsForm from '@/components/doctors/detailsForm';
-import PatientCard from '@/components/doctors/patientCard';
-import ScanQrCode from '@/components/doctors/scanQrCode';
+import Button from '@components/buttons/Button';
+import CheckInput from '@components/common/CheckInput';
+import SelectInput from '@components/common/selectInput';
+import Spinner from '@components/common/spinner';
+import TextInput from '@components/common/textInput';
+import DetailsForm from '@components/doctors/detailsForm';
+import PatientCard from '@components/doctors/patientCard';
+import ScanQrCode from '@components/doctors/scanQrCode';
 
 import { createMedicalRecord, scanQrCode } from '@/api/doctors';
 import { ALL_ACTION_TYPES_OPTIONS } from '@/constant/common';
@@ -92,7 +92,6 @@ const CreateRecordForm = () => {
           error={errors['title']}
           type='text'
         />
-        <CheckInput label='chronic' registeredProps={register('lifetime')} />
 
         <SelectInput
           options={ALL_ACTION_TYPES_OPTIONS}
@@ -104,6 +103,9 @@ const CreateRecordForm = () => {
         <div className='mb-10'></div>
 
         <DetailsForm />
+
+        <CheckInput label='chronic' registeredProps={register('lifetime')} />
+
         <Button
           variant='primary'
           size='lg'

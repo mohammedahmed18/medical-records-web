@@ -1,4 +1,4 @@
-import protectedRoute from '@/components/common/protectedRoute';
+import protectedRoute from '@components/common/protectedRoute';
 
 import { User } from '@/contexts/authContext';
 import NotFoundPage from '@/pages/404';

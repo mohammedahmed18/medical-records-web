@@ -3,9 +3,9 @@ import { FieldValues, useForm } from 'react-hook-form';
 
 import loginSchema from '@/lib/formSchemas/loginSchema';
 
-import TextButton from '@/components/buttons/TextButton';
-import Spinner from '@/components/common/spinner';
-import TextInput from '@/components/common/textInput';
+import TextButton from '@components/buttons/TextButton';
+import Spinner from '@components/common/spinner';
+import TextInput from '@components/common/textInput';
 
 import { useAuth } from '@/contexts/authContext';
 

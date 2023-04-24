@@ -2,11 +2,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import Button from '@/components/buttons/Button';
-import UserProfileImage from '@/components/common/UserProfileImage';
-import Container from '@/components/container';
-import GenerateQrCode from '@/components/generateQrCode';
-import NavbarButton from '@/components/navbarButton';
+import Button from '@components/buttons/Button';
+import UserProfileImage from '@components/common/UserProfileImage';
+import Container from '@components/container';
+import GenerateQrCode from '@components/generateQrCode';
+import NavbarButton from '@components/navbarButton';
 
 import { useAuth } from '@/contexts/authContext';
 

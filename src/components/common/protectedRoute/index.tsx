@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
-import GlobalLoading from '@/components/common/globalLoading';
+import GlobalLoading from '@components/common/globalLoading';
 
 import { useAuth } from '@/contexts/authContext';
 

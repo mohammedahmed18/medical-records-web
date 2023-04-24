@@ -247,7 +247,7 @@ This changelog is manually generated and not accurate with the package.json, onl
 
     simplified to
 
-    import Nav from '@/components/Nav';
+    import Nav from '@components/Nav';
     ```
 
 - #### Seo Component
@@ -314,7 +314,7 @@ Snippets: `np`
 
 ```tsx
 import * as React from 'react';
-import Seo from '@/components/Seo';
+import Seo from '@components/Seo';
 export default function TestPage() {
   return (
     <>
