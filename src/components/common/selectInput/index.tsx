@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import {
   FieldError,
@@ -24,11 +24,13 @@ type Props = {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   formLabel?: string;
   setValue: (v: string) => void;
+  placeholder?: string;
 };
 
 const SelectInput = (props: Props) => {
   const [showList, setShowList] = useState(false);
-  const { options, registeredProps, error, formLabel, setValue } = props;
+  const { placeholder, options, registeredProps, error, formLabel, setValue } =
+    props;
   const errorMsg = error?.message?.toString();
 
   const handleSelectOption = (value: string) => {
@@ -38,36 +40,55 @@ const SelectInput = (props: Props) => {
 
   return (
     <div>
-      <div className='relative my-3 w-fit'>
+      <div className='my-3 flex w-fit items-center gap-5'>
         <label className='mb-3 block text-2xl font-semibold text-zinc-700'>
           {formLabel}
         </label>
-        <input
-          type='text'
-          className={styles.select}
-          readOnly
-          {...registeredProps}
-          placeholder={`select ${formLabel}`}
-          onClick={() => setShowList(true)}
-        />
-        <ArrowDownIcon className='absolute top-1/2 right-4 translate-y-1/2' />
+        <div className='relative'>
+          <input
+            type='text'
+            className={styles.select}
+            readOnly
+            {...registeredProps}
+            placeholder={placeholder || `select ${formLabel}`}
+            onClick={() => setShowList(true)}
+          />
+          <ArrowDownIcon className='absolute top-1/2 right-4 -translate-y-1/2 fill-zinc-400' />
+          {showList && (
+            <motion.div
+              initial={{
+                height: 0,
+                width: 0,
+              }}
+              animate={{
+                height: 'auto',
+                width: '100%',
+                overflowY: 'auto',
+              }}
+              transition={{
+                type: 'just',
+                duration: 0.2,
+              }}
+              className={styles.optionsList}
+            >
+              {options.map((o) => (
+                <span
+                  onClick={() => handleSelectOption(o.value)}
+                  key={o.value}
+                  className={styles.listItem}
+                >
+                  {o.label || o.value}
+                </span>
+              ))}
+            </motion.div>
+          )}
+        </div>
         {showList && (
           <div
             className='fixed inset-0'
             onClick={() => setShowList(false)}
           ></div>
         )}
-        <div className={clsx(styles.optionsList, !showList && 'hidden')}>
-          {options.map((o) => (
-            <span
-              onClick={() => handleSelectOption(o.value)}
-              key={o.value}
-              className={styles.listItem}
-            >
-              {o.label || o.value}
-            </span>
-          ))}
-        </div>
       </div>
 
       {errorMsg && <ErrorMessage msg={errorMsg} />}

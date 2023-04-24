@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   if (user.isAnonymous) return null;
   return (
-    <nav className='py-4 shadow-md'>
+    <nav className='fixed inset-x-0 top-0 z-40 bg-white py-4 shadow-md'>
       <Container className='flex items-center justify-between'>
         <div className='flex'>
           <UserProfileImage src={user.image_src} size={40} />
