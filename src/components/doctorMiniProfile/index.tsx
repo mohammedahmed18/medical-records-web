@@ -1,4 +1,4 @@
-import UserProfileImage from '@/components/common/UserProfileImage';
+import UserProfileImage from '@components/common/UserProfileImage';
 
 type props = {
   doctor: Partial<{

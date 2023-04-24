@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IconType } from 'react-icons';
 
-import Button from '@/components/buttons/Button';
+import Button from '@components/buttons/Button';
 
 type ButtonProps = { Icon: IconType } & React.ComponentPropsWithRef<'button'>;
 

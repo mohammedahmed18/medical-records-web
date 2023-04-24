@@ -1,4 +1,4 @@
-import protectedRoute from '@/components/common/protectedRoute';
+import protectedRoute from '@components/common/protectedRoute';
 
 type props = {
   children: JSX.Element;

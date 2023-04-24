@@ -3,9 +3,9 @@ import { QrReader } from 'react-qr-reader';
 
 import useUpdateEffect from '@/hooks/useUpdateEffect';
 
-import Modal from '@/components/common/modal';
-import Spinner from '@/components/common/spinner';
-import QrContainer from '@/components/qrContainer';
+import Modal from '@components/common/modal';
+import Spinner from '@components/common/spinner';
+import QrContainer from '@components/qrContainer';
 
 import { showToast } from '@/utils/toast';
 

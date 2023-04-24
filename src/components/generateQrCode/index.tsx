@@ -5,10 +5,10 @@ import { useQuery } from 'react-query';
 
 import { useTimeoutAsync } from '@/hooks/useTimeoutAsync';
 
-import IconButton from '@/components/buttons/IconButton';
-import Modal from '@/components/common/modal';
-import Spinner from '@/components/common/spinner';
-import NavbarButton from '@/components/navbarButton';
+import IconButton from '@components/buttons/IconButton';
+import Modal from '@components/common/modal';
+import Spinner from '@components/common/spinner';
+import NavbarButton from '@components/navbarButton';
 
 import { generateQrcode } from '@/api/users';
 import { showToast } from '@/utils/toast';

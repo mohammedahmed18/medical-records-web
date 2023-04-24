@@ -6,7 +6,7 @@ import * as yup from 'yup';
 
 import logger from '@/lib/logger';
 
-import SingleDetailForm from '@/components/doctors/detailsForm/singleDetailForm';
+import SingleDetailForm from '@components/doctors/detailsForm/singleDetailForm';
 const DetailsForm = () => {
   const [detailsNumber, _setDetailsNumber] = useState(0);
 
