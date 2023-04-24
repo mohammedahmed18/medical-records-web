@@ -10,7 +10,7 @@ const CheckInput = ({ label, registeredProps }: props) => {
   const identifier = label + 'checkbox';
   return (
     <div className='relative my-7 flex items-center'>
-      <label className='text-2xl' htmlFor={identifier}>
+      <label className='text-2xl font-semibold' htmlFor={identifier}>
         {label}
       </label>
 

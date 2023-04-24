@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
+import Layout from '@/components/layout/Layout';
 import Navbar from '@/components/navbar';
 
 import { isProd } from '@/constant/env';
@@ -31,7 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <AuthProvider>
         <ToastContainer />
         <Navbar />
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
         {!isProd && <ReactQueryDevtools />}
       </AuthProvider>
     </QueryClientProvider>

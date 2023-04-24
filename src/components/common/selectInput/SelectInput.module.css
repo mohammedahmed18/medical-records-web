@@ -1,16 +1,18 @@
 .select {
-  @apply cursor-pointer bg-gray-100/70 px-7 py-4 text-2xl shadow-md outline-none;
+  @apply rounded-2xl cursor-pointer bg-gray-100/70 px-7 py-4 text-2xl shadow-md outline-none;
 }
 .optionsList {
   position: absolute;
   width: 100%;
-  padding: 1rem;
   /* bottom: 0;
 transform: translateY(50%); */
   display: flex;
   flex-direction: column;
-  @apply z-50 rounded-md bg-white shadow-md;
+  @apply z-50 rounded-2xl pt-3 bg-white shadow-md overflow-hidden max-h-[25rem];
 }
 .listItem {
-  @apply cursor-pointer rounded-lg p-3 text-xl transition-colors duration-300 hover:bg-black/5;
+  @apply cursor-pointer px-3 py-4 text-[1.5rem] transition-colors duration-300 hover:bg-zinc-200;
+}
+.listItem:not(:last-child){
+@apply border-b-2 border-gray-200/70;
 }
