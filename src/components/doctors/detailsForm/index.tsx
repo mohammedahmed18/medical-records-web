@@ -1,5 +1,4 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import _ from 'lodash';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -7,10 +6,15 @@ import * as yup from 'yup';
 import logger from '@/lib/logger';
 
 import SingleDetailForm from '@components/doctors/detailsForm/singleDetailForm';
-const DetailsForm = () => {
-  const [detailsNumber, _setDetailsNumber] = useState(0);
 
-  const detailsNumberArr = _.range(detailsNumber).map((n) => n + 1);
+import Button from '@/components/buttons/Button';
+import Divider from '@/components/common/divider';
+
+import PlusIcon from '~/svg/plus-icon.svg';
+const DetailsForm = () => {
+  const [detailsNumberArr, setDetailsNumberArr] = useState([1]);
+
+  // const detailsNumberArr = _.range(detailsNumber).map((n) => n + 1);
 
   const detailsFormsSchema = useMemo(() => {
     const schema: Record<string, yup.Schema> = {};
@@ -26,6 +30,7 @@ const DetailsForm = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isValid },
   } = useForm({
     mode: 'all',
@@ -54,17 +59,43 @@ const DetailsForm = () => {
 
   const onValid = handleSubmit((data) => {
     if (isValid) logger(data);
+    alert('submitting');
   });
 
+  const handleAddANewDetail = () => {
+    const lastDetailNumber = detailsNumberArr[detailsNumberArr.length - 1];
+    setDetailsNumberArr((prev) => [
+      ...prev,
+      isNaN(lastDetailNumber) ? 1 : lastDetailNumber + 1,
+    ]);
+  };
+  const handleRemoveDetail = (num: number) => {
+    setDetailsNumberArr((prev) => {
+      return prev.filter((n) => n !== num);
+    });
+  };
   return (
     <form onSubmit={onValid}>
+      <h3 className='text-2xl'>Details</h3>
+      <Divider />
       {detailsNumberArr.map((num) => (
         <SingleDetailForm
           key={num}
           registeredProps={getSingleFormRegestiredProps(num)}
           errors={getSingleFormErrors(num)}
+          setType={(v) => setValue(`type_${num}`, v)}
+          deleteMySelf={() => handleRemoveDetail(num)}
         />
       ))}
+      <Button
+        onClick={handleAddANewDetail}
+        variant='light'
+        size='base'
+        className='mx-auto flex gap-2 rounded-full'
+      >
+        <PlusIcon className='text-lg' />
+        Add Detail
+      </Button>
     </form>
   );
 };

@@ -37,9 +37,16 @@ export enum AllMedicalRecordsActionTypes {
   Birth = 'Birth',
   Death = 'Death',
 }
-
+export enum DetailType {
+  date = 'date',
+  text = 'text',
+  list = 'list',
+  email = 'email',
+  url = 'url',
+  phone = 'phone',
+}
 export type MedicalRecordDetail = {
-  type: 'date' | 'text' | 'list' | 'email' | 'url' | 'phone';
+  type: keyof typeof DetailType;
   value: string;
   key: string;
 };
