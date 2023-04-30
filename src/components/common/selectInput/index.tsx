@@ -1,5 +1,6 @@
+import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   FieldError,
   FieldErrorsImpl,
@@ -23,14 +24,24 @@ type Props = {
   registeredProps?: UseFormRegisterReturn<string>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   formLabel?: string;
-  setValue: (v: string) => void;
+  setValue?: (v: string) => void;
   placeholder?: string;
+  className?: string;
+  defaultValue?: string;
 };
 
 const SelectInput = (props: Props) => {
   const [showList, setShowList] = useState(false);
-  const { placeholder, options, registeredProps, error, formLabel, setValue } =
-    props;
+  const {
+    className,
+    placeholder,
+    options,
+    registeredProps,
+    error,
+    formLabel,
+    setValue,
+    defaultValue,
+  } = props;
   const errorMsg = error?.message?.toString();
 
   const handleSelectOption = (value: string) => {
@@ -38,12 +49,22 @@ const SelectInput = (props: Props) => {
     setShowList(false);
   };
 
+  useEffect(() => {
+    if (defaultValue && setValue) setValue(defaultValue);
+  }, [defaultValue, setValue]);
   return (
     <div>
-      <div className='my-3 flex w-fit items-center gap-5'>
-        <label className='mb-3 block text-2xl font-semibold text-zinc-700'>
-          {formLabel}
-        </label>
+      <div
+        className={clsx(
+          'my-3 flex w-fit flex-col md:flex-row md:items-center',
+          className
+        )}
+      >
+        {formLabel && (
+          <label className='mb-3 mr-4 block text-2xl font-semibold text-zinc-700'>
+            {formLabel}
+          </label>
+        )}
         <div className='relative'>
           <input
             type='text'
