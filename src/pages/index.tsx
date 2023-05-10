@@ -20,6 +20,12 @@ function HomePage() {
                 Medical Records
               </Button>
             </Link>
+
+            <Link href='/doctors'>
+              <Button variant='light' size='lg'>
+                Doctors
+              </Button>
+            </Link>
           </Container>
         </ProtectedRoute>
       </main>

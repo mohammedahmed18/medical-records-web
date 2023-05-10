@@ -53,6 +53,6 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
   important: true,
 };

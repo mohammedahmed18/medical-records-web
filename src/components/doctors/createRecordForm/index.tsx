@@ -1,7 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import * as yup from 'yup';
 
 import createMedicalRecordSchema from '@/lib/formSchemas/createMedicalRecordSchema';
 
@@ -18,10 +19,15 @@ import { createMedicalRecord, scanQrCode } from '@/api/doctors';
 import { ALL_ACTION_TYPES_OPTIONS } from '@/constant/common';
 import { showToast } from '@/utils/toast';
 
+import { MedicalRecordsActionTypes } from '@/types/medicalRecords';
+
 import QrIcon from '~/svg/qr-code.svg';
 
 const CreateRecordForm = () => {
   const [showQrModal, setShowQrModal] = useState(false);
+
+  const [detailsNumberArr, setDetailsNumberArr] = useState([1]);
+
   const {
     data: patientData,
     isLoading,
@@ -34,29 +40,97 @@ const CreateRecordForm = () => {
     mutationFn: createMedicalRecord,
   });
 
+  const getDetailsDefaultValues = () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const defaultDetailsValues: any = {};
+    detailsNumberArr.forEach((num) => {
+      defaultDetailsValues[`key_${num}`] = '';
+      defaultDetailsValues[`type_${num}`] = '';
+      defaultDetailsValues[`value_${num}`] = '';
+    });
+    return defaultDetailsValues;
+  };
+
+  const detailsFormsSchema = useMemo(() => {
+    const schema: Record<string, yup.Schema> = {};
+
+    detailsNumberArr.map((num) => {
+      schema[`key_${num}`] = yup.string().required().label('detail key');
+      schema[`type_${num}`] = yup.string().required().label('detail type');
+      schema[`value_${num}`] = yup.string().required().label('detail value');
+    });
+    return schema;
+  }, [detailsNumberArr]);
+
+  const getSingleFormRegestiredProps = (num: number) => {
+    return {
+      key: register(`key_${num}`),
+      type: register(`type_${num}`),
+      value: register(`value_${num}`),
+    };
+  };
+
+  const getSingleFormErrors = (num: number) => {
+    const identefier = `_${num}`;
+    const filteredErrors = Object.keys(errors)
+      .filter((key) => key.includes(identefier))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .reduce((obj: any, key: string) => {
+        obj[key.replace(identefier, '')] = errors[key];
+        return obj;
+      }, {});
+    return filteredErrors;
+  };
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
+    watch,
   } = useForm({
-    resolver: yupResolver(createMedicalRecordSchema),
+    resolver: yupResolver(createMedicalRecordSchema(detailsFormsSchema)),
+    mode: 'all',
     defaultValues: {
       title: '',
       lifetime: false,
       userId: null,
       actionType: '',
+      ...getDetailsDefaultValues(),
     },
   });
+
   const onValid = handleSubmit(async (data) => {
+    data['details'] = [];
+
+    detailsNumberArr.forEach((number) => {
+      data['details'].push({
+        type: data[`type_${number}`],
+        key: data[`key_${number}`],
+        value: data[`value_${number}`],
+      });
+      delete data[`type_${number}`];
+      delete data[`key_${number}`];
+      delete data[`value_${number}`];
+    });
     if (!patientData?.id)
       return showToast("you must scan the patient's qr code", 'error');
     data['userId'] = patientData.id;
     await createRecord(data);
-
-    showToast('medical record is created successfully', 'success');
   });
 
+  const handleAddANewDetail = () => {
+    const lastDetailNumber = detailsNumberArr[detailsNumberArr.length - 1];
+    setDetailsNumberArr((prev) => [
+      ...prev,
+      isNaN(lastDetailNumber) ? 1 : lastDetailNumber + 1,
+    ]);
+  };
+  const handleRemoveDetail = (num: number) => {
+    setDetailsNumberArr((prev) => {
+      return prev.filter((n) => n !== num);
+    });
+  };
   return (
     <div>
       {/* fields */}
@@ -99,10 +173,27 @@ const CreateRecordForm = () => {
           formLabel='Medical record type'
           error={errors['actionType']}
           setValue={(v) => setValue('actionType', v)}
+          defaultValue={MedicalRecordsActionTypes.Generic}
         />
         <div className='mb-10'></div>
 
-        <DetailsForm />
+        <DetailsForm
+          detailsNumberArr={detailsNumberArr}
+          getSingleFormErrors={getSingleFormErrors}
+          getSingleFormRegestiredProps={getSingleFormRegestiredProps}
+          handleAddANewDetail={handleAddANewDetail}
+          handleRemoveDetail={handleRemoveDetail}
+          setValue={(key, number, value) => {
+            setValue(`${key}_${number}`, value);
+          }}
+          watchedValues={Object.keys(getDetailsDefaultValues()).reduce(
+            (dest: Record<string, string>, key: string) => {
+              dest[key] = watch(key);
+              return dest;
+            },
+            {}
+          )}
+        />
 
         <CheckInput label='chronic' registeredProps={register('lifetime')} />
 

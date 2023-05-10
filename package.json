@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "pm2 start \"next dev -p 3001\" --name medical-records-client",
+    "kill": "pm2 delete all",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -22,6 +23,7 @@
     "@types/lodash": "^4.14.191",
     "axios": "^1.3.4",
     "clsx": "^1.2.1",
+    "daisyui": "^2.51.6",
     "framer-motion": "^10.12.2",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
