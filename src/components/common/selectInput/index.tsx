@@ -51,7 +51,8 @@ const SelectInput = (props: Props) => {
 
   useEffect(() => {
     if (defaultValue && setValue) setValue(defaultValue);
-  }, [defaultValue, setValue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <div>
       <div

@@ -9,13 +9,13 @@ type props = {
   size?: number;
   className?: string;
 };
-const UserProfileImage: React.FC<props> = ({ src, alt, className }) => {
+const UserProfileImage: React.FC<props> = ({ src, alt, className, size }) => {
   return (
     <Image
-      width={70}
-      height={70}
+      width={size || 70}
+      height={size || 70}
       className={clsx(
-        'h-20 w-20 rounded-full object-cover ring-2 ring-primary-50',
+        'mask mask-squircle object-cover ring-2 ring-primary-50',
         className
       )}
       src={src || DefaultImage}

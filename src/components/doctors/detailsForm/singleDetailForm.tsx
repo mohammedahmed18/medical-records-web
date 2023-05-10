@@ -9,6 +9,7 @@ import {
 
 import styles from './SingleDetailForm.module.css';
 
+import DatePicker from '@/components/common/datePicker';
 import SelectInput from '@/components/common/selectInput';
 import TextArea from '@/components/common/textArea';
 import TextInput from '@/components/common/textInput';
@@ -22,17 +23,26 @@ type Props = {
     | Record<string, FieldError>
     | Record<string, Merge<FieldError, FieldErrorsImpl>>;
   setType: (v: string) => void;
+  setValue: (v: string) => void;
   deleteMySelf: () => void;
+  watchedValues: Record<string, string>;
 };
 const SingleDetailForm = ({
   registeredProps,
   errors,
   setType,
   deleteMySelf,
+  //TODO: we only need the type
+  watchedValues,
+  setValue,
 }: Props) => {
   const possibleDetails = Object.values(DetailType).map((value) => ({
     value,
   }));
+  const typedWatchedValues = watchedValues as Record<
+    string,
+    keyof typeof DetailType
+  >;
   const [deleted, setDeleted] = useState(false);
   const handleDelete = () => {
     setDeleted(true);
@@ -42,6 +52,31 @@ const SingleDetailForm = ({
     const timer = setTimeout(deleteMySelf, 300);
     return () => clearTimeout(timer);
   }, [deleteMySelf, deleted]);
+
+  const valueElement = () => {
+    const type = typedWatchedValues['type'];
+    if (type === 'text') {
+      return (
+        <TextArea
+          registeredProps={registeredProps['value']}
+          className='h-40 w-full rounded-lg py-3 text-2xl'
+          placeholder='value'
+          wrapperClassName='flex-1'
+        />
+      );
+    } else if (type === 'date') {
+      //
+      return <DatePicker />;
+    }
+
+    return (
+      <TextInput
+        registeredProps={registeredProps['value']}
+        className='w-full rounded-lg py-3 text-2xl'
+        placeholder='value'
+      />
+    );
+  };
   return (
     <div
       className={clsx(
@@ -51,14 +86,17 @@ const SingleDetailForm = ({
     >
       <DeleteIcon
         onClick={handleDelete}
-        className='mx-5 my-2 ml-auto cursor-pointer fill-red-900 text-3xl'
+        className='mx-5 my-2 ml-auto cursor-pointer fill-red-700 text-3xl shadow-md'
       />
       <div className='flex flex-col gap-2 px-4 md:flex-row'>
         <SelectInput
           options={possibleDetails}
           registeredProps={registeredProps['type']}
           placeholder='select type'
-          setValue={setType}
+          setValue={(v) => {
+            setType(v);
+            setValue(''); // when the type changes reset the value
+          }}
           defaultValue={DetailType.text}
         />
         <TextInput
@@ -66,12 +104,7 @@ const SingleDetailForm = ({
           className='w-80 rounded-lg py-3 text-2xl'
           placeholder='key'
         />
-        <TextArea
-          registeredProps={registeredProps['value']}
-          className='h-40 w-full rounded-lg py-3 text-2xl'
-          placeholder='value'
-          wrapperClassName='flex-1'
-        />
+        {valueElement()}
       </div>
       {/* errors */}
       <ul className='flex flex-col gap-3 px-4'>
