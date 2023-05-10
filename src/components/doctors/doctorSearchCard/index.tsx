@@ -28,8 +28,12 @@ const DoctorSearchCard = ({ doctor }: Props) => {
         alt='profile'
         size={300}
       />
-      <span className='flex-1 text-center text-3xl'>
-        {loggedInId === id ? '@you' : name}
+      <span className='flex-1 break-all text-center text-2xl'>
+        {loggedInId === id ? (
+          <span className='text-secondary'>@you</span>
+        ) : (
+          name
+        )}
       </span>
       <span className='mt-4 text-2xl text-zinc-400'>
         {medicalSpecialization}
