@@ -4,9 +4,11 @@ import Cookies from 'js-cookie';
 import { isProd } from '@/constant/env';
 import { showToast } from '@/utils/toast';
 
-export const API_BASE_URL = isProd
-  ? 'https://medical-records-server1.onrender.com/api/v1'
-  : 'http://localhost:3000/api/v1';
+export const SERVER_URL = isProd
+  ? 'https://medical-records-server1.onrender.com'
+  : 'http://localhost:3000';
+
+export const API_BASE_URL = SERVER_URL + '/api/v1';
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -24,7 +26,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-      const { message, errorCode } = error.response.data;
+      const { errorCode } = error.response.data;
       // check error codes first
       if (errorCode === ERROR_CODES.INVALID_LOGIN) {
         // wrong national id or password
@@ -46,7 +48,7 @@ api.interceptors.response.use(
 
       if (errorCode === ERROR_CODES.SCAN_YOUR_SELF_ERR_CODE) {
         // trying to scan qr of yourself
-        return showToast('you can\'t scan your qr code', 'error');
+        return showToast("you can't scan your qr code", 'error');
       }
 
       switch (status) {
@@ -66,5 +68,5 @@ const ERROR_CODES = {
   INVALID_LOGIN: '04557',
   EXPIRED_QR_CODE: 'P__ee04557',
   INVALID_QR_CODE: 'P__ee05557',
-  SCAN_YOUR_SELF_ERR_CODE : 'S__yy2'
+  SCAN_YOUR_SELF_ERR_CODE: 'S__yy2',
 };

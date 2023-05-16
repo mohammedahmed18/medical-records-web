@@ -5,7 +5,7 @@ import Button from '@components/buttons/Button';
 
 type ButtonProps = { Icon: IconType } & React.ComponentPropsWithRef<'button'>;
 
-const NavbarButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, Icon, ...rest }, ref) => {
     return (
       <Button
@@ -21,4 +21,4 @@ const NavbarButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-export default NavbarButton;
+export default IconButton;
