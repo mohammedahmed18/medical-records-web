@@ -6,9 +6,8 @@ import { api } from './axios';
 
 export type GetDoctorsParams = {
   medicalSpecialization?: string;
-  q?: string
-}
-
+  q?: string;
+};
 
 export const scanQrCode = (qrCode: string) => {
   return api.post('/doctors/scan-qrCode', { qrCode }).then((res) => res.data);
@@ -19,6 +18,8 @@ export const createMedicalRecord = (data: any) => {
   return api.post('/records', data).then((res) => res.data);
 };
 
-export const getAllDoctors = (params : GetDoctorsParams) => {
-  return api.get<SingleDoctorSearch[]>('/doctors', {params}).then((res) => res.data);
+export const getAllDoctors = (params: GetDoctorsParams) => {
+  return api
+    .get<SingleDoctorSearch[]>('/doctors', { params })
+    .then((res) => res.data);
 };
