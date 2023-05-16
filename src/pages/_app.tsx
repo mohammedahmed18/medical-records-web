@@ -1,3 +1,4 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -11,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from '@components/layout';
 import Navbar from '@components/navbar';
 
+import { SERVER_URL } from '@/api/axios';
 import { isProd } from '@/constant/env';
 import { AuthProvider } from '@/contexts/authContext';
 
@@ -20,6 +22,12 @@ import { AuthProvider } from '@/contexts/authContext';
  */
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const graphqlClient = new ApolloClient({
+    uri: SERVER_URL + '/graphql',
+    cache: new InMemoryCache(),
+    credentials: 'include',
+  });
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -28,16 +36,18 @@ function MyApp({ Component, pageProps }: AppProps) {
     },
   });
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ToastContainer />
-        <Navbar />
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        {!isProd && <ReactQueryDevtools />}
-      </AuthProvider>
-    </QueryClientProvider>
+    <AuthProvider>
+      <ApolloProvider client={graphqlClient}>
+        <QueryClientProvider client={queryClient}>
+          <ToastContainer />
+          <Navbar />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          {!isProd && <ReactQueryDevtools />}
+        </QueryClientProvider>
+      </ApolloProvider>
+    </AuthProvider>
   );
 }
 

@@ -5,12 +5,11 @@ import { useQuery } from 'react-query';
 
 import { useTimeoutAsync } from '@/hooks/useTimeoutAsync';
 
-import IconButton from '@components/buttons/IconButton';
 import Modal from '@components/common/modal';
 import Spinner from '@components/common/spinner';
-import NavbarButton from '@components/navbarButton';
 
 import { generateQrcode } from '@/api/users';
+import CustomIconButton from '@/components/IconButton';
 import { showToast } from '@/utils/toast';
 
 import QrCodeIcon from '~/svg/qr-code.svg';
@@ -57,21 +56,20 @@ const GenerateQrCode: React.FC = () => {
 
   return (
     <>
-      <NavbarButton onClick={handleShowQrModal} Icon={QrCodeIcon} />
+      <CustomIconButton onClick={handleShowQrModal} Icon={QrCodeIcon} />
 
       <Modal shown={showQrcode} onClose={() => setShowQrcode(false)}>
         <div className='flex flex-col items-center justify-center gap-4'>
-          <IconButton
+          <CustomIconButton
             onClick={handleGenerateQrcode}
-            icon={RefreshIcon}
-            variant='light'
+            Icon={RefreshIcon}
             className={clsx(
               'rounded-full text-2xl',
               isRefetching ? 'animate-spin' : ''
             )}
           />
 
-          <div className='center-content min-h-[200px]'>
+          <div className='center-content'>
             {(loading || isRefetching) && <Spinner size={70} />}
             {qrcode && !isRefetching && (
               <QRCode

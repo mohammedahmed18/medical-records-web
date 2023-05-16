@@ -6,8 +6,8 @@ import Button from '@components/buttons/Button';
 import UserProfileImage from '@components/common/UserProfileImage';
 import Container from '@components/container';
 import GenerateQrCode from '@components/generateQrCode';
-import NavbarButton from '@components/navbarButton';
 
+import IconButton from '@/components/IconButton';
 import { useAuth } from '@/contexts/authContext';
 
 import HomepageIcon from '~/svg/homepage.svg';
@@ -18,7 +18,7 @@ const Navbar: React.FC = () => {
   const router = useRouter();
   if (user.isAnonymous) return null;
   return (
-    <nav className='fixed inset-x-0 top-0 z-40 bg-white py-4 shadow-md'>
+    <nav className='fixed inset-x-0 top-0 z-40 bg-white/70 py-4 shadow-md backdrop-blur-md'>
       <Container className='flex items-center justify-between'>
         <div className='flex'>
           <UserProfileImage src={user.image_src} size={40} />
@@ -34,9 +34,9 @@ const Navbar: React.FC = () => {
           </div>
         )}
         <div className='flex items-center gap-4'>
-          <NavbarButton onClick={() => router.push('/')} Icon={HomepageIcon} />
+          <IconButton onClick={() => router.push('/')} Icon={HomepageIcon} />
           <GenerateQrCode />
-          <NavbarButton onClick={logout} Icon={LogoutIcon} />
+          <IconButton onClick={logout} Icon={LogoutIcon} />
         </div>
       </Container>
     </nav>
