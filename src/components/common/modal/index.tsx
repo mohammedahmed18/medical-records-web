@@ -29,21 +29,20 @@ const Modal: React.FC<props> = ({ children, shown, onClose }) => {
 
   if (!finalShown) return null;
   return (
-    <>
+    <div
+      className='fixed inset-0 z-50 flex h-screen items-center justify-center bg-black/40'
+      onClick={onClose}
+    >
       <div
-        className='fixed inset-0 z-50 flex h-screen items-center justify-center bg-black/40'
-        onClick={onClose}
-      ></div>
-      <div
-        className={clsx(
-          'fixed z-[90] w-fit',
-          styles.content,
-          !shown ? styles.hiddenModal : ''
-        )}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+        className={clsx(styles.content, !shown ? styles.hiddenModal : '')}
       >
         {children}
       </div>
-    </>
+    </div>
   );
 };
 
