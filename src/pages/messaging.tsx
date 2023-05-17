@@ -7,23 +7,17 @@ import Layout from '@components/layout';
 import Seo from '@components/Seo';
 
 import { getMessagesWithOtherUser, getMyRooms } from '@/api/messaging';
-import { getPublicUserInfo } from '@/api/users';
 import ChatView from '@/components/messaging/ChatView';
 import RoomsList from '@/components/messaging/RoomsList';
-import { GET_MY_ROOMS, PUBLIC_USER, ROOM_MESSAGES } from '@/constant/queryKeys';
+import { GET_MY_ROOMS, ROOM_MESSAGES } from '@/constant/queryKeys';
 import { useAuth } from '@/contexts/authContext';
 
 function MessagingPage() {
   const router = useRouter();
   const { isAnonymous } = useAuth();
   const { u: userId } = router.query;
-  const { data, refetch: fetcActiveUserInfo } = useQuery(
-    [PUBLIC_USER, userId],
-    () => getPublicUserInfo(userId?.toString()),
-    { enabled: false }
-  );
 
-  const { data: messages, refetch: fetcMessages } = useQuery(
+  const { data, refetch: fetcMessages } = useQuery(
     [ROOM_MESSAGES, userId],
     () => getMessagesWithOtherUser(userId?.toString()),
     { enabled: false, keepPreviousData: false }
@@ -45,12 +39,13 @@ function MessagingPage() {
   React.useEffect(() => {
     if (isAnonymous || !userId) return;
     // TODO: in the backend make it one call
-    fetcActiveUserInfo();
     fetcMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAnonymous, userId]);
 
-  const user = data?.user;
+  const { otherUser, messages } = data
+    ? data
+    : { messages: [], otherUser: null };
   const finalRooms = rooms || [];
   return (
     <Layout>
@@ -63,7 +58,13 @@ function MessagingPage() {
               <RoomsList rooms={finalRooms} />
             </div>
             <div className='h-[84vh] flex-1 overflow-auto'>
-              {user && <ChatView otherUser={user} messages={messages || []} />}
+              {otherUser && (
+                <ChatView
+                  otherUser={otherUser}
+                  messages={messages || []}
+                  privateChat={data?.isPrivateChat}
+                />
+              )}
             </div>
           </div>
         </ProtectedRoute>

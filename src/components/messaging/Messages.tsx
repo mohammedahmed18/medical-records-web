@@ -1,7 +1,7 @@
-import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 
 import { RoomMessageType } from '@/api/messaging';
+import MessageItem from '@/components/messaging/MessageItem';
 
 type Props = {
   messages: RoomMessageType[];
@@ -25,21 +25,16 @@ const Messages = ({ messages }: Props) => {
       className='flex flex-1 flex-col overflow-y-auto py-4'
       ref={messagesContainerRef}
     >
-      {messages.map((message) => {
-        return (
-          <div
-            className={clsx(
-              `mx-4 mb-7 w-fit max-w-[200px] rounded-3xl  p-7 text-2xl md:max-w-[300px] lg:max-w-[400px]`,
-              message.isMe
-                ? ' ml-auto rounded-br-none bg-primary-100 text-white'
-                : 'rounded-bl-none bg-gray-100'
-            )}
-            key={message.id}
-          >
-            {message.value}
-          </div>
-        );
-      })}
+      {!messages.length && (
+        <div className='flex justify-center'>
+          <span className='rounded-2xl bg-primary-100/25 p-4 text-2xl '>
+            No messages until now
+          </span>
+        </div>
+      )}
+      {messages.map((message) => (
+        <MessageItem message={message} key={message.id} />
+      ))}
     </div>
   );
 };
