@@ -26,7 +26,7 @@ function MessagingPage() {
   const { data: messages, refetch: fetcMessages } = useQuery(
     [ROOM_MESSAGES, userId],
     () => getMessagesWithOtherUser(userId?.toString()),
-    { enabled: false, keepPreviousData: true }
+    { enabled: false, keepPreviousData: false }
   );
 
   const { data: rooms, refetch: fetcRooms } = useQuery(
@@ -54,7 +54,7 @@ function MessagingPage() {
   const finalRooms = rooms || [];
   return (
     <Layout>
-      <Seo templateTitle='Home' />
+      <Seo templateTitle='Messages' />
 
       <main>
         <ProtectedRoute>

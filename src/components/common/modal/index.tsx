@@ -31,7 +31,7 @@ const Modal: React.FC<props> = ({ children, shown, onClose }) => {
   return (
     <>
       <div
-        className='fixed inset-0 z-50 h-screen bg-black/25'
+        className='fixed inset-0 z-50 flex h-screen items-center justify-center bg-black/40'
         onClick={onClose}
       ></div>
       <div

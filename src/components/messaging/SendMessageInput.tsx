@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 
+import IconButton from '@/components/IconButton';
 import { SEND_MESSAGE } from '@/graphql/messages';
 
 import MessageIcon from '~/svg/send-message-icon.svg';
@@ -36,7 +37,8 @@ const SendMessageInput = ({ otherUserId }: Props) => {
         className='cursor-pointer rounded  fill-gray-700 p-3 text-4xl'
         onClick={handleSendMessage}
       >
-        <MessageIcon />
+        <IconButton Icon={MessageIcon} className='shadow-md' />
+        {/* <MessageIcon /> */}
       </span>
     </div>
   );
