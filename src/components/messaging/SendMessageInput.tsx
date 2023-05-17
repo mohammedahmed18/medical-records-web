@@ -52,7 +52,7 @@ const SendMessageInput = () => {
   };
 
   return (
-    <div className='mx-7 mb-3 overflow-hidden rounded-2xl p-3'>
+    <div className='bg- mx-7 mb-3 overflow-hidden rounded-full bg-slate-100 px-7'>
       <form
         className='flex w-full items-center gap-5'
         onSubmit={(e) => {
@@ -64,7 +64,6 @@ const SendMessageInput = () => {
           ref={inputRef}
           className='w-full
           border-b-2 
-          border-primary-200
           bg-transparent py-4 text-3xl
           outline-none
           '
@@ -72,10 +71,14 @@ const SendMessageInput = () => {
           placeholder='type your message...'
         />
         <span
-          className='cursor-pointer rounded  fill-gray-700 p-3 text-4xl'
+          className='cursor-pointer rounded  fill-white p-3 text-4xl'
           onClick={handleSendMessage}
         >
-          <IconButton Icon={MessageIcon} className='shadow-md' type='submit' />
+          <IconButton
+            Icon={MessageIcon}
+            className='rounded-full bg-primary-100 shadow-sm hover:bg-primary-200 hover:shadow-2xl active:bg-primary-50'
+            type='submit'
+          />
         </span>
       </form>
     </div>
