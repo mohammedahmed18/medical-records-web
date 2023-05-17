@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import * as React from 'react';
 import { IconType } from 'react-icons';
 
@@ -12,7 +13,10 @@ const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...rest}
         variant='light'
-        className='rounded-2xl p-4 text-4xl transition-all duration-300 hover:shadow-md'
+        className={clsx(
+          'rounded-2xl p-4 text-4xl transition-all duration-300 hover:shadow-md',
+          rest.className
+        )}
       >
         {Icon && <Icon className='text-4xl' />}
         {children}
