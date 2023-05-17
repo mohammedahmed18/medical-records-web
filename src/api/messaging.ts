@@ -1,4 +1,5 @@
 import { api } from '@/api/axios';
+import { PublicUserInfo } from '@/api/users';
 
 export type RoomItemType = {
   id: string;
@@ -29,14 +30,19 @@ export type RoomMessageType = {
   isMe: boolean;
 };
 
+export type MessageResponse = {
+  isPrivateChat: boolean;
+  otherUser?: PublicUserInfo;
+  messages: RoomMessageType[];
+};
 export const getMyRooms = (): Promise<RoomItemType[]> => {
   return api.get<RoomItemType[]>('/chat/rooms').then((res) => res.data);
 };
 
 export const getMessagesWithOtherUser = (
   otherUserId: string | undefined
-): Promise<RoomMessageType[]> => {
+): Promise<MessageResponse> => {
   return api
-    .get<RoomMessageType[]>('/chat/room-messages/' + otherUserId)
+    .get<MessageResponse>('/chat/room-messages/' + otherUserId)
     .then((res) => res.data);
 };

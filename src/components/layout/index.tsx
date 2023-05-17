@@ -4,7 +4,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   // Put Header or Footer Here
   return (
     <>
-      <div className='mt-32'>{children}</div>
+      <div className='mt-28'>{children}</div>
     </>
   );
 }

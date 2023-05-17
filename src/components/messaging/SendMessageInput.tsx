@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/client';
 import { useState } from 'react';
 import { useQueryClient } from 'react-query';
 
-import { RoomMessageType } from '@/api/messaging';
+import { MessageResponse } from '@/api/messaging';
 import IconButton from '@/components/IconButton';
 import { ROOM_MESSAGES } from '@/constant/queryKeys';
 import { SEND_MESSAGE } from '@/graphql/messages';
@@ -19,15 +19,19 @@ const SendMessageInput = ({ otherUserId }: Props) => {
     onCompleted: (data) => {
       const { sendMessage: newMessage } = data;
 
-      const _updater = (prevMessages: RoomMessageType[] | undefined) => {
-        const previousMessages = prevMessages || [];
-        return [
-          ...previousMessages,
-          { ...newMessage, isMe: true, createdAt: new Date() },
-        ];
+      const updater = (cacheValue: MessageResponse | undefined) => {
+        const previousMessages = cacheValue?.messages || [];
+        return {
+          isPrivateChat: cacheValue?.isPrivateChat || false,
+          otherUser: cacheValue?.otherUser,
+          messages: [
+            ...previousMessages,
+            { ...newMessage, isMe: true, createdAt: new Date() },
+          ],
+        };
       };
 
-      queryCache.setQueryData([ROOM_MESSAGES, otherUserId], _updater);
+      queryCache.setQueryData([ROOM_MESSAGES, otherUserId], updater);
     },
   });
 

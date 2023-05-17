@@ -4,19 +4,16 @@ import UserProfileImage from '@/components/common/UserProfileImage';
 import LongText from '@/components/LongText';
 import Messages from '@/components/messaging/Messages';
 import SendMessageInput from '@/components/messaging/SendMessageInput';
-import { useAuth } from '@/contexts/authContext';
 
 import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
 type Props = {
   otherUser: PublicUserInfo;
   messages: RoomMessageType[];
+  privateChat?: boolean;
 };
-const ChatView = ({ otherUser, messages }: Props) => {
+const ChatView = ({ otherUser, messages, privateChat }: Props) => {
   const { image_src, medicalSpecialization, name, id } = otherUser;
-  const {
-    user: { id: currentId },
-  } = useAuth();
-  const privateChat = currentId === id;
+
   return (
     <div className='flex h-full flex-col justify-between'>
       {/* other user info */}
@@ -42,7 +39,13 @@ const ChatView = ({ otherUser, messages }: Props) => {
           )}
         </div>
       </div>
-
+      {privateChat && (
+        <div className='bg-base-300 py-4 px-3 text-2xl leading-relaxed shadow-lg'>
+          This is your space. Draft messages, make to-do lists or keep links to
+          hand. You can also talk to yourself here, but please bear in mind
+          you'll have to provide both sides of the conversation.
+        </div>
+      )}
       <Messages messages={messages} />
       <SendMessageInput otherUserId={id} />
     </div>
