@@ -20,21 +20,22 @@ import { AuthProvider } from '@/contexts/authContext';
  * !STARTERCONF info
  * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
  */
+// the two client must be at the top level of the file
+// and not inside a compoenent
+const graphqlClient = new ApolloClient({
+  uri: SERVER_URL + '/graphql',
+  cache: new InMemoryCache(),
+  credentials: 'include',
+});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const graphqlClient = new ApolloClient({
-    uri: SERVER_URL + '/graphql',
-    cache: new InMemoryCache(),
-    credentials: 'include',
-  });
-
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
   return (
     <AuthProvider>
       <ApolloProvider client={graphqlClient}>

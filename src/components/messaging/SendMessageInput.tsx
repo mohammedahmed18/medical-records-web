@@ -1,7 +1,10 @@
 import { useMutation } from '@apollo/client';
 import { useState } from 'react';
+import { useQueryClient } from 'react-query';
 
+import { RoomMessageType } from '@/api/messaging';
 import IconButton from '@/components/IconButton';
+import { ROOM_MESSAGES } from '@/constant/queryKeys';
 import { SEND_MESSAGE } from '@/graphql/messages';
 
 import MessageIcon from '~/svg/send-message-icon.svg';
@@ -10,9 +13,21 @@ type Props = {
 };
 const SendMessageInput = ({ otherUserId }: Props) => {
   const [messageText, setMessageText] = useState('');
+  const queryCache = useQueryClient();
+
   const [sendMessage] = useMutation(SEND_MESSAGE, {
-    context: {
-      Authorization: 'Bearer ',
+    onCompleted: (data) => {
+      const { sendMessage: newMessage } = data;
+
+      const _updater = (prevMessages: RoomMessageType[] | undefined) => {
+        const previousMessages = prevMessages || [];
+        return [
+          ...previousMessages,
+          { ...newMessage, isMe: true, createdAt: new Date() },
+        ];
+      };
+
+      queryCache.setQueryData([ROOM_MESSAGES, otherUserId], _updater);
     },
   });
 
