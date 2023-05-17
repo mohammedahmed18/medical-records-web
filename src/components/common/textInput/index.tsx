@@ -17,7 +17,8 @@ type props = {
   label?: string;
   registeredProps?: UseFormRegisterReturn<string>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
-};
+} & React.ComponentPropsWithRef<'input'>;
+
 const TextInput = ({
   placeholder = '',
   type,
@@ -25,6 +26,7 @@ const TextInput = ({
   label,
   registeredProps,
   error,
+  ...rest
 }: props) => {
   const errorMsg = error?.message?.toString();
   return (
@@ -43,6 +45,7 @@ const TextInput = ({
           errorMsg && 'focus:border-b-red-900',
           className
         )}
+        {...rest}
       />
       {errorMsg && <ErrorMessage msg={errorMsg} />}
     </div>

@@ -32,8 +32,8 @@ const Messages = ({ messages }: Props) => {
           </span>
         </div>
       )}
-      {messages.map((message) => (
-        <MessageItem message={message} key={message.id} />
+      {messages.map((message, i) => (
+        <MessageItem message={message} key={i} />
       ))}
     </div>
   );

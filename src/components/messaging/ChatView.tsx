@@ -1,45 +1,67 @@
-import { RoomMessageType } from '@/api/messaging';
-import { PublicUserInfo } from '@/api/users';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
+
+import { getMessagesWithOtherUser } from '@/api/messaging';
 import UserProfileImage from '@/components/common/UserProfileImage';
 import LongText from '@/components/LongText';
 import Messages from '@/components/messaging/Messages';
-import SendMessageInput from '@/components/messaging/SendMessageInput';
+import { ROOM_MESSAGES } from '@/constant/queryKeys';
 
 import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
-type Props = {
-  otherUser: PublicUserInfo;
-  messages: RoomMessageType[];
-  privateChat?: boolean;
-};
-const ChatView = ({ otherUser, messages, privateChat }: Props) => {
-  const { image_src, medicalSpecialization, name, id } = otherUser;
+
+const ChatView = () => {
+  const router = useRouter();
+  const { u: otherUserId } = router.query;
+
+  const { data, refetch: fetcMessages } = useQuery(
+    [ROOM_MESSAGES, otherUserId],
+    () => getMessagesWithOtherUser(otherUserId?.toString()),
+    { enabled: false, keepPreviousData: false }
+  );
+
+  useEffect(() => {
+    if (!otherUserId) return;
+    fetcMessages();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [otherUserId]);
+
+  const { otherUser, messages, isPrivateChat } = data
+    ? data
+    : { messages: [], otherUser: null, isPrivateChat: false };
 
   return (
-    <div className='flex h-full flex-col justify-between'>
+    <>
       {/* other user info */}
       <div className='flex items-center gap-4 py-4 shadow-lg'>
         {/* image */}
-        <UserProfileImage rounded src={image_src} size={50} />
+        <UserProfileImage rounded src={otherUser?.image_src} size={50} />
 
         {/* name and medical specialization */}
-        <div className='flex flex-col'>
-          <div className='flex items-center'>
-            <LongText text={name} maxChars={50} className='text-3xl' />
-            {privateChat && (
-              <span className='mx-4 rounded-lg bg-primary-200 px-2 text-lg text-white'>
-                Message yourself
-              </span>
+        {otherUser && (
+          <div className='flex flex-col'>
+            <div className='flex items-center'>
+              <LongText
+                text={otherUser.name}
+                maxChars={50}
+                className='text-3xl'
+              />
+              {isPrivateChat && (
+                <span className='mx-4 rounded-lg bg-primary-200 px-2 text-lg text-white'>
+                  Message yourself
+                </span>
+              )}
+            </div>
+            {otherUser.medicalSpecialization && (
+              <div className='flex items-center gap-3 fill-gray-500 text-2xl text-gray-500'>
+                <StethoScopeIcon />
+                <span>{otherUser.medicalSpecialization}</span>
+              </div>
             )}
           </div>
-          {medicalSpecialization && (
-            <div className='flex items-center gap-3 fill-gray-500 text-2xl text-gray-500'>
-              <StethoScopeIcon />
-              <span>{medicalSpecialization}</span>
-            </div>
-          )}
-        </div>
+        )}
       </div>
-      {privateChat && (
+      {isPrivateChat && (
         <div className='bg-base-300 py-4 px-3 text-2xl leading-relaxed shadow-lg'>
           This is your space. Draft messages, make to-do lists or keep links to
           hand. You can also talk to yourself here, but please bear in mind
@@ -47,8 +69,7 @@ const ChatView = ({ otherUser, messages, privateChat }: Props) => {
         </div>
       )}
       <Messages messages={messages} />
-      <SendMessageInput otherUserId={id} />
-    </div>
+    </>
   );
 };
 
