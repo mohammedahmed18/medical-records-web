@@ -21,12 +21,12 @@ export type RoomItemType = {
 };
 
 export type RoomMessageType = {
-  id: string;
-  roomId: string;
+  id?: string;
+  roomId?: string;
   type: string;
   value: string;
-  senderId: string;
-  createdAt: string;
+  senderId?: string;
+  createdAt: Date;
   isMe: boolean;
 };
 

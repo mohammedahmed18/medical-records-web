@@ -9,7 +9,9 @@ type Props = {
 const MessageItem = ({ message }: Props) => {
   const { createdAt, isMe, value } = message;
   return (
-    <div className={clsx('m-7 flex flex-col gap-2', isMe && 'ml-auto')}>
+    <div
+      className={clsx('m-7 flex flex-col gap-2', isMe && 'ml-auto items-end')}
+    >
       <span
         className={clsx(
           `flex w-fit max-w-[200px] flex-col gap-4 break-words rounded-3xl p-7 text-2xl leading-loose shadow-lg md:max-w-[300px] lg:max-w-[400px]`,
