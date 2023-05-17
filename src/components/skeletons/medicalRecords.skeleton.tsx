@@ -39,13 +39,11 @@ const MedicalRecordsSkeleton = () => {
     </li>
   );
   return (
-    <div className='p-10'>
-      <ol className='relative border-l border-gray-300'>
-        {_.range(numberOfRecords).map((i) => (
-          <OneRecordSkeleton key={i} />
-        ))}
-      </ol>
-    </div>
+    <ol className='relative border-l border-gray-300'>
+      {_.range(numberOfRecords).map((i) => (
+        <OneRecordSkeleton key={i} />
+      ))}
+    </ol>
   );
 };
 

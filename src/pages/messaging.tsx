@@ -15,14 +15,14 @@ import { useAuth } from '@/contexts/authContext';
 function MessagingPage() {
   const { isAnonymous } = useAuth();
 
-  const { data: rooms, refetch: fetcRooms } = useQuery(
-    [GET_MY_ROOMS],
-    getMyRooms,
-    {
-      keepPreviousData: true,
-      enabled: false,
-    }
-  );
+  const {
+    data: rooms,
+    refetch: fetcRooms,
+    status,
+  } = useQuery([GET_MY_ROOMS], getMyRooms, {
+    keepPreviousData: true,
+    enabled: false,
+  });
   React.useEffect(() => {
     if (isAnonymous) return;
     fetcRooms();
@@ -37,7 +37,7 @@ function MessagingPage() {
         <ProtectedRoute>
           <div className='mx-7 flex shadow-lg'>
             <div className='h-[84vh] w-1/2 overflow-auto px-4 py-7 shadow-lg lg:w-1/4'>
-              <RoomsList rooms={finalRooms} />
+              <RoomsList rooms={finalRooms} status={status} />
             </div>
             <div className='flex h-[84vh] flex-1 flex-col justify-between overflow-auto'>
               <ChatView />
