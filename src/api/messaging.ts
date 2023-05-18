@@ -39,7 +39,7 @@ export const getMyRooms = (): Promise<RoomItemType[]> => {
   return api.get<RoomItemType[]>('/chat/rooms').then((res) => res.data);
 };
 
-export const getMessagesWithOtherUser = (
+export const getMessagesWithOtherUser = async (
   otherUserId: string | undefined
 ): Promise<MessageResponse> => {
   return api

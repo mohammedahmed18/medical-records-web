@@ -3,9 +3,11 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
 import { getMessagesWithOtherUser } from '@/api/messaging';
+import Spinner from '@/components/common/spinner';
 import UserProfileImage from '@/components/common/UserProfileImage';
 import LongText from '@/components/LongText';
 import Messages from '@/components/messaging/Messages';
+import SendMessageInput from '@/components/messaging/SendMessageInput';
 import { ROOM_MESSAGES } from '@/constant/queryKeys';
 
 import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
@@ -14,7 +16,11 @@ const ChatView = () => {
   const router = useRouter();
   const { u: otherUserId } = router.query;
 
-  const { data, refetch: fetcMessages } = useQuery(
+  const {
+    data,
+    refetch: fetcMessages,
+    status,
+  } = useQuery(
     [ROOM_MESSAGES, otherUserId],
     () => getMessagesWithOtherUser(otherUserId?.toString()),
     { enabled: false, keepPreviousData: false }
@@ -30,10 +36,20 @@ const ChatView = () => {
     ? data
     : { messages: [], otherUser: null, isPrivateChat: false };
 
+  const isLoading = status === 'loading' || status === 'idle';
+
+  if (isLoading) {
+    return (
+      <div className='center-content h-full'>
+        {/* TODO: show loadin , maybe create this with figma */}
+        <Spinner size={50} />
+      </div>
+    );
+  }
   return (
     <>
       {/* other user info */}
-      <div className='flex items-center gap-4 py-4 shadow-lg'>
+      <div className='flex items-center gap-4 py-4 px-5 shadow-lg'>
         {/* image */}
         <UserProfileImage rounded src={otherUser?.image_src} size={50} />
 
@@ -69,6 +85,8 @@ const ChatView = () => {
         </div>
       )}
       <Messages messages={messages} />
+
+      <SendMessageInput />
     </>
   );
 };

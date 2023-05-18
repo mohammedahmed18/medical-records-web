@@ -8,7 +8,6 @@ import Seo from '@components/Seo';
 import { getMyRooms } from '@/api/messaging';
 import ChatView from '@/components/messaging/ChatView';
 import RoomsList from '@/components/messaging/RoomsList';
-import SendMessageInput from '@/components/messaging/SendMessageInput';
 import { GET_MY_ROOMS } from '@/constant/queryKeys';
 import { useAuth } from '@/contexts/authContext';
 
@@ -35,13 +34,12 @@ function MessagingPage() {
 
       <main>
         <ProtectedRoute>
-          <div className='mx-7 flex shadow-lg'>
-            <div className='h-[84vh] w-1/2 overflow-auto px-4 py-7 shadow-lg lg:w-1/4'>
+          <div className='mx-7 flex flex-col shadow-lg md:flex-row'>
+            <div className='h-[84vh] w-full overflow-auto px-4 py-7 shadow-lg md:w-1/2 lg:w-1/4'>
               <RoomsList rooms={finalRooms} status={status} />
             </div>
             <div className='flex h-[84vh] flex-1 flex-col justify-between overflow-auto'>
               <ChatView />
-              <SendMessageInput />
             </div>
           </div>
         </ProtectedRoute>

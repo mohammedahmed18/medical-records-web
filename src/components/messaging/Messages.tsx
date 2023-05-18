@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
 import { RoomMessageType } from '@/api/messaging';
@@ -26,10 +27,14 @@ const Messages = ({ messages }: Props) => {
       ref={messagesContainerRef}
     >
       {!messages.length && (
-        <div className='flex justify-center'>
-          <span className='rounded-2xl bg-primary-100/25 p-4 text-2xl '>
-            No messages until now
-          </span>
+        <div className='flex h-full items-center justify-center'>
+          <Image
+            src='/images/no-messages.png'
+            alt='no messages'
+            width={7000}
+            height={6000}
+            className='w-60 object-cover opacity-20 md:w-72 lg:w-96'
+          />
         </div>
       )}
       {messages.map((message, i) => (
