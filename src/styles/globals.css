@@ -43,6 +43,9 @@
     font-size: 62.5%;
   }
 
+  pre {
+    font-family: 'Inter';
+  }
   .cursor-newtab {
     cursor: url('/images/new-tab.png') 10 10, pointer;
   }

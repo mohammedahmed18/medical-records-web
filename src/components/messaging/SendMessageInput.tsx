@@ -1,7 +1,10 @@
 import { useMutation } from '@apollo/client';
+import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useQueryClient } from 'react-query';
+
+import styles from './styles.module.css';
 
 import { MessageResponse } from '@/api/messaging';
 import IconButton from '@/components/IconButton';
@@ -9,9 +12,9 @@ import { ROOM_MESSAGES } from '@/constant/queryKeys';
 import { SEND_MESSAGE } from '@/graphql/messages';
 
 import MessageIcon from '~/svg/send-message-icon.svg';
-
 const SendMessageInput = () => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const queryCache = useQueryClient();
   const router = useRouter();
   const { u: otherUserId } = router.query;
@@ -32,7 +35,7 @@ const SendMessageInput = () => {
         messages: [
           ...previousMessages,
           {
-            value: messageText,
+            value: messageText.trim(),
             type: 'text',
             isMe: true,
             createdAt: new Date(),
@@ -43,44 +46,74 @@ const SendMessageInput = () => {
 
     queryCache.setQueryData([ROOM_MESSAGES, otherUserId], updater);
   };
+
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const isEnter = event.key === 'Enter';
+
+    if (event.shiftKey && isEnter) {
+      // won't submit will just go line down
+      return;
+    }
+
+    if (isEnter) {
+      // submitting if the user just pressed the enter without shify
+      event.preventDefault(); // so it doesn't go one line down when sending the message
+      handleSendMessage();
+
+      const textarea = inputRef.current;
+      if (!textarea) return;
+      textarea.style.height = 'auto';
+      textarea.value = '';
+    }
+  };
+  useEffect(() => {
+    const textarea = inputRef.current;
+    const container = containerRef.current;
+    if (!textarea || !container) return;
+    const handleHieghtResize = () => {
+      textarea.style.height = 'auto';
+      const multiLine = textarea.scrollHeight !== textarea.clientHeight;
+
+      if (multiLine) container.classList.add('items-end');
+      else container.classList.remove('items-end');
+
+      if (textarea.value !== '')
+        textarea.style.height = textarea.scrollHeight + 'px';
+    };
+
+    textarea.addEventListener('input', handleHieghtResize);
+    return () => textarea.removeEventListener('input', handleHieghtResize);
+  }, []);
   const handleSendMessage = () => {
     if (!inputRef.current) return;
     const messageText = inputRef.current.value;
     if (messageText.trim() == '') return;
     addMyMessageToTheUi(messageText);
-    sendMessage({ variables: { value: messageText, toId: otherUserId } });
+    sendMessage({
+      variables: { value: messageText.trim(), toId: otherUserId },
+    });
   };
 
   return (
-    <div className='bg- mx-7 mb-3 overflow-hidden rounded-full bg-slate-100 px-7'>
-      <form
-        className='flex w-full items-center gap-5'
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSendMessage();
-        }}
+    <div className='px-4'>
+      <div
+        ref={containerRef}
+        className={clsx(styles['send-message-input'], 'mb-3')}
       >
-        <input
+        <textarea
           ref={inputRef}
-          className='w-full
-          border-b-2 
-          bg-transparent py-4 text-3xl
-          outline-none
-          '
-          type='text'
-          placeholder='type your message...'
-        />
-        <span
-          className='cursor-pointer rounded  fill-white p-3 text-4xl'
-          onClick={handleSendMessage}
-        >
+          rows={1}
+          className='flex bg-transparent'
+          placeholder='Type your message...'
+          onKeyDown={handleKeyPress}
+        ></textarea>
+        <span className={styles['send-button']} onClick={handleSendMessage}>
           <IconButton
             Icon={MessageIcon}
-            className='rounded-full bg-primary-100 shadow-sm hover:bg-primary-200 hover:shadow-2xl active:bg-primary-50'
-            type='submit'
+            className='rounded-full bg-primary-200 hover:bg-primary-100 active:bg-primary-100/70'
           />
         </span>
-      </form>
+      </div>
     </div>
   );
 };
