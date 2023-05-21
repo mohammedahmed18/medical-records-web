@@ -24,6 +24,7 @@ const GenerateQrCode: React.FC = () => {
     data: qrcode,
     refetch,
     isRefetching,
+    status,
   } = useQuery({
     queryFn: generateQrcode,
     enabled: false,
@@ -59,6 +60,7 @@ const GenerateQrCode: React.FC = () => {
 
       <GenerateQrModal
         handleGenerateQrcode={handleGenerateQrcode}
+        loading={status === 'loading'}
         isRefetching={isRefetching}
         onClose={() => setShowQrcode(false)}
         qrcode={qrcode}

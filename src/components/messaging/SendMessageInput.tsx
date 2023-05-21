@@ -2,50 +2,28 @@ import { useMutation } from '@apollo/client';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
-import { useQueryClient } from 'react-query';
 
 import styles from './styles.module.css';
 
-import { MessageResponse } from '@/api/messaging';
 import IconButton from '@/components/IconButton';
-import { ROOM_MESSAGES } from '@/constant/queryKeys';
 import { SEND_MESSAGE } from '@/graphql/messages';
 
 import MessageIcon from '~/svg/send-message-icon.svg';
-const SendMessageInput = () => {
+
+type Props = {
+  addMyMessageToTheUi: (v: string, b: boolean) => void;
+};
+const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const queryCache = useQueryClient();
   const router = useRouter();
   const { u: otherUserId } = router.query;
 
   const [sendMessage] = useMutation(SEND_MESSAGE, {
     // onCompleted: (data) => {
-    //    const { sendMessage: newMessage } = data;
+    //   const { sendMessage: newMessageInTheDb } = data;
     // },
   });
-
-  const addMyMessageToTheUi = (messageText: string) => {
-    if (inputRef.current) inputRef.current.value = '';
-    const updater = (cacheValue: MessageResponse | undefined) => {
-      const previousMessages = cacheValue?.messages || [];
-      return {
-        isPrivateChat: cacheValue?.isPrivateChat || false,
-        otherUser: cacheValue?.otherUser,
-        messages: [
-          ...previousMessages,
-          {
-            value: messageText.trim(),
-            type: 'text',
-            isMe: true,
-            createdAt: new Date(),
-          },
-        ],
-      };
-    };
-
-    queryCache.setQueryData([ROOM_MESSAGES, otherUserId], updater);
-  };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const isEnter = event.key === 'Enter';
@@ -88,7 +66,7 @@ const SendMessageInput = () => {
     if (!inputRef.current) return;
     const messageText = inputRef.current.value;
     if (messageText.trim() == '') return;
-    addMyMessageToTheUi(messageText);
+    addMyMessageToTheUi(messageText, true);
     sendMessage({
       variables: { value: messageText.trim(), toId: otherUserId },
     });
@@ -103,7 +81,7 @@ const SendMessageInput = () => {
         <textarea
           ref={inputRef}
           rows={1}
-          className='flex bg-transparent'
+          className='flex max-h-[200px] bg-transparent'
           placeholder='Type your message...'
           onKeyDown={handleKeyPress}
         ></textarea>

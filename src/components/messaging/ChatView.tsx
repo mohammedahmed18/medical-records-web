@@ -1,20 +1,23 @@
+import { useSubscription } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
-import { getMessagesWithOtherUser } from '@/api/messaging';
+import { getMessagesWithOtherUser, MessageResponse } from '@/api/messaging';
 import Spinner from '@/components/common/spinner';
 import UserProfileImage from '@/components/common/UserProfileImage';
 import LongText from '@/components/LongText';
 import Messages from '@/components/messaging/Messages';
 import SendMessageInput from '@/components/messaging/SendMessageInput';
 import { ROOM_MESSAGES } from '@/constant/queryKeys';
+import { RECIEVE_MESSAGE } from '@/graphql/messages';
 
 import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
 
 const ChatView = () => {
   const router = useRouter();
   const { u: otherUserId } = router.query;
+  const queryCache = useQueryClient();
 
   const {
     data,
@@ -26,6 +29,34 @@ const ChatView = () => {
     { enabled: false, keepPreviousData: false }
   );
 
+  const addMyMessageToTheUi = (messageText: string, isTheSenderMe = false) => {
+    const updater = (cacheValue: MessageResponse | undefined) => {
+      const previousMessages = cacheValue?.messages || [];
+      return {
+        isPrivateChat: cacheValue?.isPrivateChat || false,
+        otherUser: cacheValue?.otherUser,
+        messages: [
+          ...previousMessages,
+          {
+            value: messageText.trim(),
+            type: 'text',
+            isMe: isTheSenderMe,
+            createdAt: new Date(),
+          },
+        ],
+      };
+    };
+
+    queryCache.setQueryData([ROOM_MESSAGES, otherUserId], updater);
+  };
+
+  useSubscription(RECIEVE_MESSAGE, {
+    onData: ({ data }) => {
+      const recievedMessage = data.data.messageSent;
+      addMyMessageToTheUi(recievedMessage?.value);
+    },
+  });
+
   useEffect(() => {
     if (!otherUserId) return;
     fetcMessages();
@@ -36,7 +67,12 @@ const ChatView = () => {
     ? data
     : { messages: [], otherUser: null, isPrivateChat: false };
 
-  const isLoading = status === 'loading' || status === 'idle';
+  const isLoading = status === 'loading';
+  const noChatIsSelected = status === 'idle';
+
+  if (noChatIsSelected) {
+    return <h1>Start chatting with others</h1>;
+  }
 
   if (isLoading) {
     return (
@@ -86,7 +122,7 @@ const ChatView = () => {
       )}
       <Messages messages={messages} />
 
-      <SendMessageInput />
+      <SendMessageInput addMyMessageToTheUi={addMyMessageToTheUi} />
     </>
   );
 };

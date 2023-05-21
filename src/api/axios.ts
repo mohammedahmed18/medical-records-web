@@ -8,6 +8,8 @@ export const SERVER_URL = isProd
   ? 'https://medical-records-server1.onrender.com'
   : 'http://localhost:3000';
 
+export const GRAPHQL_URL = SERVER_URL + '/graphql';
+
 export const API_BASE_URL = SERVER_URL + '/api/v1';
 
 export const api = axios.create({
