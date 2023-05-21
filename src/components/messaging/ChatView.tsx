@@ -1,15 +1,18 @@
 import { useSubscription } from '@apollo/client';
+import moment from 'moment';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { getMessagesWithOtherUser, MessageResponse } from '@/api/messaging';
+import { RoomItemType } from '@/api/messaging';
+import { PublicUserInfo } from '@/api/users';
 import Spinner from '@/components/common/spinner';
 import UserProfileImage from '@/components/common/UserProfileImage';
 import LongText from '@/components/LongText';
 import Messages from '@/components/messaging/Messages';
 import SendMessageInput from '@/components/messaging/SendMessageInput';
-import { ROOM_MESSAGES } from '@/constant/queryKeys';
+import { GET_MY_ROOMS, ROOM_MESSAGES } from '@/constant/queryKeys';
 import { RECIEVE_MESSAGE } from '@/graphql/messages';
 
 import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
@@ -29,7 +32,11 @@ const ChatView = () => {
     { enabled: false, keepPreviousData: false }
   );
 
-  const addMyMessageToTheUi = (messageText: string, isTheSenderMe = false) => {
+  const addMyMessageToTheUi = (
+    messageText: string,
+    otherUser?: PublicUserInfo | null,
+    isTheSenderMe = false
+  ) => {
     const updater = (cacheValue: MessageResponse | undefined) => {
       const previousMessages = cacheValue?.messages || [];
       return {
@@ -47,19 +54,64 @@ const ChatView = () => {
       };
     };
 
+    // update the room list
+    if (otherUser) {
+      //
+      const roomsUpdater = (cachedRooms: RoomItemType[] | undefined) => {
+        if (!cachedRooms) return [];
+        //check if the room already exist in the cached rooms list
+        const index = cachedRooms.findIndex(
+          (r) => r.otherUser.id === otherUser.id
+        );
+        const newRoomList = [...cachedRooms];
+        const existingRoom = newRoomList[index];
+
+        const addedRoom: RoomItemType = {
+          ...existingRoom,
+          otherUser,
+          lastMessage: {
+            type: 'text',
+            value: messageText,
+            isMe: isTheSenderMe,
+            createdAt: moment().calendar(),
+          },
+        };
+        if (index !== -1) {
+          // room exist
+          newRoomList.splice(index, 1);
+
+          // Insert the element at the beginning of the array
+          newRoomList.unshift(addedRoom);
+          return newRoomList;
+        } else {
+          //room doesn't exist
+          return [addedRoom, ...newRoomList];
+        }
+      };
+      queryCache.setQueryData([GET_MY_ROOMS], roomsUpdater);
+    }
+
     queryCache.setQueryData([ROOM_MESSAGES, otherUserId], updater);
   };
 
   useSubscription(RECIEVE_MESSAGE, {
     onData: ({ data }) => {
       const recievedMessage = data.data.messageSent;
-      addMyMessageToTheUi(recievedMessage?.value);
+
+      addMyMessageToTheUi(
+        recievedMessage?.value,
+        {
+          ...recievedMessage.sentUser,
+        },
+        isPrivateChat ? true : false
+      );
     },
   });
 
   useEffect(() => {
     if (!otherUserId) return;
-    fetcMessages();
+    const cached = queryCache.getQueryData([ROOM_MESSAGES, otherUserId]);
+    !cached && fetcMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [otherUserId]);
 
@@ -122,7 +174,9 @@ const ChatView = () => {
       )}
       <Messages messages={messages} />
 
-      <SendMessageInput addMyMessageToTheUi={addMyMessageToTheUi} />
+      <SendMessageInput
+        addMyMessageToTheUi={(v, b) => addMyMessageToTheUi(v, otherUser, b)}
+      />
     </>
   );
 };

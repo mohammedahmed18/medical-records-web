@@ -27,6 +27,9 @@ const RoomItem = ({ room }: Props) => {
       query,
     });
   };
+  const getFirstName = (name: string) => {
+    return name.split(' ')[0];
+  };
   return (
     <div
       className={clsx(
@@ -52,7 +55,7 @@ const RoomItem = ({ room }: Props) => {
         {lastMessage && (
           <span className='text-2xl'>
             <LongText
-              text={(lastMessage.isMe ? 'you' : name) + ' : '}
+              text={(lastMessage.isMe ? 'you' : getFirstName(name)) + ' : '}
               maxChars={15}
               className='font-bold'
             />
