@@ -20,6 +20,11 @@ export const RECIEVE_MESSAGE = gql`
       roomId
       type
       value
+      sentUser {
+        id
+        name
+        image_src
+      }
     }
   }
 `;

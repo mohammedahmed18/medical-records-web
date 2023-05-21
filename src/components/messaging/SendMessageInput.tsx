@@ -68,7 +68,10 @@ const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
     if (messageText.trim() == '') return;
     addMyMessageToTheUi(messageText, true);
     sendMessage({
-      variables: { value: messageText.trim(), toId: otherUserId },
+      variables: {
+        value: messageText.trim(),
+        toId: otherUserId,
+      },
     });
   };
 

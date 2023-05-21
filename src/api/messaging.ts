@@ -4,11 +4,11 @@ import { PublicUserInfo } from '@/api/users';
 export type RoomItemType = {
   id: string;
   lastMessage: {
-    id: string;
-    roomId: string;
+    id?: string;
+    roomId?: string;
     type: 'text' | 'image' | 'medicalRecord';
     value: string;
-    senderId: string;
+    senderId?: string; // not used I think
     createdAt: string;
     isMe: boolean;
   };
