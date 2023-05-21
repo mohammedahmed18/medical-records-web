@@ -34,7 +34,7 @@ const wsLink =
   typeof window !== 'undefined'
     ? new GraphQLWsLink(
         createClient({
-          url: GRAPHQL_URL.replace('https', 'ws').replace('http', 'ws'),
+          url: GRAPHQL_URL.replace('https', 'wss').replace('http', 'ws'),
         })
       )
     : null;
