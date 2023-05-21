@@ -91,7 +91,7 @@ const ChatView = () => {
       queryCache.setQueryData([GET_MY_ROOMS], roomsUpdater);
     }
 
-    queryCache.setQueryData([ROOM_MESSAGES, otherUserId], updater);
+    queryCache.setQueryData([ROOM_MESSAGES, otherUser?.id], updater);
   };
 
   useSubscription(RECIEVE_MESSAGE, {
