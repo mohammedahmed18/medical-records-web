@@ -1,4 +1,13 @@
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  HttpLink,
+  InMemoryCache,
+  split,
+} from '@apollo/client';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { createClient } from 'graphql-ws';
 import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -12,9 +21,38 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import Layout from '@components/layout';
 import Navbar from '@components/navbar';
 
-import { SERVER_URL } from '@/api/axios';
+import { GRAPHQL_URL } from '@/api/axios';
 import { isProd } from '@/constant/env';
 import { AuthProvider } from '@/contexts/authContext';
+
+const httpLink = new HttpLink({
+  uri: GRAPHQL_URL,
+  credentials: 'include',
+});
+
+const wsLink =
+  typeof window !== 'undefined'
+    ? new GraphQLWsLink(
+        createClient({
+          url: GRAPHQL_URL.replace('https', 'ws').replace('http', 'ws'),
+        })
+      )
+    : null;
+
+const splitLink =
+  typeof window !== 'undefined' && wsLink != null
+    ? split(
+        ({ query }) => {
+          const def = getMainDefinition(query);
+          return (
+            def.kind === 'OperationDefinition' &&
+            def.operation === 'subscription'
+          );
+        },
+        wsLink,
+        httpLink
+      )
+    : httpLink;
 
 /**
  * !STARTERCONF info
@@ -23,7 +61,7 @@ import { AuthProvider } from '@/contexts/authContext';
 // the two client must be at the top level of the file
 // and not inside a compoenent
 const graphqlClient = new ApolloClient({
-  uri: SERVER_URL + '/graphql',
+  link: splitLink,
   cache: new InMemoryCache(),
   credentials: 'include',
 });

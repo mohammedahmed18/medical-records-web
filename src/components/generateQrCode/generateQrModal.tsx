@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import QRCode from 'react-qr-code';
 
 import Modal from '@/components/common/modal';
+import Spinner from '@/components/common/spinner';
 import IconButton from '@/components/IconButton';
 
 import RefreshIcon from '~/svg/refresh.svg';
@@ -10,12 +11,14 @@ type Props = {
   showQrcode: boolean;
   onClose: () => void;
   handleGenerateQrcode: () => void;
+  loading: boolean;
   isRefetching: boolean;
   qrcode?: string;
 };
 const GenerateQrModal = ({
   showQrcode,
   qrcode,
+  loading,
   isRefetching,
   onClose,
   handleGenerateQrcode,
@@ -31,6 +34,8 @@ const GenerateQrModal = ({
             isRefetching ? 'animate-spin' : ''
           )}
         />
+
+        {loading && <Spinner size={70} className='mt-7' />}
 
         <div className='center-content'>
           {qrcode && (

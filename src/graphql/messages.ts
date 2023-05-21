@@ -11,3 +11,15 @@ export const SEND_MESSAGE = gql`
     }
   }
 `;
+
+export const RECIEVE_MESSAGE = gql`
+  subscription messageSent {
+    messageSent {
+      id
+      senderId
+      roomId
+      type
+      value
+    }
+  }
+`;
