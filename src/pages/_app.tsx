@@ -75,18 +75,18 @@ const queryClient = new QueryClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
-      <ApolloProvider client={graphqlClient}>
-        <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={graphqlClient}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
           <ToastContainer />
           <Navbar />
           <Layout>
             <Component {...pageProps} />
           </Layout>
           {!isProd && <ReactQueryDevtools />}
-        </QueryClientProvider>
-      </ApolloProvider>
-    </AuthProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </ApolloProvider>
   );
 }
 

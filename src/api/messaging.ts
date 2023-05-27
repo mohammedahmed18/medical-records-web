@@ -42,6 +42,7 @@ export const getMyRooms = (): Promise<RoomItemType[]> => {
 export const getMessagesWithOtherUser = async (
   otherUserId: string | undefined
 ): Promise<MessageResponse> => {
+  // await sleep(5000)
   return api
     .get<MessageResponse>('/chat/room-messages/' + otherUserId)
     .then((res) => res.data);

@@ -8,7 +8,11 @@ const nextConfig = {
   swcMinify: true,
 
   images: {
-    domains: ['res.cloudinary.com'],
+    domains: [
+      'res.cloudinary.com',
+      'localhost',
+      'medical-records-web.vercel.app',
+    ],
   },
 
   // SVGR

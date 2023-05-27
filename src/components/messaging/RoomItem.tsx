@@ -48,7 +48,7 @@ const RoomItem = ({ room }: Props) => {
           />
           {lastMessage && (
             <span className='text-lg opacity-60'>
-              {moment(lastMessageTimestamp).calendar()}
+              {moment(lastMessageTimestamp).fromNow()}
             </span>
           )}
         </div>
@@ -61,7 +61,7 @@ const RoomItem = ({ room }: Props) => {
             />
             <LongText
               text={lastMessage.type === 'text' ? lastMessage.value : ''}
-              maxChars={27}
+              maxChars={7}
             />
           </span>
         )}

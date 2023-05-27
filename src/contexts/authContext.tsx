@@ -9,6 +9,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { useQueryClient } from 'react-query';
 
 import { api } from '@/api/axios';
 
@@ -84,6 +85,7 @@ export const AuthProvider = ({ children }: props) => {
   const [user, setUser] = useState<User>(defaultUser);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const queryCache = useQueryClient();
   const { redirect } = router.query;
 
   async function validateTokenAndSetUser(token: string | undefined) {
@@ -123,6 +125,8 @@ export const AuthProvider = ({ children }: props) => {
     Cookies.remove('token'); //will be removed in development
     setUser(defaultUser); // this is very important , it won't only remove the user details from the context but it will cause the components that uses this context to rerender
     delete api.defaults.headers.Authorization;
+    //clear the react query cache
+    queryCache.clear();
     await api.post('auth/logout');
   };
 
