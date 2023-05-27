@@ -19,7 +19,7 @@ import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
 
 const ChatView = () => {
   const router = useRouter();
-  const { u: otherUserId } = router.query;
+  const { u: otherUserIdQuery } = router.query;
   const queryCache = useQueryClient();
 
   const {
@@ -27,9 +27,9 @@ const ChatView = () => {
     refetch: fetcMessages,
     status,
   } = useQuery(
-    [ROOM_MESSAGES, otherUserId],
-    () => getMessagesWithOtherUser(otherUserId?.toString()),
-    { enabled: false, keepPreviousData: false }
+    [ROOM_MESSAGES, otherUserIdQuery],
+    () => getMessagesWithOtherUser(otherUserIdQuery?.toString()),
+    { enabled: false }
   );
 
   const addMyMessageToTheUi = (
@@ -73,7 +73,7 @@ const ChatView = () => {
             type: 'text',
             value: messageText,
             isMe: isTheSenderMe,
-            createdAt: moment().calendar(),
+            createdAt: moment().fromNow(),
           },
         };
         if (index !== -1) {
@@ -97,7 +97,6 @@ const ChatView = () => {
   useSubscription(RECIEVE_MESSAGE, {
     onData: ({ data }) => {
       const recievedMessage = data.data.messageSent;
-
       addMyMessageToTheUi(
         recievedMessage?.value,
         {
@@ -109,11 +108,11 @@ const ChatView = () => {
   });
 
   useEffect(() => {
-    if (!otherUserId) return;
-    const cached = queryCache.getQueryData([ROOM_MESSAGES, otherUserId]);
+    if (!otherUserIdQuery) return;
+    const cached = queryCache.getQueryData([ROOM_MESSAGES, otherUserIdQuery]);
     !cached && fetcMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [otherUserId]);
+  }, [otherUserIdQuery]);
 
   const { otherUser, messages, isPrivateChat } = data
     ? data
