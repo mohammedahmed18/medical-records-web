@@ -20,6 +20,12 @@ export const createMedicalRecord = (data: any) => {
 
 export const getAllDoctors = (params: GetDoctorsParams) => {
   return api
-    .get<SingleDoctorSearch[]>('/doctors', { params })
+    .get<SingleDoctorSearch[]>('/doctors', {
+      params: {
+        ...params,
+        topRated: 'desc',
+        // mostReviews: "desc"
+      },
+    })
     .then((res) => res.data);
 };
