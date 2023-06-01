@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import { ProtectedRoute } from '@components/common/protectedRoute';
 import Layout from '@components/layout';
 import Seo from '@components/Seo';
 
+import DoctorProtectedRoute from '@/components/common/doctorProtectedRoute';
 import ScanUsersRecords from '@/components/doctors/scanUsersRecords';
 
 function UserRecordsPage() {
@@ -12,9 +12,9 @@ function UserRecordsPage() {
       <Seo templateTitle='User records' />
 
       <main>
-        <ProtectedRoute>
+        <DoctorProtectedRoute>
           <ScanUsersRecords />
-        </ProtectedRoute>
+        </DoctorProtectedRoute>
       </main>
     </Layout>
   );

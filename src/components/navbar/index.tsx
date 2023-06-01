@@ -43,15 +43,17 @@ const Navbar: React.FC = () => {
             <GenerateQrCode />
           </Tooltip>
 
-          <Tooltip title='view records via qr code'>
-            <IconButton
-              onClick={() => {
-                //
-                router.push('/user-records');
-              }}
-              Icon={ScanIcon}
-            />
-          </Tooltip>
+          {user.isDoctor && (
+            <Tooltip title='view records via qr code'>
+              <IconButton
+                onClick={() => {
+                  //
+                  router.push('/user-records');
+                }}
+                Icon={ScanIcon}
+              />
+            </Tooltip>
+          )}
         </div>
 
         <Tooltip title='logout'>
