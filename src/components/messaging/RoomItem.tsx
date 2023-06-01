@@ -15,6 +15,7 @@ const RoomItem = ({ room }: Props) => {
     lastMessageTimestamp,
     lastMessage,
     otherUser: { image_src, name, id: otherUserId },
+    isPrivate,
   } = room;
 
   const { u: userId } = useRouter().query;
@@ -42,8 +43,11 @@ const RoomItem = ({ room }: Props) => {
       <div className='flex flex-1 flex-col gap-4'>
         <div className='flex items-center justify-between'>
           <LongText
-            text={name}
-            className='text-2xl font-semibold'
+            text={isPrivate ? 'you' : name}
+            className={clsx(
+              'text-2xl font-semibold',
+              isPrivate && 'rounded-lg bg-primary-400 px-4 py-2 text-white'
+            )}
             maxChars={15}
           />
           {lastMessage && (

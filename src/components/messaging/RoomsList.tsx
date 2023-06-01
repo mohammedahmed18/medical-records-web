@@ -9,6 +9,15 @@ type Props = {
   status: QueryStatus;
 };
 const RoomsList = ({ rooms, status }: Props) => {
+  // function getPrivateRoomFirst(a: RoomItemType, b: RoomItemType) {
+  //   if (a.isPrivate) {
+  //     return -1;
+  //   }
+  //   if (b.isPrivate) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }
   return (
     <div className='flex flex-col gap-3'>
       {status === 'loading' && <RoomsSkeleton />}

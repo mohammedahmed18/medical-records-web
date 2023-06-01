@@ -14,30 +14,29 @@
 }
 
 .square div:nth-child(1) {
-  border-top: 3px solid;
-  border-left: 3px solid;
-  border-top-left-radius: 1rem;
+  border-top: 4px solid;
+  border-left: 4px solid;
 
   @apply border-primary-50;
 }
 .square div:nth-child(2) {
-  border-top: 3px solid;
-  border-right: 3px solid;
-  border-top-right-radius: 1rem;
+  border-top: 4px solid;
+  border-right: 4px solid;
 
   @apply border-primary-50;
 }
 .square div:nth-child(3) {
-  border-left: 3px solid;
-  border-bottom: 3px solid;
-  border-bottom-left-radius: 1rem;
+  border-left: 4px solid;
+  border-bottom: 4px solid;
 
   @apply border-primary-50;
 }
 .square div:nth-child(4) {
-  border-right: 3px solid;
-  border-bottom: 3px solid;
-  border-bottom-right-radius: 1rem;
+  border-right: 4px solid;
+  border-bottom: 4px solid;
 
   @apply border-primary-50;
+}
+.content {
+  height: fit-content !important;
 }

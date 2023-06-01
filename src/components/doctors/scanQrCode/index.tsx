@@ -1,7 +1,8 @@
-import { useState } from 'react';
-import { QrReader } from 'react-qr-reader';
+import clsx from 'clsx';
+import { useRef } from 'react';
+import QrReader from 'react-qr-reader';
 
-import useUpdateEffect from '@/hooks/useUpdateEffect';
+import styles from './styles.module.css';
 
 import Modal from '@components/common/modal';
 import Spinner from '@components/common/spinner';
@@ -10,46 +11,77 @@ import QrContainer from '@components/qrContainer';
 import { showToast } from '@/utils/toast';
 
 type props = {
-  showQrModal: boolean;
-  onClose: () => void;
+  showQrModal?: boolean;
+  onClose?: () => void;
   isLoading: boolean;
   mutate: (a: string) => void;
+  size?: number;
 };
-const ScanQrCode = ({ showQrModal, onClose, mutate, isLoading }: props) => {
-  const [qrToken, setQrToken] = useState<string>();
+const ScanQrCode = ({
+  showQrModal,
+  onClose,
+  mutate,
+  isLoading,
+  size,
+}: props) => {
+  const qrTokenRef = useRef<string>();
 
-  const handleGettingTheUser = async (token: string) => {
+  const handleMutation = async (token: string) => {
+    if (token === qrTokenRef.current) return;
+
+    qrTokenRef.current = token;
+
     await mutate(token);
-    onClose();
+    onClose && onClose();
   };
-  useUpdateEffect(() => {
-    if (!qrToken) return;
-    handleGettingTheUser(qrToken);
-  }, [qrToken]);
 
-  return (
-    <Modal shown={showQrModal} onClose={onClose}>
-      <QrContainer width={250} height={220}>
+  const baseSize = size || 250;
+  const Content = (
+    <>
+      <QrContainer width={baseSize} height={baseSize}>
         <QrReader
-          onResult={(result, err) => {
-            if (result) return setQrToken(result.getText());
-            if (!!err && JSON.stringify(err) !== JSON.stringify({})) {
-              if (err.name === 'NotFoundError') {
-                //camera not found
-                return showToast('no camera device found', 'error');
-              }
-              showToast('something went wrong : ' + err.message, 'error');
+          onScan={(data) => {
+            if (data) return handleMutation(data);
+          }}
+          onError={(err) => {
+            if (err.name === 'NotFoundError') {
+              //camera not found
+              return showToast('no camera device found', 'error');
             }
+            showToast('something went wrong : ' + err.message, 'error');
           }}
-          scanDelay={300}
-          constraints={{
-            facingMode: 'environment',
+          // onResult={(result, err) => {
+          //   if (result) {
+          //     return setQrToken(result.getText());
+          //   }
+          //   if (!!err && JSON.stringify(err) !== JSON.stringify({})) {
+          //     if (err.name === 'NotFoundError') {
+          //       //camera not found
+          //       return showToast('no camera device found', 'error');
+          //     }
+          //     showToast('something went wrong : ' + err.message, 'error');
+          //   }
+          // }}
+          facingMode='environment'
+          style={{
+            width: baseSize - 40,
+            // paddingTop: '75%',
           }}
-          className='h-[200px] w-[200px]'
+          delay={300}
+          key='qr reader'
+          showViewFinder={false}
+          className={clsx('inset-0 h-auto', styles.videoContainer)}
         />
       </QrContainer>
       {isLoading && <Spinner className='mx-auto' size={40} />}
+    </>
+  );
+  return onClose !== undefined ? (
+    <Modal shown={showQrModal || false} onClose={onClose}>
+      {Content}
     </Modal>
+  ) : (
+    Content
   );
 };
 

@@ -38,7 +38,7 @@ const Modal: React.FC<props> = ({ children, shown, onClose }) => {
           e.preventDefault();
           e.stopPropagation();
         }}
-        className={clsx(styles.content, !shown ? styles.hiddenModal : '')}
+        className={clsx(styles.content, !shown && styles.hiddenModal)}
       >
         {children}
       </div>

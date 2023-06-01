@@ -29,6 +29,7 @@ const Tooltip: React.FC<React.PropsWithChildren<TooltipProps>> = ({
         className={clsx('h-fit w-fit', className)}
         onMouseEnter={() => handleMouseEvent(true)}
         onMouseLeave={() => handleMouseEvent(false)}
+        onBlur={() => handleMouseEvent(false)}
       >
         {children}
       </div>
@@ -36,7 +37,7 @@ const Tooltip: React.FC<React.PropsWithChildren<TooltipProps>> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, className, setCallback]);
   return (
-    <div className='relative w-fit'>
+    <div className='relative w-fit' onClick={() => handleMouseEvent(false)}>
       {title && (
         <div className={clsx(styles.tooltip, visible ? 'block' : 'hidden')}>
           {title}

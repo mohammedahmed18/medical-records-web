@@ -15,7 +15,7 @@ const RatingStars = ({ value, maxValue, reviewsCount }: Props) => {
   const hasHalfStar = value % 1 !== 0;
   const starsEmptyCount = maxValue - starsFilledCount - (hasHalfStar ? 1 : 0);
 
-  const className = 'w-8 h-8 fill-orange-400';
+  const className = 'w-6 h-6 fill-orange-400';
   return (
     <div className='flex items-center gap-2'>
       {_.range(starsFilledCount).map((i) => (

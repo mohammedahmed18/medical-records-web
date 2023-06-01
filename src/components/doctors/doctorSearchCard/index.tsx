@@ -21,6 +21,7 @@ type Props = {
   doctor: SingleDoctorSearch;
 };
 import RatingStarts from '@/components/doctors/ratingStars.tsx';
+import LongText from '@/components/LongText';
 
 import SendMessageIcon from '~/svg/send-message-icon.svg';
 
@@ -35,34 +36,36 @@ const DoctorSearchCard = ({ doctor }: Props) => {
   return (
     <Link
       href={'/doctors/' + id}
-      className='relative flex flex-col items-center gap-3 rounded-2xl bg-base-100 py-4 px-6 shadow-lg hover:bg-base-200/50'
+      className='relative mb-10 flex items-center gap-3 rounded-2xl bg-base-100 py-4 px-6 shadow-lg hover:bg-base-200/50'
       style={{ transition: '0.5s' }}
     >
       <UserProfileImage
-        className='my-3 w-full ease-in-out'
+        className='my-3 ease-in-out'
         src={image_src}
         alt='profile'
-        size={300}
+        size={90}
       />
-      <span className='flex-1 break-all text-center text-2xl'>
-        {loggedInId === id ? (
-          <span className='text-secondary'>@you</span>
-        ) : (
-          name
+      <div className='flex flex-1 flex-col'>
+        <span className='flex-1 break-all text-2xl'>
+          {loggedInId === id ? (
+            <span className='text-secondary'>@you</span>
+          ) : (
+            <LongText text={name} maxChars={70} />
+          )}
+        </span>
+
+        <span className='mt-2 text-2xl text-zinc-400'>
+          {medicalSpecialization}
+        </span>
+
+        {totalRating !== 0 && (
+          <RatingStarts
+            value={totalRating}
+            maxValue={5}
+            reviewsCount={_count.Ratings}
+          />
         )}
-      </span>
-      {totalRating !== 0 && (
-        <RatingStarts
-          value={totalRating}
-          maxValue={5}
-          reviewsCount={_count.Ratings}
-        />
-      )}
-
-      <span className='mt-4 text-2xl text-zinc-400'>
-        {medicalSpecialization}
-      </span>
-
+      </div>
       {hasChatEnabled && (
         <IconButton
           onClick={(e) => {
@@ -71,7 +74,7 @@ const DoctorSearchCard = ({ doctor }: Props) => {
             router.push(`/messaging?u=${id}`);
           }}
           Icon={SendMessageIcon}
-          className='absolute right-0 shadow-xl'
+          className='absolute right-0 -bottom-10 shadow-xl'
         />
       )}
     </Link>

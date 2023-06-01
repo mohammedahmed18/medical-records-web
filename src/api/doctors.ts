@@ -13,12 +13,18 @@ export const scanQrCode = (qrCode: string) => {
   return api.post('/doctors/scan-qrCode', { qrCode }).then((res) => res.data);
 };
 
+export const readUserRecords = async (qrCode: string) => {
+  return api
+    .post('/doctors/read-medical-records', { qrCode })
+    .then((res) => res.data);
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createMedicalRecord = (data: any) => {
   return api.post('/records', data).then((res) => res.data);
 };
 
-export const getAllDoctors = (params: GetDoctorsParams) => {
+export const getAllDoctors = async (params: GetDoctorsParams) => {
   return api
     .get<SingleDoctorSearch[]>('/doctors', {
       params: {

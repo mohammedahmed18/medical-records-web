@@ -3,6 +3,7 @@ import { PublicUserInfo } from '@/api/users';
 
 export type RoomItemType = {
   id: string;
+  isPrivate?: boolean;
   lastMessage: {
     id?: string;
     roomId?: string;
