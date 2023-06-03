@@ -49,7 +49,7 @@ const DoctorsFilters = ({ setSearchParams, clearFilters }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className='flex flex-col gap-5 p-4 shadow-md'
+      className='flex flex-col gap-5 rounded-2xl border-2 border-gray-200 p-4 shadow-md'
     >
       <TextInput
         type='text'
