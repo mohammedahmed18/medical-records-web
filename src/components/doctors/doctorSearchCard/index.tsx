@@ -44,6 +44,7 @@ const DoctorSearchCard = ({ doctor }: Props) => {
         src={image_src}
         alt='profile'
         size={90}
+        rounded
       />
       <div className='flex flex-1 flex-col'>
         <span className='flex-1 break-all text-2xl'>
