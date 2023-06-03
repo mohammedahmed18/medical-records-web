@@ -28,7 +28,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       const status = error.response.status;
-      const { errorCode } = error.response.data;
+      const { errorCode, message } = error.response.data;
       // check error codes first
       if (errorCode === ERROR_CODES.INVALID_LOGIN) {
         // wrong national id or password
@@ -53,6 +53,11 @@ api.interceptors.response.use(
         return showToast("you can't scan your qr code", 'error');
       }
 
+      // show default err code messages
+      if (errorCode && message) {
+        return showToast(message, 'error');
+      }
+
       switch (status) {
         case 401:
           Cookies.remove('token');
@@ -71,4 +76,5 @@ const ERROR_CODES = {
   EXPIRED_QR_CODE: 'P__ee04557',
   INVALID_QR_CODE: 'P__ee05557',
   SCAN_YOUR_SELF_ERR_CODE: 'S__yy2',
+  CHAT_USER_NOT_FOUND: 'P__e04558',
 };

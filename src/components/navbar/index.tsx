@@ -13,6 +13,7 @@ import AddDocumentIcon from '~/svg/add-document-icon.svg';
 import HomepageIcon from '~/svg/homepage.svg';
 import LogoutIcon from '~/svg/logout.svg';
 import ScanIcon from '~/svg/scan-icon.svg';
+import MessageIcon from '~/svg/send-message-icon.svg';
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
@@ -54,6 +55,12 @@ const Navbar: React.FC = () => {
               />
             </Tooltip>
           )}
+          <Tooltip title='Messages'>
+            <IconButton
+              onClick={() => router.push('/messaging')}
+              Icon={MessageIcon}
+            />
+          </Tooltip>
         </div>
 
         <Tooltip title='logout'>

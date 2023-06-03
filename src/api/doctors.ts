@@ -29,8 +29,6 @@ export const getAllDoctors = async (params: GetDoctorsParams) => {
     .get<SingleDoctorSearch[]>('/doctors', {
       params: {
         ...params,
-        topRated: 'desc',
-        // mostReviews: "desc"
       },
     })
     .then((res) => res.data);

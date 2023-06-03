@@ -1,5 +1,5 @@
 .select {
-  @apply cursor-pointer rounded-2xl bg-gray-100/70 px-7 py-4 text-2xl shadow-md outline-none;
+  @apply w-full cursor-pointer rounded-2xl bg-gray-100/50 px-7 py-4 text-2xl shadow-md outline-none;
 }
 .optionsList {
   position: absolute;

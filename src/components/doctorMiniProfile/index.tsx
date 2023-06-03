@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import UserProfileImage from '@components/common/UserProfileImage';
 
 type props = {
@@ -10,9 +12,13 @@ type props = {
   }>;
 };
 const DoctorMiniProfile = ({ doctor }: props) => {
-  const { image_src, name, medicalSpecialization } = doctor;
+  const { image_src, name, medicalSpecialization, id } = doctor;
   return (
-    <div className='my-3 flex w-fit gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-100'>
+    <Link
+      onClick={(e) => e.stopPropagation()}
+      href={`/doctors/${id}`}
+      className='my-3 flex w-fit gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-gray-100'
+    >
       <UserProfileImage src={image_src} alt={name} />
       <div className='flex flex-col gap-2'>
         <span className='text-lg font-semibold'>DR. {name}</span>
@@ -20,7 +26,7 @@ const DoctorMiniProfile = ({ doctor }: props) => {
           {medicalSpecialization}
         </span>
       </div>
-    </div>
+    </Link>
   );
 };
 

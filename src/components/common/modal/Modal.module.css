@@ -1,31 +1,33 @@
 .content {
   min-width: 400px;
-  @apply min-w-[90vw] rounded-2xl bg-white px-7 py-14 shadow-md md:min-w-[600px];
-  animation: slide-in ease-in-out 300ms;
+  @apply min-w-[90vw] rounded-2xl bg-white px-7 py-14 shadow-md transition-all duration-200 ease-in-out md:min-w-[600px];
+  opacity: 100;
+  transform: scale(1);
+  animation: pop ease-in-out 250ms;
 }
 .hiddenModal {
-  transform: translateY(-50%);
+  transform: scale(0);
   opacity: 0;
-  animation: slide-out ease-in-out 300ms;
+  animation: pop-out ease-in-out 250ms;
 }
-@keyframes slide-in {
+@keyframes pop {
   from {
     opacity: 0;
-    transform: translateY(-50%);
+    transform: scale(0);
   }
   to {
     opacity: 100;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
-@keyframes slide-out {
+@keyframes pop-out {
   from {
     opacity: 100;
-    transform: translateY(0);
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: translateY(-50%);
+    transform: scale(0);
   }
 }

@@ -9,7 +9,7 @@ import ScanUsersRecords from '@/components/doctors/scanUsersRecords';
 function UserRecordsPage() {
   return (
     <Layout>
-      <Seo templateTitle='User records' />
+      <Seo templateTitle='User Records' />
 
       <main>
         <DoctorProtectedRoute>

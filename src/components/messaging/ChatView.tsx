@@ -29,7 +29,7 @@ const ChatView = () => {
   } = useQuery(
     [ROOM_MESSAGES, otherUserIdQuery],
     () => getMessagesWithOtherUser(otherUserIdQuery?.toString()),
-    { enabled: false }
+    { enabled: false, retry: false }
   );
 
   const addMyMessageToTheUi = (

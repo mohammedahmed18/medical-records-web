@@ -18,9 +18,6 @@ import '@/styles/globals.css';
 import '@/styles/colors.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-import Layout from '@components/layout';
-import Navbar from '@components/navbar';
-
 import { GRAPHQL_URL } from '@/api/axios';
 import { isProd } from '@/constant/env';
 import { AuthProvider } from '@/contexts/authContext';
@@ -79,10 +76,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ToastContainer />
-          <Navbar />
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
+          <Component {...pageProps} />
           {!isProd && <ReactQueryDevtools />}
         </AuthProvider>
       </QueryClientProvider>

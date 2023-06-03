@@ -14,7 +14,7 @@ function Doctors() {
 
       <main>
         <ProtectedRoute>
-          <Container>
+          <Container removeSpacing>
             <DoctorsList />
           </Container>
         </ProtectedRoute>

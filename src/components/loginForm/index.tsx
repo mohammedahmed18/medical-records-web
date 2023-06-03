@@ -26,7 +26,7 @@ const LoginForm = () => {
   };
   return (
     <form onSubmit={handleSubmit(onLogin)}>
-      <Container className='max-w-screen-sm py-7'>
+      <Container narrow className='max-w-screen-sm py-7'>
         <section className='my-auto flex h-[90vh] flex-col items-center justify-center overflow-hidden bg-white shadow-2xl md:flex-row'>
           {/* <div className='relative hidden h-full w-1/2 md:block'>
           <div className='loginClipper absolute bottom-0 h-full w-full bg-indigo-900'></div>

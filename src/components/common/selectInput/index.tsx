@@ -55,14 +55,9 @@ const SelectInput = (props: Props) => {
   }, []);
   return (
     <div>
-      <div
-        className={clsx(
-          'my-3 flex w-fit flex-col md:flex-row md:items-center',
-          className
-        )}
-      >
+      <div className={clsx('my-3 flex w-fit flex-col', className)}>
         {formLabel && (
-          <label className='mb-3 mr-4 block text-2xl font-semibold text-zinc-700'>
+          <label className='mb-3 block text-2xl font-semibold text-zinc-700'>
             {formLabel}
           </label>
         )}
@@ -71,8 +66,8 @@ const SelectInput = (props: Props) => {
             type='text'
             className={styles.select}
             readOnly
-            {...registeredProps}
             placeholder={placeholder || `select ${formLabel}`}
+            {...registeredProps}
             onClick={() => setShowList(true)}
           />
           <ArrowDownIcon className='absolute top-1/2 right-4 -translate-y-1/2 fill-zinc-400' />

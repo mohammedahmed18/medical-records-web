@@ -20,7 +20,7 @@ const Modal: React.FC<props> = ({ children, shown, onClose }) => {
       // the modal will be hidden
       timer = setTimeout(() => {
         setFinalShown(false);
-      }, 300);
+      }, 250);
     } else {
       setFinalShown(true);
     }

@@ -62,7 +62,7 @@ const ScanQrCode = ({
           //     showToast('something went wrong : ' + err.message, 'error');
           //   }
           // }}
-          facingMode='environment'
+          facingMode='user'
           style={{
             width: baseSize - 40,
             // paddingTop: '75%',

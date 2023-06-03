@@ -1,4 +1,4 @@
-.tooltip {
+/* .tooltip {
   position: absolute;
   z-index: 5555555;
   border-radius: 5px;
@@ -13,12 +13,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   @apply -bottom-full bg-zinc-800 text-white;
-}
-.tooltip::after {
-  content: '';
-  position: absolute;
-  border-width: 8px;
+} */
+.tooltip::before {
   border-style: solid;
   border-color: transparent;
-  @apply -top-[65%] left-1/2 -translate-x-1/2 border-b-zinc-800;
+  @apply text-2xl;
 }

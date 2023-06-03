@@ -41,7 +41,7 @@ const QrContainer = ({ children, width = 240, height = 240 }: props) => {
       <div
         className={clsx(styles.content, 'overflow-hidden')}
         style={{
-          borderRadius: 30,
+          borderRadius: 35,
         }}
       >
         {children}

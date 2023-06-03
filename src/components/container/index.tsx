@@ -3,10 +3,19 @@ import clsx from 'clsx';
 type props = {
   children: React.ReactNode;
   className?: string;
+  removeSpacing?: boolean;
+  narrow?: boolean;
 };
-const Container = ({ children, className }: props) => {
+const Container = ({ children, className, narrow, removeSpacing }: props) => {
   return (
-    <div className={clsx('mx-auto max-w-screen-lg px-4 lg:px-0', className)}>
+    <div
+      className={clsx(
+        'px-7',
+        className,
+        !removeSpacing && 'mx-auto max-w-screen-xl',
+        narrow && !removeSpacing && 'max-w-screen-md'
+      )}
+    >
       {children}
     </div>
   );
