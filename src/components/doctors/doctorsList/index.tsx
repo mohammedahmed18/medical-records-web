@@ -26,13 +26,15 @@ const DoctorsList = () => {
           clearFilters={() => setSearchParams({})}
         />
       </div>
-      {isLoading && <DoctorsSkeleton />}
-
-      <div className='grid h-fit w-full grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:grid-cols-3'>
-        {results?.map((doctor) => (
-          <DoctorSearchCard key={doctor.id} doctor={doctor} />
-        ))}
-      </div>
+      {isLoading ? (
+        <DoctorsSkeleton />
+      ) : (
+        <div className='grid h-fit w-full grid-cols-1 gap-5 p-4 md:grid-cols-2 lg:grid-cols-3'>
+          {results?.map((doctor) => (
+            <DoctorSearchCard key={doctor.id} doctor={doctor} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
