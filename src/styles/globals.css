@@ -157,7 +157,7 @@
 
 /* width */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 7px;
 }
 
 /* Track */
@@ -167,7 +167,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply rounded-lg bg-gray-400;
+  @apply rounded-full bg-gray-400;
 }
 
 /* Handle on hover */

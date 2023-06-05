@@ -19,15 +19,22 @@ const Navbar: React.FC = () => {
   const { user, logout } = useAuth();
   const router = useRouter();
   if (user.isAnonymous) return null;
+
+  const isDoctor = user.isDoctor;
+
   return (
-    <nav className='fixed inset-x-0 top-0 z-40 bg-white/70 py-4 shadow-md backdrop-blur-md'>
+    <nav className='fixed inset-x-0 top-0 z-40 py-4 shadow-sm backdrop-blur-md'>
       <Container className='flex items-center justify-between'>
         <div className='flex'>
           <UserProfileImage src={user.image_src} size={40} />
         </div>
 
         <div className='flex items-center gap-4'>
-          {user.isDoctor && (
+          <Tooltip title='Homepage'>
+            <IconButton onClick={() => router.push('/')} Icon={HomepageIcon} />
+          </Tooltip>
+
+          {isDoctor && (
             <Tooltip title='create a medical record'>
               <IconButton
                 onClick={() => router.push('/create-medical-record')}
@@ -36,15 +43,11 @@ const Navbar: React.FC = () => {
             </Tooltip>
           )}
 
-          <Tooltip title='Homepage'>
-            <IconButton onClick={() => router.push('/')} Icon={HomepageIcon} />
-          </Tooltip>
-
           <Tooltip title='generate qr code'>
             <GenerateQrCode />
           </Tooltip>
 
-          {user.isDoctor && (
+          {isDoctor && (
             <Tooltip title='view records via qr code'>
               <IconButton
                 onClick={() => {
