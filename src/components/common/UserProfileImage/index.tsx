@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import Image from 'next/image';
 
+import LazyBlurImage from '@/components/common/lazyBlurImage';
 import DefaultImage from '@/constant/ui';
 
 type props = {
@@ -10,6 +10,7 @@ type props = {
   className?: string;
   rounded?: boolean;
 };
+
 const UserProfileImage: React.FC<props> = ({
   src,
   alt,
@@ -18,7 +19,7 @@ const UserProfileImage: React.FC<props> = ({
   size,
 }) => {
   return (
-    <Image
+    <LazyBlurImage
       width={size || 70}
       height={size || 70}
       className={clsx(

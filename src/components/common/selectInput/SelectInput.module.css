@@ -2,16 +2,15 @@
   @apply w-full cursor-pointer rounded-2xl bg-gray-100/50 px-7 py-4 text-2xl shadow-md outline-none;
 }
 .optionsList {
-  position: absolute;
   width: 100%;
   /* bottom: 0;
 transform: translateY(50%); */
   display: flex;
   flex-direction: column;
-  @apply z-50 max-h-[25rem] overflow-hidden rounded-2xl bg-white pt-3 shadow-md;
+  @apply z-50 max-h-[25rem] overflow-hidden rounded-2xl pt-3;
 }
 .listItem {
-  @apply cursor-pointer px-3 py-4 text-[1.5rem] transition-colors duration-300 hover:bg-zinc-200;
+  @apply cursor-pointer px-3 py-4 text-[1.5rem] transition-colors duration-300 hover:bg-zinc-200/40;
 }
 .listItem:not(:last-child) {
   @apply border-b-2 border-gray-200/70;

@@ -10,6 +10,7 @@ import {
 import styles from './SingleDetailForm.module.css';
 
 import DatePicker from '@/components/common/datePicker';
+import ErrorContainer from '@/components/common/errorContainer';
 import SelectInput from '@/components/common/selectInput';
 import TextArea from '@/components/common/textArea';
 import TextInput from '@/components/common/textInput';
@@ -107,13 +108,17 @@ const SingleDetailForm = ({
         {valueElement()}
       </div>
       {/* errors */}
-      <ul className='flex flex-col gap-3 px-4'>
-        {Object.values(errors).map((error, i) => (
-          <span key={i} className='text-lg font-semibold text-red-800'>
-            {error.message}
-          </span>
-        ))}
-      </ul>
+      {Object.keys(errors).length > 0 && (
+        <ErrorContainer withArrow={false} className='mx-4'>
+          <ul className='flex flex-col gap-3 px-4'>
+            {Object.values(errors).map((error, i) => (
+              <span key={i} className='text-lg font-semibold text-red-800'>
+                {error.message}
+              </span>
+            ))}
+          </ul>
+        </ErrorContainer>
+      )}
       {/*end of errors */}
     </div>
   );

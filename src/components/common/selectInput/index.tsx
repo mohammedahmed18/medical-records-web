@@ -10,6 +10,8 @@ import {
 
 import styles from './SelectInput.module.css';
 
+import TextInput from '@/components/common/textInput';
+
 import ErrorMessage from '../errorMsg';
 
 import ArrowDownIcon from '~/svg/arrow-down.svg';
@@ -32,6 +34,7 @@ type Props = {
 
 const SelectInput = (props: Props) => {
   const [showList, setShowList] = useState(false);
+  const [search, setSearch] = useState<string>('');
   const {
     className,
     placeholder,
@@ -53,9 +56,19 @@ const SelectInput = (props: Props) => {
     if (defaultValue && setValue) setValue(defaultValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const filteredOptions =
+    search.trim() !== ''
+      ? options.filter(
+          (o) =>
+            o.label?.toLowerCase().includes(search.trim().toLowerCase()) ||
+            o.value.toLowerCase().includes(search.trim().toLowerCase())
+        )
+      : options;
+
   return (
     <div>
-      <div className={clsx('my-3 flex w-fit flex-col', className)}>
+      <div className={clsx('my-3 flex flex-col', className)}>
         {formLabel && (
           <label className='mb-3 block text-2xl font-semibold text-zinc-700'>
             {formLabel}
@@ -71,38 +84,48 @@ const SelectInput = (props: Props) => {
             onClick={() => setShowList(true)}
           />
           <ArrowDownIcon className='absolute top-1/2 right-4 -translate-y-1/2 fill-zinc-400' />
+
           {showList && (
-            <motion.div
-              initial={{
-                height: 0,
-                width: 0,
-              }}
-              animate={{
-                height: 'auto',
-                width: '100%',
-                overflowY: 'auto',
-              }}
-              transition={{
-                type: 'just',
-                duration: 0.2,
-              }}
-              className={styles.optionsList}
-            >
-              {options.map((o) => (
-                <span
-                  onClick={() => handleSelectOption(o.value)}
-                  key={o.value}
-                  className={styles.listItem}
-                >
-                  {o.label || o.value}
-                </span>
-              ))}
-            </motion.div>
+            <div className='absolute z-[51] mt-2 w-full overflow-hidden rounded-2xl border-2 bg-white/20 p-3 shadow-lg backdrop-blur-lg'>
+              <TextInput
+                className='relative z-[51] mb-2 rounded-2xl border-2 border-primary-50 bg-gray-100 py-3 focus:border-primary-200'
+                containerClassName='mb-[0]'
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+              />
+
+              <motion.div
+                initial={{
+                  height: 0,
+                  width: 0,
+                }}
+                animate={{
+                  height: 'auto',
+                  width: '100%',
+                  overflowY: 'auto',
+                }}
+                transition={{
+                  type: 'just',
+                  duration: 0.2,
+                }}
+                className={clsx(styles.optionsList, 'z-[51]')}
+              >
+                {filteredOptions.map((o) => (
+                  <span
+                    onClick={() => handleSelectOption(o.value)}
+                    key={o.value}
+                    className={styles.listItem}
+                  >
+                    {o.label || o.value}
+                  </span>
+                ))}
+              </motion.div>
+            </div>
           )}
         </div>
         {showList && (
           <div
-            className='fixed inset-0'
+            className='fixed inset-0 z-50'
             onClick={() => setShowList(false)}
           ></div>
         )}

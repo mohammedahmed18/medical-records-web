@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
   const isDoctor = user.isDoctor;
 
   return (
-    <nav className='fixed inset-x-0 top-0 z-40 py-4 shadow-sm backdrop-blur-md'>
+    <nav className='fixed inset-x-0 top-0 z-40 bg-gray-200/20 py-4 shadow-sm backdrop-blur-md'>
       <Container className='flex items-center justify-between'>
         <div className='flex'>
           <UserProfileImage src={user.image_src} size={40} />

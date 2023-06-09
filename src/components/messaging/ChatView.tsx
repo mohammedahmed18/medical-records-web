@@ -136,41 +136,44 @@ const ChatView = () => {
   return (
     <>
       {/* other user info */}
-      <div className='flex items-center gap-4 py-4 px-5 shadow-lg'>
-        {/* image */}
-        <UserProfileImage rounded src={otherUser?.image_src} size={50} />
+      <div className='absolute w-full py-4 px-5 shadow-lg backdrop-blur-lg'>
+        <div className='flex items-center gap-4'>
+          {/* image */}
+          <UserProfileImage rounded src={otherUser?.image_src} size={50} />
 
-        {/* name and medical specialization */}
-        {otherUser && (
-          <div className='flex flex-col'>
-            <div className='flex items-center'>
-              <LongText
-                text={otherUser.name}
-                maxChars={50}
-                className='text-3xl'
-              />
-              {isPrivateChat && (
-                <span className='mx-4 rounded-lg bg-primary-200 px-2 text-lg text-white'>
-                  Message yourself
-                </span>
+          {/* name and medical specialization */}
+          {otherUser && (
+            <div className='flex flex-col'>
+              <div className='flex items-center'>
+                <LongText
+                  text={otherUser.name}
+                  maxChars={50}
+                  className='text-3xl'
+                />
+                {isPrivateChat && (
+                  <span className='mx-4 rounded-lg bg-primary-200 px-2 text-lg text-white'>
+                    Message yourself
+                  </span>
+                )}
+              </div>
+              {otherUser.medicalSpecialization && (
+                <div className='flex items-center gap-3 fill-gray-500 text-2xl text-gray-500'>
+                  <StethoScopeIcon />
+                  <span>{otherUser.medicalSpecialization}</span>
+                </div>
               )}
             </div>
-            {otherUser.medicalSpecialization && (
-              <div className='flex items-center gap-3 fill-gray-500 text-2xl text-gray-500'>
-                <StethoScopeIcon />
-                <span>{otherUser.medicalSpecialization}</span>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-      {isPrivateChat && (
-        <div className='bg-base-300 py-4 px-3 text-2xl leading-relaxed shadow-lg'>
-          This is your space. Draft messages, make to-do lists or keep links to
-          hand. You can also talk to yourself here, but please bear in mind
-          you'll have to provide both sides of the conversation.
+          )}
         </div>
-      )}
+        {/* {isPrivateChat && (
+          <div className='my-4 rounded-lg bg-base-300 py-4 px-3 text-2xl leading-relaxed shadow-lg '>
+            This is your space. Draft messages, make to-do lists or keep links
+            to hand. You can also talk to yourself here, but please bear in mind
+            you'll have to provide both sides of the conversation.
+          </div>
+        )} */}
+      </div>
+
       <Messages messages={messages} />
 
       <SendMessageInput

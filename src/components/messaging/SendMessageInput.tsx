@@ -87,6 +87,8 @@ const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
           className='flex max-h-[200px] bg-transparent'
           placeholder='Type your message...'
           onKeyDown={handleKeyPress}
+          tabIndex={0}
+          autoFocus
         ></textarea>
         <span className={styles['send-button']} onClick={handleSendMessage}>
           <IconButton
