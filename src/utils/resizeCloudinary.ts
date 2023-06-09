@@ -20,5 +20,8 @@ export const resizeCloudinaryImage = (src = '', size: number) => {
   }
 
   // this image was resized before
-  return src.replace(/w_\d+/, `w_${size}`).replace(/h_\d+/, `h_${size}`);
+  return src
+    .replace(/w_\d+/, `w_${size}`)
+    .replace(/h_\d+/, `h_${size}`)
+    .replace('http:', 'https:');
 };
