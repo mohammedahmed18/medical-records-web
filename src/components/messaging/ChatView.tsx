@@ -122,7 +122,7 @@ const ChatView = () => {
   const noChatIsSelected = status === 'idle';
 
   if (noChatIsSelected) {
-    return <h1>Start chatting with others</h1>;
+    return <div className='h-full bg-secondary-600/80' />;
   }
 
   if (isLoading) {
@@ -134,9 +134,9 @@ const ChatView = () => {
     );
   }
   return (
-    <>
+    <div className='relative'>
       {/* other user info */}
-      <div className='absolute w-full py-4 px-5 shadow-lg backdrop-blur-lg'>
+      <div className='sticky inset-x-0 top-0 py-4 px-5 shadow-lg backdrop-blur-lg'>
         <div className='flex items-center gap-4'>
           {/* image */}
           <UserProfileImage rounded src={otherUser?.image_src} size={50} />
@@ -179,7 +179,7 @@ const ChatView = () => {
       <SendMessageInput
         addMyMessageToTheUi={(v, b) => addMyMessageToTheUi(v, otherUser, b)}
       />
-    </>
+    </div>
   );
 };
 

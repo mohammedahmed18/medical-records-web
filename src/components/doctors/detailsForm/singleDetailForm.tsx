@@ -89,7 +89,7 @@ const SingleDetailForm = ({
         onClick={handleDelete}
         className='mx-5 my-2 ml-auto cursor-pointer fill-red-700 text-3xl shadow-md'
       />
-      <div className='flex flex-col gap-2 px-4 md:flex-row'>
+      <div className='flex flex-col gap-2 px-4'>
         <SelectInput
           options={possibleDetails}
           registeredProps={registeredProps['type']}

@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 
+import styles from './styles.module.css';
 type props = {
   children: React.ReactNode;
   className?: string;
@@ -13,7 +14,7 @@ const Container = ({ children, className, narrow, removeSpacing }: props) => {
         'px-7',
         className,
         !removeSpacing && 'mx-auto max-w-screen-xl',
-        narrow && !removeSpacing && 'max-w-screen-md'
+        narrow && !removeSpacing && styles.narrowContainer
       )}
     >
       {children}

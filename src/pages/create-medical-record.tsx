@@ -11,7 +11,7 @@ function CreateMedicalRecordPage() {
 
       <main>
         <DoctorProtectedRoute>
-          <Container>
+          <Container narrow>
             <CreateRecordForm />
           </Container>
         </DoctorProtectedRoute>

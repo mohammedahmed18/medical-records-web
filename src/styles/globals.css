@@ -25,6 +25,29 @@
   --color-primary-800: rgb(var(--tw-color-primary-800));
   --color-primary-900: rgb(var(--tw-color-primary-900));
   /* #endregion  /**======== Primary Color =========== */
+
+  /* secondary color */
+
+  --tw-color-secondary-50: 48 218 230;
+  --tw-color-secondary-100: 47 191 201;
+  --tw-color-secondary-200: 33 142 149;
+  --tw-color-secondary-300: 23 106 111;
+  --tw-color-secondary-400: 16 83 87;
+  --tw-color-secondary-500: 13 71 74;
+  --tw-color-secondary-600: 9 52 54;
+  --tw-color-secondary-700: 6 37 39;
+  --tw-color-secondary-800: 5 38 39;
+  --tw-color-secondary-900: 4 23 24;
+  --color-secondary-50: rgb(var(--tw-color-secondary-50));
+  --color-secondary-100: rgb(var(--tw-color-secondary-100));
+  --color-secondary-200: rgb(var(--tw-color-secondary-200));
+  --color-secondary-300: rgb(var(--tw-color-secondary-300));
+  --color-secondary-400: rgb(var(--tw-color-secondary-400));
+  --color-secondary-500: rgb(var(--tw-color-secondary-500));
+  --color-secondary-600: rgb(var(--tw-color-secondary-600));
+  --color-secondary-700: rgb(var(--tw-color-secondary-700));
+  --color-secondary-800: rgb(var(--tw-color-secondary-800));
+  --color-secondary-900: rgb(var(--tw-color-secondary-900));
 }
 
 @layer base {

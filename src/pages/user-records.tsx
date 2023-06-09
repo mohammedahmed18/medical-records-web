@@ -4,6 +4,7 @@ import Layout from '@components/layout';
 import Seo from '@components/Seo';
 
 import DoctorProtectedRoute from '@/components/common/doctorProtectedRoute';
+import Container from '@/components/container';
 import ScanUsersRecords from '@/components/doctors/scanUsersRecords';
 
 function UserRecordsPage() {
@@ -13,7 +14,9 @@ function UserRecordsPage() {
 
       <main>
         <DoctorProtectedRoute>
-          <ScanUsersRecords />
+          <Container narrow>
+            <ScanUsersRecords />
+          </Container>
         </DoctorProtectedRoute>
       </main>
     </Layout>
