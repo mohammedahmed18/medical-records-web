@@ -105,7 +105,7 @@ const SelectInput = (props: Props) => {
                   overflowY: 'auto',
                 }}
                 transition={{
-                  type: 'just',
+                  type: 'tween',
                   duration: 0.2,
                 }}
                 className={clsx(styles.optionsList, 'z-[51]')}
