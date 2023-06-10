@@ -1,9 +1,16 @@
 import clsx from 'clsx';
+import { useState } from 'react';
 
 import styles from './styles.module.css';
 
+import useTimeout from '@/hooks/useTimeout';
+
 import Spinner from '@/components/common/spinner';
 const GlobalLoading = () => {
+  const [takesLongTime, setTakesLongTime] = useState(false);
+  useTimeout(() => {
+    setTakesLongTime(true);
+  }, 5000);
   return (
     <div
       className={clsx(
@@ -12,7 +19,13 @@ const GlobalLoading = () => {
       )}
     >
       <Spinner size={130} className='absolute border-t-white' />
-      <Spinner size={100} reversed className='border-t-white' />
+      <Spinner size={100} reversed className='absolute border-t-white' />
+
+      {takesLongTime && (
+        <h2 className='absolute bottom-1/4 text-4xl text-white'>
+          please wait the server is starting...
+        </h2>
+      )}
     </div>
   );
 };

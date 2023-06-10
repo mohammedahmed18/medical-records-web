@@ -76,7 +76,7 @@ const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
   };
 
   return (
-    <div className='px-4'>
+    <div className='sticky bottom-2 px-4'>
       <div
         ref={containerRef}
         className={clsx(styles['send-message-input'], 'mb-3')}

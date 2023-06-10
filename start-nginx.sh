@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-sudo docker rm --force medical-records-proxy
+docker rm --force medical-records-proxy
 
 working_dir="$PWD/nginx"
 nginx_dev_conf="$working_dir/nginx.dev.conf"
@@ -23,13 +23,15 @@ events {
 http {
 
   server {
-    listen 80;
-    server_name _;
-    
     listen 80 default_server;
     server_name _;
 
     location / {
+        proxy_pass http://127.0.0.1:3001;
+    }
+
+
+    location /api {
         proxy_pass http://127.0.0.1:3001;
     }
 
@@ -42,6 +44,7 @@ echo "$config" > "$nginx_dev_conf"
 
 docker run \
   --name medical-records-proxy \
+  --detach \  
   --publish 80:80 \
   --publish 443:443 \
   --add-host=host.docker.internal:host-gateway \
