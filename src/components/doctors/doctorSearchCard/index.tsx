@@ -49,7 +49,7 @@ const DoctorSearchCard = ({ doctor }: Props) => {
       <div className='flex flex-1 flex-col'>
         <span className='flex-1 break-all text-2xl'>
           {loggedInId === id ? (
-            <span className='text-secondary'>@you</span>
+            <span className='text-secondary-200'>@you</span>
           ) : (
             <LongText text={name} maxChars={70} />
           )}

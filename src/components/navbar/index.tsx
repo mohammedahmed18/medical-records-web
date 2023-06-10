@@ -139,10 +139,10 @@ const Navbar: React.FC = () => {
         </div>
 
         <div className='flex items-center'>
-          <Tooltip title='generate qr code'>
+          <Tooltip direction='tooltip-bottom' title='generate qr code'>
             <GenerateQrCode />
           </Tooltip>
-          <Tooltip title='logout' className='mx-7'>
+          <Tooltip direction='tooltip-bottom' title='logout' className='mx-7'>
             <IconButton onClick={logout} Icon={LogoutIcon} />
           </Tooltip>
         </div>

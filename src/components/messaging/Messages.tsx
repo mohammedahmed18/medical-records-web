@@ -9,8 +9,8 @@ type Props = {
 };
 
 const Messages = ({ messages }: Props) => {
-  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
-
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  // const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const scrollToBottom = (smoothe = false) => {
     const lastChildElement = messagesContainerRef.current?.lastElementChild;
     lastChildElement?.scrollIntoView({

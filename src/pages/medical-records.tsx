@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+
+import { useMyRecords } from '@/hooks/useMyRecords';
 
 import { ProtectedRoute } from '@components/common/protectedRoute';
 import Container from '@components/container';
@@ -9,9 +10,6 @@ import MedicalRecordsList from '@components/medicalRecordsList';
 import Seo from '@components/Seo';
 import MedicalRecordsSkeleton from '@components/skeletons/medicalRecords.skeleton';
 import MedicalRecordsPageSkeleton from '@components/skeletons/medicalRecordsPage.skeleton';
-
-import { getMedicalRecords } from '@/api/medicalRecords';
-import { MEDICAL_RECORDS_KEY } from '@/constant/queryKeys';
 
 import { MedicalRecordsActionTypes } from '@/types/medicalRecords';
 
@@ -45,18 +43,7 @@ const NoRecords = (
 
 function MedicalRecordsPage() {
   const [actionType, setActionType] = useState('');
-  const { data: recordsData, isLoading } = useQuery({
-    queryKey: [MEDICAL_RECORDS_KEY, { actionType }],
-    queryFn: ({ queryKey }) =>
-      getMedicalRecords({
-        actionType:
-          queryKey[1] &&
-          typeof queryKey[1] === 'object' &&
-          queryKey[1].actionType !== ''
-            ? queryKey[1].actionType
-            : undefined,
-      }),
-  });
+  const { recordsData, isLoading } = useMyRecords({ actionType });
 
   return (
     <Layout>

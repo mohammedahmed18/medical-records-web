@@ -38,7 +38,7 @@ function MessagingPage() {
             <div className='h-[84vh] w-full overflow-auto px-4 py-7 shadow-lg md:w-1/3 lg:w-1/4'>
               <RoomsList rooms={finalRooms} status={status} />
             </div>
-            <div className='flex h-[84vh] flex-1 flex-col justify-between overflow-y-auto'>
+            <div className='flex h-[84vh] flex-1 flex-col justify-between  overflow-y-auto overflow-x-hidden'>
               <ChatView />
             </div>
           </div>

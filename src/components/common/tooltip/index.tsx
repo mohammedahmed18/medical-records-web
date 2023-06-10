@@ -4,18 +4,25 @@ import React, { useCallback } from 'react';
 interface TooltipProps {
   title?: string;
   className?: string;
+  direction?:
+    | 'tooltip-top'
+    | 'tooltip-bottom'
+    | 'tooltip-right'
+    | 'tooltip-left';
 }
 import styles from './Tooltip.module.css';
 const Tooltip: React.FC<React.PropsWithChildren<TooltipProps>> = ({
   children,
   title,
   className,
+  direction,
 }) => {
   const content = useCallback(() => {
     return (
       <div
         className={clsx(
-          'tooltip tooltip-bottom h-fit w-fit',
+          `tooltip h-fit w-fit`,
+          direction,
           styles.tooltip,
           className
         )}

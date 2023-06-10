@@ -10,8 +10,17 @@ import MedicalRecordCard from '../medicalRecordCard';
 import { MedicalRecord } from '@/types/medicalRecords';
 type props = {
   records: MedicalRecord[];
+  withSideDetails?: boolean;
+  setActiveRecord?: (record: MedicalRecord) => void;
+  currentActiceRecordId?: string;
+  inlineDetains?: boolean; // TODO: implement inline details instead of the side view
 };
-const MedicalRecordsList = ({ records }: props) => {
+const MedicalRecordsList = ({
+  records,
+  withSideDetails = true,
+  setActiveRecord,
+  currentActiceRecordId,
+}: props) => {
   const [showDetails, setShowDetails] = useState(false);
   const [Details, SetDetails] = useState<React.ReactNode>(null);
   useEffect(() => {
@@ -20,9 +29,12 @@ const MedicalRecordsList = ({ records }: props) => {
   }, [showDetails]);
   return (
     <div className={clsx('max-h-min overflow-hidden p-10', styles.list)}>
-      <SideModal shown={showDetails} closePanel={() => setShowDetails(false)}>
-        {Details}
-      </SideModal>
+      {withSideDetails && (
+        <SideModal shown={showDetails} closePanel={() => setShowDetails(false)}>
+          {Details}
+        </SideModal>
+      )}
+
       <ol className='relative border-l border-gray-300'>
         {records.map((r, i) => {
           const prevDate = i > 0 ? moment(records[i - 1].createdAt) : null;
@@ -35,6 +47,8 @@ const MedicalRecordsList = ({ records }: props) => {
                 SetDetails(Content);
                 setShowDetails(true);
               }}
+              setActive={setActiveRecord}
+              currentActiceRecordId={currentActiceRecordId}
             />
           );
         })}

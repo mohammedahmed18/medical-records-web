@@ -30,6 +30,7 @@ type Props = {
   placeholder?: string;
   className?: string;
   defaultValue?: string;
+  minOptionsToShowSearch?: number;
 };
 
 const SelectInput = (props: Props) => {
@@ -44,6 +45,7 @@ const SelectInput = (props: Props) => {
     formLabel,
     setValue,
     defaultValue,
+    minOptionsToShowSearch = 4,
   } = props;
   const errorMsg = error?.message?.toString();
 
@@ -87,12 +89,14 @@ const SelectInput = (props: Props) => {
 
           {showList && (
             <div className='absolute z-[51] mt-2 w-full overflow-hidden rounded-2xl border-2 bg-white/20 p-3 shadow-lg backdrop-blur-lg'>
-              <TextInput
-                className='relative z-[51] mb-2 rounded-2xl border-2 border-primary-50 bg-gray-100 py-3 focus:border-primary-200'
-                containerClassName='mb-[0]'
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-              />
+              {options.length > minOptionsToShowSearch && (
+                <TextInput
+                  className='relative z-[51] mb-2 rounded-2xl border-2 border-primary-50 bg-gray-100 py-3 focus:border-primary-200'
+                  containerClassName='mb-[0]'
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                />
+              )}
 
               <motion.div
                 initial={{

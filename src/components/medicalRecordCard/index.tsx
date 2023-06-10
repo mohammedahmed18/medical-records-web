@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import moment, { Moment } from 'moment';
 import { useEffect, useMemo, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import styles from './MedicalRecordCard.module.css';
 
@@ -10,13 +11,22 @@ import MedicalRecordDetails from '../medicalRecordDetails';
 import { MedicalRecord } from '@/types/medicalRecords';
 
 import CalenderIcon from '~/svg/calender.svg';
+import CheckMarkIcon from '~/svg/check-mark-circle-icon.svg';
 
 type props = {
   medicalRecord: MedicalRecord;
   prevDate: Moment | null;
   showDetails: (Content: React.ReactNode) => void;
+  setActive?: (record: MedicalRecord) => void;
+  currentActiceRecordId?: string;
 };
-const MedicalRecordCard = ({ medicalRecord, prevDate, showDetails }: props) => {
+const MedicalRecordCard = ({
+  medicalRecord,
+  prevDate,
+  showDetails,
+  setActive,
+  currentActiceRecordId,
+}: props) => {
   const [showDate, setShowDate] = useState(false);
   useEffect(() => {
     const currentDate = moment(medicalRecord.createdAt);
@@ -42,9 +52,17 @@ const MedicalRecordCard = ({ medicalRecord, prevDate, showDetails }: props) => {
         <CalenderIcon className='fill-primary-200 text-4xl' />
       </span>
       <div
-        className='ml-10 cursor-pointer rounded-lg bg-white p-7 shadow-md ring-1 ring-gray-200/75 hover:bg-gray-50'
-        onClick={() => showDetails(Details)}
+        className={twMerge(
+          'relative ml-10 cursor-pointer rounded-lg bg-white p-7 shadow-md ring-1 ring-gray-200/75 hover:bg-gray-50'
+        )}
+        onClick={() => {
+          showDetails(Details);
+          setActive && setActive(medicalRecord);
+        }}
       >
+        {currentActiceRecordId === medicalRecord.id && (
+          <CheckMarkIcon className='absolute right-4 h-10 w-10 fill-teal-700' />
+        )}
         <h3 className='mb-10 text-3xl capitalize'>{medicalRecord.title}</h3>
         {medicalRecord.doctor && (
           <DoctorMiniProfile doctor={medicalRecord.doctor} />

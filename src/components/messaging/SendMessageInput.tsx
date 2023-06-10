@@ -1,13 +1,16 @@
 import { useMutation } from '@apollo/client';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './styles.module.css';
 
+import Tooltip from '@/components/common/tooltip';
 import IconButton from '@/components/IconButton';
+import RecordsModal from '@/components/messaging/RecordsModal';
 import { SEND_MESSAGE } from '@/graphql/messages';
 
+import ShareIcon from '~/svg/forward-arrow-icon.svg';
 import MessageIcon from '~/svg/send-message-icon.svg';
 
 type Props = {
@@ -16,6 +19,7 @@ type Props = {
 const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [showRecordsModal, setShowRecordsModal] = useState(false);
   const router = useRouter();
   const { u: otherUserId } = router.query;
 
@@ -25,6 +29,13 @@ const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
     // },
   });
 
+  const handleCloseRecordsModal = () => {
+    setShowRecordsModal(false);
+  };
+
+  const handleOpenRecordsModal = () => {
+    setShowRecordsModal(true);
+  };
   const handleKeyPress = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const isEnter = event.key === 'Enter';
 
@@ -44,6 +55,7 @@ const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
       textarea.value = '';
     }
   };
+
   useEffect(() => {
     const textarea = inputRef.current;
     const container = containerRef.current;
@@ -62,6 +74,7 @@ const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
     textarea.addEventListener('input', handleHieghtResize);
     return () => textarea.removeEventListener('input', handleHieghtResize);
   }, []);
+
   const handleSendMessage = () => {
     if (!inputRef.current) return;
     const messageText = inputRef.current.value;
@@ -76,28 +89,54 @@ const SendMessageInput = ({ addMyMessageToTheUi }: Props) => {
   };
 
   return (
-    <div className='sticky bottom-2 px-4'>
-      <div
-        ref={containerRef}
-        className={clsx(styles['send-message-input'], 'mb-3')}
-      >
-        <textarea
-          ref={inputRef}
-          rows={1}
-          className='flex max-h-[200px] bg-transparent'
-          placeholder='Type your message...'
-          onKeyDown={handleKeyPress}
-          tabIndex={0}
-          autoFocus
-        ></textarea>
-        <span className={styles['send-button']} onClick={handleSendMessage}>
-          <IconButton
-            Icon={MessageIcon}
-            className='rounded-full bg-primary-200 hover:bg-primary-100 active:bg-primary-100/70'
-          />
-        </span>
+    <>
+      <div className='sticky bottom-2 px-4'>
+        <div
+          ref={containerRef}
+          className={clsx(styles['send-message-input'], 'mb-3')}
+        >
+          <textarea
+            ref={inputRef}
+            rows={1}
+            className='flex max-h-[200px] bg-transparent'
+            placeholder='Type your message...'
+            onKeyDown={handleKeyPress}
+            tabIndex={0}
+            autoFocus
+          ></textarea>
+          <div className='flex gap-2'>
+            <Tooltip title='send message' direction='tooltip-left'>
+              <span
+                className={clsx(styles['send-button'])}
+                onClick={handleSendMessage}
+              >
+                <IconButton
+                  Icon={MessageIcon}
+                  className='rounded-full bg-primary-200 hover:bg-primary-100 active:bg-primary-100/70'
+                />
+              </span>
+            </Tooltip>
+            <Tooltip title='share a medical record' direction='tooltip-left'>
+              <span
+                className={clsx(styles['send-button'])}
+                onClick={handleOpenRecordsModal}
+              >
+                <IconButton
+                  Icon={ShareIcon}
+                  className='rounded-full fill-black'
+                />
+              </span>
+            </Tooltip>
+          </div>
+        </div>
       </div>
-    </div>
+
+      {/* records modal */}
+      <RecordsModal
+        shown={showRecordsModal}
+        onClose={handleCloseRecordsModal}
+      />
+    </>
   );
 };
 
