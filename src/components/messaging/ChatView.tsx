@@ -1,7 +1,7 @@
 import { useSubscription } from '@apollo/client';
 import moment from 'moment';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 
 import { getMessagesWithOtherUser, MessageResponse } from '@/api/messaging';
@@ -11,6 +11,7 @@ import Spinner from '@/components/common/spinner';
 import UserProfileImage from '@/components/common/UserProfileImage';
 import LongText from '@/components/LongText';
 import Messages from '@/components/messaging/Messages';
+import RecordsModal from '@/components/messaging/RecordsModal';
 import SendMessageInput from '@/components/messaging/SendMessageInput';
 import { GET_MY_ROOMS, ROOM_MESSAGES } from '@/constant/queryKeys';
 import { RECIEVE_MESSAGE } from '@/graphql/messages';
@@ -19,6 +20,7 @@ import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
 
 const ChatView = () => {
   const router = useRouter();
+  const [showRecordsModal, setShowRecordsModal] = useState(false);
   const { u: otherUserIdQuery } = router.query;
   const queryCache = useQueryClient();
 
@@ -32,6 +34,13 @@ const ChatView = () => {
     { enabled: false, retry: false }
   );
 
+  const handleCloseRecordsModal = () => {
+    setShowRecordsModal(false);
+  };
+
+  const handleOpenRecordsModal = () => {
+    setShowRecordsModal(true);
+  };
   const addMyMessageToTheUi = (
     messageText: string,
     otherUser?: PublicUserInfo | null,
@@ -134,7 +143,7 @@ const ChatView = () => {
     );
   }
   return (
-    <div className='relative'>
+    <div className='relative flex h-full flex-col'>
       {/* other user info */}
       <div className='sticky inset-x-0 top-0 py-4 px-5 shadow-lg backdrop-blur-lg'>
         <div className='flex items-center gap-4'>
@@ -177,7 +186,14 @@ const ChatView = () => {
       <Messages messages={messages} />
 
       <SendMessageInput
+        handleOpenRecordsModal={handleOpenRecordsModal}
         addMyMessageToTheUi={(v, b) => addMyMessageToTheUi(v, otherUser, b)}
+      />
+
+      {/* records modal */}
+      <RecordsModal
+        shown={showRecordsModal}
+        onClose={handleCloseRecordsModal}
       />
     </div>
   );

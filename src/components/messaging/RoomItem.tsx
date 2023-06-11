@@ -35,7 +35,7 @@ const RoomItem = ({ room }: Props) => {
     <div
       className={clsx(
         'flex cursor-pointer gap-2 rounded-lg py-4 px-2 shadow-md transition-colors duration-300',
-        active ? 'bg-primary-100/80 text-white' : 'bg-base-200/70'
+        active ? 'bg-primary-300/80 text-white' : 'bg-base-200/70'
       )}
       onClick={handleOpenChat}
     >

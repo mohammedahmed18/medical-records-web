@@ -31,11 +31,12 @@ export const useMyRecords = (
   });
 
   useEffect(() => {
-    if (stop) return; // stop is to prevent the api call from being sent , because sometines we need to call the api when some state changes
+    if (!stop) return; // stop is to prevent the api call from being sent , because sometines we need to call the api when some state changes
     if (!isAnonymous) refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     isAnonymous,
+    stop,
     searchParams.actionType,
     searchParams.take,
     searchParams.skip,

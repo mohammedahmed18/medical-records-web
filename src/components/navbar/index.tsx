@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
 
@@ -6,6 +7,7 @@ import { useMobile } from '@/hooks/useMobile';
 import UserProfileImage from '@components/common/UserProfileImage';
 import Container from '@components/container';
 
+import NeonLoader from '@/components/common/NeonLoader';
 import Tooltip from '@/components/common/tooltip';
 import GenerateQrCode from '@/components/generateQrCode';
 import IconButton from '@/components/IconButton';
@@ -26,8 +28,8 @@ type NavbarButtonProps = {
 const NavbarButton = (props: NavbarButtonProps) => {
   const router = useRouter();
   const { deviceWidth } = useMobile();
-  const linkRef = useRef<HTMLSpanElement>(null);
-
+  const linkRef = useRef<HTMLAnchorElement>(null);
+  const { Icon, href, label, setActive } = props;
   const handleAvtice = () => {
     // handle the active div
     const refCurrent = linkRef.current;
@@ -35,28 +37,25 @@ const NavbarButton = (props: NavbarButtonProps) => {
 
     const width = refCurrent.clientWidth;
 
-    props.setActive(width, refCurrent.offsetLeft);
+    setActive(width, refCurrent.offsetLeft);
   };
 
-  const isActive = props.href === router.pathname;
+  const isActive = href === router.pathname;
   useEffect(() => {
     if (isActive) handleAvtice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname, deviceWidth]);
-  const { Icon } = props;
+
   return (
-    <span
+    <Link
       ref={linkRef}
       className='z-[2] flex cursor-pointer flex-col items-center gap-3 p-4 text-2xl font-semibold'
-      onClick={() => {
-        if (props.href) router.push(props.href);
-        handleAvtice();
-      }}
+      href={href}
     >
       <Icon className='h-8 w-8' />
 
-      <span className='hidden md:block'>{props.label}</span>
-    </span>
+      <span className='hidden text-center md:block'>{label}</span>
+    </Link>
   );
 };
 
@@ -66,6 +65,7 @@ const Navbar: React.FC = () => {
     offset: number;
   }>({ width: 0, offset: 0 });
   const { user, logout } = useAuth();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSetActive = (width: number, offset: number) =>
@@ -106,17 +106,37 @@ const Navbar: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname]);
 
+  useEffect(() => {
+    const handleStart = (_url: string) => {
+      setLoading(true);
+    };
+
+    const handleComplete = (_url: string) => {
+      setLoading(false);
+    };
+
+    router.events.on('routeChangeStart', handleStart);
+    router.events.on('routeChangeComplete', handleComplete);
+    router.events.on('routeChangeError', handleComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart);
+      router.events.off('routeChangeComplete', handleComplete);
+      router.events.off('routeChangeError', handleComplete);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const isDoctor = user.isDoctor;
 
   if (user.isAnonymous) return null;
   return (
-    <nav className='fixed inset-x-0 top-0 z-40 bg-gray-200/20 py-3 shadow-sm backdrop-blur-md md:py-0'>
+    <nav className='fixed inset-x-0 top-0 z-40 py-3 shadow-sm backdrop-blur-md md:py-0'>
       <Container className='flex items-center justify-between'>
-        <div className='flex'>
+        <div className='flex gap-3'>
           <UserProfileImage src={user.image_src} size={40} />
         </div>
 
-        <div className='relative ml-4 flex items-center gap-7'>
+        <div className='relative ml-4 flex items-center gap-3 md:gap-4 lg:gap-6'>
           <div
             className='absolute bottom-0 h-2 rounded-2xl bg-primary-100 transition-all duration-300 ease-in-out'
             style={{
@@ -147,6 +167,7 @@ const Navbar: React.FC = () => {
           </Tooltip>
         </div>
       </Container>
+      {loading && <NeonLoader />}
     </nav>
   );
 };

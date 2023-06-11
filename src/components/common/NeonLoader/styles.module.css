@@ -1,0 +1,25 @@
+.neon-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  @apply bg-primary-50;
+}
+
+.neon-bar {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  @apply bg-primary-100;
+  animation: neon-loader-animation 1.2s infinite linear;
+}
+
+@keyframes neon-loader-animation {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}

@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 import { useMyRecords } from '@/hooks/useMyRecords';
 
@@ -25,9 +25,11 @@ const FilterItem = ({
   return (
     <span
       onClick={setType}
-      className={clsx(
-        'cursor-pointer rounded-lg p-4 text-2xl transition-colors duration-300',
-        active ? 'bg-primary-200 text-white' : 'hover:bg-gray-100'
+      className={twMerge(
+        'cursor-pointer rounded-lg p-4 text-2xl transition-colors duration-300 ease-in-out',
+        active
+          ? 'bg-primary-300 text-white'
+          : 'bg-transparent hover:bg-gray-100'
       )}
     >
       {value}

@@ -22,7 +22,7 @@ const GlobalLoading = () => {
       <Spinner size={100} reversed className='absolute border-t-white' />
 
       {takesLongTime && (
-        <h2 className='absolute bottom-1/4 text-4xl text-white'>
+        <h2 className='absolute bottom-1/4 text-center text-4xl text-white'>
           please wait the server is starting...
         </h2>
       )}
