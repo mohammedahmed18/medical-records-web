@@ -22,7 +22,7 @@ const protectedRoute = (
   Page: (props: any) => JSX.Element,
   options: {
     Skeleton?: (() => JSX.Element) | null;
-    Seo?: () => JSX.Element;
+    Seo?: React.ElementType;
     reverse?: boolean;
     requireDoctor?: boolean;
   }
@@ -59,7 +59,7 @@ const protectedRoute = (
     if (loading || (isAnonymous && !reverse)) {
       return (
         <>
-          {Seo}
+          {Seo && <Seo />}
           <main>
             <LoadingComponent />
           </main>
@@ -76,7 +76,7 @@ const protectedRoute = (
     if (requireDoctor && !user.isDoctor) return <NotFoundPage />;
     return (
       <>
-        {Seo}
+        {Seo && <Seo />}
         <main>
           <Page {...props} {...userData} />;
         </main>
