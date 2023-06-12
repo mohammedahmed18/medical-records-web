@@ -6,6 +6,7 @@ type getMedicalRecordsParmas = {
   take?: number;
   skip?: number;
   actionType?: string;
+  doctor?: string;
 };
 export const getMedicalRecords = async (params: getMedicalRecordsParmas) => {
   return (

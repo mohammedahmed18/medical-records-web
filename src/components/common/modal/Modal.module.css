@@ -1,21 +1,21 @@
 .content {
   min-width: 400px;
   max-height: 600px;
-  @apply min-w-[70vw] rounded-2xl bg-white px-7 py-14 shadow-md transition-all duration-200 ease-in-out md:min-w-[600px];
+  @apply mx-5 w-full min-w-[70vw] rounded-2xl bg-white px-7 py-14 shadow-md transition-all duration-200 ease-in-out md:w-auto md:min-w-[600px];
   @apply overflow-y-auto overflow-x-hidden;
   opacity: 100;
   transform: scale(1);
   animation: pop ease-in-out 250ms;
 }
 .hiddenModal {
-  transform: scale(0);
+  transform: scale(0.6);
   opacity: 0;
   animation: pop-out ease-in-out 250ms;
 }
 @keyframes pop {
   from {
     opacity: 0;
-    transform: scale(0);
+    transform: scale(0.6);
   }
   to {
     opacity: 100;
@@ -30,6 +30,6 @@
   }
   to {
     opacity: 0;
-    transform: scale(0);
+    transform: scale(0.6);
   }
 }

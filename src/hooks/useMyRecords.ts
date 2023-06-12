@@ -7,11 +7,16 @@ import { useAuth } from '@/contexts/authContext';
 
 export const useMyRecords = (
   searchParams: Record<string, string>,
-  stop = false
+  options: {
+    stop?: boolean;
+    withDoctor?: 'false' | 'true';
+  }
 ) => {
   const {
     user: { isAnonymous },
   } = useAuth();
+
+  const { stop = false, withDoctor = 'true' } = options;
   const {
     data: recordsData,
     status,
@@ -26,12 +31,13 @@ export const useMyRecords = (
           queryKey[1].actionType !== ''
             ? queryKey[1].actionType
             : undefined,
+        doctor: withDoctor,
       }),
     enabled: false,
   });
 
   useEffect(() => {
-    if (!stop) return; // stop is to prevent the api call from being sent , because sometines we need to call the api when some state changes
+    if (stop) return; // stop is to prevent the api call from being sent , because sometines we need to call the api when some state changes
     if (!isAnonymous) refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [

@@ -46,7 +46,7 @@ const NoRecords = (
 
 function MedicalRecordsPage() {
   const [actionType, setActionType] = useState('');
-  const { recordsData, isLoading } = useMyRecords({ actionType }, true);
+  const { recordsData, isLoading } = useMyRecords({ actionType }, {});
 
   return (
     <Layout>

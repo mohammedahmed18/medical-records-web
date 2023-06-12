@@ -56,7 +56,11 @@ const GenerateQrCode: React.FC = () => {
 
   return (
     <>
-      <IconButton onClick={handleShowQrModal} Icon={QrCodeIcon} />
+      <IconButton
+        onClick={handleShowQrModal}
+        Icon={QrCodeIcon}
+        className='center-content'
+      />
 
       <GenerateQrModal
         handleGenerateQrcode={handleGenerateQrcode}

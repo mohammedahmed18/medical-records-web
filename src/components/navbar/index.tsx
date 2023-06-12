@@ -1,22 +1,30 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import { useMobile } from '@/hooks/useMobile';
+import { useTimeoutAsync } from '@/hooks/useTimeoutAsync';
 
-import UserProfileImage from '@components/common/UserProfileImage';
 import Container from '@components/container';
 
+import { generateQrcode } from '@/api/users';
 import NeonLoader from '@/components/common/NeonLoader';
-import Tooltip from '@/components/common/tooltip';
-import GenerateQrCode from '@/components/generateQrCode';
+import UserProfileImage from '@/components/common/UserProfileImage';
+import GenerateQrModal from '@/components/generateQrCode/generateQrModal';
 import IconButton from '@/components/IconButton';
+import NextImage from '@/components/NextImage';
 import { useAuth } from '@/contexts/authContext';
+import { showToast } from '@/utils/toast';
 
+import LogoV2 from '~/images/logo-v2.png';
 import AddDocumentIcon from '~/svg/add-document-icon.svg';
+import ArrowDown from '~/svg/arrow-down.svg';
 import HomePageIcon from '~/svg/homepage.svg';
 import LogoutIcon from '~/svg/logout.svg';
 import ChatIcon from '~/svg/message-bubble-icon.svg';
+// import GenerateQrCode from '@/components/generateQrCode';
+import QrCodeIcon from '~/svg/qr-code.svg';
 import ScanIcon from '~/svg/scan-icon.svg';
 
 type NavbarButtonProps = {
@@ -98,6 +106,52 @@ const Navbar: React.FC = () => {
     },
   ];
 
+  //////////////////////////// QR CODE
+
+  const QR_LIFETIME_MINS = 0.5;
+
+  const [showQrcode, setShowQrcode] = useState(false);
+  const [canRefresh, setCanRefresh] = useState(true);
+
+  const { set } = useTimeoutAsync(() => {
+    setCanRefresh(true);
+  }, 1000 * 60 * QR_LIFETIME_MINS);
+
+  const {
+    data: qrcode,
+    refetch,
+    isRefetching,
+    status,
+  } = useQuery({
+    queryFn: generateQrcode,
+    enabled: false,
+    keepPreviousData: false,
+  });
+
+  const handleGenerateQrcode = async () => {
+    if (!canRefresh) {
+      return showToast(
+        `you must wait ${
+          QR_LIFETIME_MINS < 1
+            ? QR_LIFETIME_MINS * 60 + ' seconds'
+            : QR_LIFETIME_MINS + ' minute(s)'
+        } to refresh the qr code`,
+        'error'
+      );
+    }
+    setCanRefresh(false);
+    refetch();
+  };
+  const handleShowQrModal = () => {
+    setShowQrcode(true);
+    if (!qrcode) handleGenerateQrcode();
+  };
+
+  useEffect(() => {
+    if (!canRefresh) set();
+  }, [canRefresh, set]);
+  ////////////////////////////////////////// end qr code
+
   useEffect(() => {
     if (!links.some((v) => v.href === router.pathname)) {
       // no match
@@ -130,11 +184,16 @@ const Navbar: React.FC = () => {
 
   if (user.isAnonymous) return null;
   return (
-    <nav className='fixed inset-x-0 top-0 z-40 py-3 shadow-sm backdrop-blur-md md:py-0'>
+    <nav className='fixed inset-x-0 top-0 z-40 py-3 backdrop-blur-md md:py-0'>
       <Container className='flex items-center justify-between'>
-        <div className='flex gap-3'>
-          <UserProfileImage src={user.image_src} size={40} />
-        </div>
+        <Link href='/' className='center-content rounded-2xl px-10'>
+          {/* <Logo className='h-20 w-20 ' /> */}
+          <NextImage src={LogoV2} width={70} height={70} alt='Logo' />
+          <h2 className='hidden bg-gradient-to-r from-primary-100 to-primary-300 bg-clip-text text-3xl text-transparent md:block'>
+            Medical records
+          </h2>
+          {/* <UserProfileImage src={user.image_src} size={40} /> */}
+        </Link>
 
         <div className='relative ml-4 flex items-center gap-3 md:gap-4 lg:gap-6'>
           <div
@@ -156,18 +215,68 @@ const Navbar: React.FC = () => {
               />
             )
           )}
+
+          <div className='dropdown-end dropdown'>
+            <label>
+              <div
+                tabIndex={0}
+                className='flex cursor-pointer items-center gap-4 rounded-lg px-5 py-3 transition-colors hover:bg-gray-100'
+              >
+                <ArrowDown />
+                <UserProfileImage src={user.image_src} size={40} />
+              </div>
+            </label>
+
+            <ul
+              tabIndex={0}
+              className='dropdown-content menu rounded-box w-80 gap-4 bg-white px-2 py-5'
+            >
+              <li>
+                <Link
+                  className='bg-primary-200 text-2xl font-bold text-white'
+                  href='/profile'
+                >
+                  @{user.name}
+                </Link>
+              </li>
+              <li>
+                {/* <GenerateQrCode /> */}
+                <IconButton
+                  onClick={handleShowQrModal}
+                  Icon={QrCodeIcon}
+                  className='center-content'
+                />
+              </li>
+              <li>
+                <IconButton
+                  onClick={logout}
+                  Icon={LogoutIcon}
+                  className='center-content'
+                />
+              </li>
+            </ul>
+          </div>
         </div>
 
-        <div className='flex items-center'>
+        {/* <div className='flex items-center'>
           <Tooltip direction='tooltip-bottom' title='generate qr code'>
             <GenerateQrCode />
           </Tooltip>
           <Tooltip direction='tooltip-bottom' title='logout' className='mx-7'>
             <IconButton onClick={logout} Icon={LogoutIcon} />
           </Tooltip>
-        </div>
+        </div> */}
       </Container>
       {loading && <NeonLoader />}
+
+      <GenerateQrModal
+        handleGenerateQrcode={handleGenerateQrcode}
+        loading={status === 'loading'}
+        isRefetching={isRefetching}
+        onClose={() => setShowQrcode(false)}
+        qrcode={qrcode}
+        showQrcode={showQrcode}
+      />
     </nav>
   );
 };

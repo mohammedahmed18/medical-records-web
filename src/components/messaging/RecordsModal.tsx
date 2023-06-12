@@ -13,7 +13,10 @@ type Props = {
   shown: boolean;
 };
 const RecordsModal = (props: Props) => {
-  const { recordsData, isLoading } = useMyRecords({}, props.shown); // call the records api if the modal is opened
+  const { recordsData, isLoading } = useMyRecords(
+    {},
+    { stop: !props.shown, withDoctor: 'false' }
+  ); // call the records api if the modal is opened
   const [selectedRecord, setSelectedRecord] = useState<MedicalRecord>();
   return (
     <Modal {...props}>
