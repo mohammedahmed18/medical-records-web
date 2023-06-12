@@ -3,13 +3,14 @@ import { twMerge } from 'tailwind-merge';
 
 import { useMyRecords } from '@/hooks/useMyRecords';
 
-import { ProtectedRoute } from '@components/common/protectedRoute';
-import Container from '@components/container';
-import Layout from '@components/layout';
-import MedicalRecordsList from '@components/medicalRecordsList';
-import Seo from '@components/Seo';
-import MedicalRecordsSkeleton from '@components/skeletons/medicalRecords.skeleton';
+import protectedRoute from '@components/common/protectedRoute';
 import MedicalRecordsPageSkeleton from '@components/skeletons/medicalRecordsPage.skeleton';
+
+import Container from '@/components/container';
+import Layout from '@/components/layout';
+import MedicalRecordsList from '@/components/medicalRecordsList';
+import Seo from '@/components/Seo';
+import MedicalRecordsSkeleton from '@/components/skeletons/medicalRecords.skeleton';
 
 import { MedicalRecordsActionTypes } from '@/types/medicalRecords';
 
@@ -45,42 +46,41 @@ const NoRecords = (
 
 function MedicalRecordsPage() {
   const [actionType, setActionType] = useState('');
-  const { recordsData, isLoading } = useMyRecords({ actionType });
+  const { recordsData, isLoading } = useMyRecords({ actionType }, true);
 
   return (
     <Layout>
-      <Seo templateTitle='Medical Records' />
-
-      <main>
-        <ProtectedRoute Skeleton={MedicalRecordsPageSkeleton}>
-          <Container className='my-7'>
-            <div className='flex flex-col gap-3 md:flex-row'>
-              <div className='flex h-fit flex-col gap-7 p-3 shadow-md md:w-1/4'>
-                <FilterItem
-                  setType={() => setActionType('')}
-                  active={actionType === ''}
-                  value='All'
-                />
-                {Object.keys(MedicalRecordsActionTypes).map((type) => (
-                  <FilterItem
-                    setType={() => setActionType(type)}
-                    active={actionType === type}
-                    value={type}
-                    key={type}
-                  />
-                ))}
-              </div>
-              <div className='flex-1'>
-                {isLoading && <MedicalRecordsSkeleton />}
-                {recordsData && <MedicalRecordsList records={recordsData} />}
-                {recordsData?.length == 0 && !isLoading && NoRecords}
-              </div>
-            </div>
-          </Container>
-        </ProtectedRoute>
-      </main>
+      <Container className='my-7'>
+        <div className='flex flex-col gap-3 md:flex-row'>
+          <div className='flex h-fit flex-col gap-7 p-3 shadow-md md:w-1/4'>
+            <FilterItem
+              setType={() => setActionType('')}
+              active={actionType === ''}
+              value='All'
+            />
+            {Object.keys(MedicalRecordsActionTypes).map((type) => (
+              <FilterItem
+                setType={() => setActionType(type)}
+                active={actionType === type}
+                value={type}
+                key={type}
+              />
+            ))}
+          </div>
+          <div className='flex-1'>
+            {isLoading && <MedicalRecordsSkeleton />}
+            {recordsData && <MedicalRecordsList records={recordsData} />}
+            {recordsData?.length == 0 && !isLoading && NoRecords}
+          </div>
+        </div>
+      </Container>
     </Layout>
   );
 }
 
-export default MedicalRecordsPage;
+const SeoInfo = () => <Seo templateTitle='Medical Records' />;
+
+export default protectedRoute(MedicalRecordsPage, {
+  Seo: SeoInfo,
+  Skeleton: MedicalRecordsPageSkeleton,
+});

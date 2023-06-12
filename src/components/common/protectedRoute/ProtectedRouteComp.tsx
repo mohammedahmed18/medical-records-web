@@ -1,7 +1,7 @@
 import protectedRoute from '@components/common/protectedRoute';
 
 type props = {
-  children: JSX.Element;
+  children: () => JSX.Element;
   Skeleton?: (() => JSX.Element) | null;
   reverse?: boolean;
 };

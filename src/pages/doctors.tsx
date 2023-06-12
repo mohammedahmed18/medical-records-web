@@ -1,26 +1,24 @@
 import * as React from 'react';
 
-import { ProtectedRoute } from '@components/common/protectedRoute';
+import protectedRoute from '@components/common/protectedRoute';
 import Container from '@components/container';
 import Layout from '@components/layout';
 import Seo from '@components/Seo';
 
 import DoctorsList from '@/components/doctors/doctorsList';
 
-function Doctors() {
+function DoctorsPage() {
   return (
     <Layout>
-      <Seo templateTitle='Doctors' />
-
-      <main>
-        <ProtectedRoute>
-          <Container removeSpacing>
-            <DoctorsList />
-          </Container>
-        </ProtectedRoute>
-      </main>
+      <Container removeSpacing>
+        <DoctorsList />
+      </Container>
     </Layout>
   );
 }
 
-export default Doctors;
+const SeoInfo = () => <Seo templateTitle='Doctors' />;
+
+export default protectedRoute(DoctorsPage, {
+  Seo: SeoInfo,
+});

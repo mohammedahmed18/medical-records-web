@@ -22,11 +22,16 @@ const RoomItem = ({ room }: Props) => {
   const active = userId === otherUserId;
 
   const handleOpenChat = () => {
+    if (!router.isReady) return;
     const query = { ...router.query, u: otherUserId };
-    router.push({
-      pathname: router.pathname,
-      query,
-    });
+    router.push(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
   };
   const getFirstName = (name: string) => {
     return name.split(' ')[0];

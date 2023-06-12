@@ -7,7 +7,7 @@ type getMedicalRecordsParmas = {
   skip?: number;
   actionType?: string;
 };
-export const getMedicalRecords = (params: getMedicalRecordsParmas) => {
+export const getMedicalRecords = async (params: getMedicalRecordsParmas) => {
   return (
     api
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,19 +1,10 @@
-import { ProtectedRoute } from '@components/common/protectedRoute';
+import protectedRoute from '@components/common/protectedRoute';
 import LoginForm from '@components/loginForm';
 import Seo from '@components/Seo';
 
+const SeoInfo = () => <Seo templateTitle='Login' />;
 function LoginPage() {
-  return (
-    <>
-      <Seo templateTitle='Login' />
-
-      <main>
-        <ProtectedRoute reverse>
-          <LoginForm />
-        </ProtectedRoute>
-      </main>
-    </>
-  );
+  return <LoginForm />;
 }
 
-export default LoginPage;
+export default protectedRoute(LoginPage, { reverse: true, Seo: SeoInfo });

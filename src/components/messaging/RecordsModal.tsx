@@ -17,7 +17,12 @@ const RecordsModal = (props: Props) => {
   const [selectedRecord, setSelectedRecord] = useState<MedicalRecord>();
   return (
     <Modal {...props}>
-      {isLoading && <Spinner size={30} />}
+      {isLoading && <Spinner size={30} className='mx-auto' />}
+      {!isLoading && !recordsData.length && (
+        <span className='block text-center text-4xl capitalize text-zinc-500'>
+          You don't have any Records To Show
+        </span>
+      )}
       <MedicalRecordsList
         records={recordsData}
         withSideDetails={false}

@@ -1,14 +1,17 @@
-import { QueryStatus } from 'react-query';
+import { useQuery } from 'react-query';
 
-import { RoomItemType } from '@/api/messaging';
+import { getMyRooms } from '@/api/messaging';
 import RoomItem from '@/components/messaging/RoomItem';
 import RoomsSkeleton from '@/components/skeletons/rooms.skeleton';
+import { GET_MY_ROOMS } from '@/constant/queryKeys';
 
-type Props = {
-  rooms: RoomItemType[];
-  status: QueryStatus;
-};
-const RoomsList = ({ rooms, status }: Props) => {
+const RoomsList = () => {
+  const { data, status } = useQuery([GET_MY_ROOMS], getMyRooms, {
+    // keepPreviousData: true,
+  });
+
+  const rooms = data || [];
+
   // function getPrivateRoomFirst(a: RoomItemType, b: RoomItemType) {
   //   if (a.isPrivate) {
   //     return -1;

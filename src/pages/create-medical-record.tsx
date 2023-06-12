@@ -1,23 +1,21 @@
-import DoctorProtectedRoute from '@components/common/doctorProtectedRoute';
 import Container from '@components/container';
 import CreateRecordForm from '@components/doctors/createRecordForm';
 import Layout from '@components/layout';
 import Seo from '@components/Seo';
 
+import protectedRoute from '@/components/common/protectedRoute';
+
 function CreateMedicalRecordPage() {
   return (
     <Layout>
-      <Seo templateTitle='Create-medical-record' />
-
-      <main>
-        <DoctorProtectedRoute>
-          <Container narrow>
-            <CreateRecordForm />
-          </Container>
-        </DoctorProtectedRoute>
-      </main>
+      <Container narrow>
+        <CreateRecordForm />
+      </Container>
     </Layout>
   );
 }
-
-export default CreateMedicalRecordPage;
+const SeoInfo = () => <Seo templateTitle='Create-medical-record' />;
+export default protectedRoute(CreateMedicalRecordPage, {
+  Seo: SeoInfo,
+  requireDoctor: true,
+});
