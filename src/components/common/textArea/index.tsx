@@ -39,7 +39,7 @@ const TextArea = ({
         placeholder={placeholder || ''}
         className={clsx(
           styles.textInput,
-          errorMsg && 'focus:border-b-red-900',
+          errorMsg && 'focus:border-red-900',
           className
         )}
       ></textarea>

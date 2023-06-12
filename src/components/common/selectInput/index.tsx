@@ -91,7 +91,7 @@ const SelectInput = (props: Props) => {
             <div className='absolute z-[51] mt-2 w-full overflow-hidden rounded-2xl border-2 bg-white/20 p-3 shadow-lg backdrop-blur-lg'>
               {options.length > minOptionsToShowSearch && (
                 <TextInput
-                  className='relative z-[51] mb-2 rounded-2xl border-2 border-primary-50 bg-gray-100 py-3 focus:border-primary-200'
+                  className='relative z-[51] mb-2 rounded-2xl border-2 border-primary-300 bg-gray-100 py-3'
                   containerClassName='mb-[0]'
                   onChange={(e) => setSearch(e.target.value)}
                   value={search}

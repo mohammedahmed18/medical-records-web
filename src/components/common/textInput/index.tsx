@@ -45,7 +45,12 @@ const TextInput = ({
       )}
       <div className='relative w-full'>
         {Icon && (
-          <Icon className='absolute bottom-1/2 right-4 h-8 w-8 translate-y-1/2 fill-primary-400' />
+          <Icon
+            className={twMerge(
+              'absolute bottom-1/2 right-4 h-8 w-8 translate-y-1/2 fill-primary-400',
+              errorMsg && 'fill-red-900'
+            )}
+          />
         )}
         <input
           {...registeredProps}
@@ -54,7 +59,7 @@ const TextInput = ({
           className={twMerge(
             'w-full',
             styles.textInput,
-            errorMsg && 'focus:border-b-red-900',
+            errorMsg && 'focus:border-red-900',
             className
           )}
           {...rest}

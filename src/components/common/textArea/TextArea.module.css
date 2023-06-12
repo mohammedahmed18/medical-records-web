@@ -7,5 +7,5 @@
 }
 
 .textInput:focus {
-  @apply border-b-indigo-900;
+  @apply border-indigo-900;
 }
