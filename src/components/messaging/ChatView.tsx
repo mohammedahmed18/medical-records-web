@@ -1,4 +1,4 @@
-import { useSubscription } from '@apollo/client';
+import { useMutation, useSubscription } from '@apollo/client';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -14,7 +14,9 @@ import Messages from '@/components/messaging/Messages';
 import RecordsModal from '@/components/messaging/RecordsModal';
 import SendMessageInput from '@/components/messaging/SendMessageInput';
 import { GET_MY_ROOMS, ROOM_MESSAGES } from '@/constant/queryKeys';
-import { RECIEVE_MESSAGE } from '@/graphql/messages';
+import { RECIEVE_MESSAGE, SEND_MESSAGE } from '@/graphql/messages';
+
+import { MedicalRecord } from '@/types/medicalRecords';
 
 import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
 
@@ -43,6 +45,7 @@ const ChatView = () => {
   };
   const addMyMessageToTheUi = (
     messageText: string,
+    type: 'text' | 'image' | 'medicalRecord' = 'text',
     otherUser?: PublicUserInfo | null,
     isTheSenderMe = false
   ) => {
@@ -55,7 +58,7 @@ const ChatView = () => {
           ...previousMessages,
           {
             value: messageText.trim(),
-            type: 'text',
+            type,
             isMe: isTheSenderMe,
             createdAt: new Date(),
           },
@@ -79,7 +82,7 @@ const ChatView = () => {
           ...existingRoom,
           otherUser,
           lastMessage: {
-            type: 'text',
+            type,
             value: messageText,
             isMe: isTheSenderMe,
             createdAt: moment().fromNow(),
@@ -103,11 +106,39 @@ const ChatView = () => {
     queryCache.setQueryData([ROOM_MESSAGES, otherUser?.id], updater);
   };
 
+  const [sendMessage] = useMutation(SEND_MESSAGE, {
+    // onCompleted: (data) => {
+    //   const { sendMessage: newMessageInTheDb } = data;
+    // },
+  });
+
+  const handleSendMedicalRecord = (record: MedicalRecord) => {
+    //
+    const {
+      // exclude these from the message
+      doctorId: _d,
+      createdAt: _c,
+      updatedAt: _u,
+      ...rest
+    } = record;
+    const medicalRecordString = JSON.stringify(rest);
+    const type = 'medicalRecord';
+    sendMessage({
+      variables: {
+        value: medicalRecordString,
+        type,
+        toId: otherUser?.id,
+      },
+    });
+    addMyMessageToTheUi(medicalRecordString, type, otherUser, true);
+  };
+
   useSubscription(RECIEVE_MESSAGE, {
     onData: ({ data }) => {
       const recievedMessage = data.data.messageSent;
       addMyMessageToTheUi(
         recievedMessage?.value,
+        'text',
         {
           ...recievedMessage.sentUser,
         },
@@ -187,13 +218,16 @@ const ChatView = () => {
 
       <SendMessageInput
         handleOpenRecordsModal={handleOpenRecordsModal}
-        addMyMessageToTheUi={(v, b) => addMyMessageToTheUi(v, otherUser, b)}
+        addMyMessageToTheUi={(v) =>
+          addMyMessageToTheUi(v, 'text', otherUser, true)
+        }
       />
 
       {/* records modal */}
       <RecordsModal
         shown={showRecordsModal}
         onClose={handleCloseRecordsModal}
+        handleSendMedicalRecord={handleSendMedicalRecord}
       />
     </div>
   );

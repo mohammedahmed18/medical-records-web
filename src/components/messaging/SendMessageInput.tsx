@@ -13,7 +13,7 @@ import ShareIcon from '~/svg/forward-arrow-icon.svg';
 import MessageIcon from '~/svg/send-message-icon.svg';
 
 type Props = {
-  addMyMessageToTheUi: (v: string, b: boolean) => void;
+  addMyMessageToTheUi: (v: string) => void;
   handleOpenRecordsModal: () => void;
 };
 const SendMessageInput = ({
@@ -74,7 +74,7 @@ const SendMessageInput = ({
     if (!inputRef.current) return;
     const messageText = inputRef.current.value;
     if (messageText.trim() == '') return;
-    addMyMessageToTheUi(messageText, true);
+    addMyMessageToTheUi(messageText);
     sendMessage({
       variables: {
         value: messageText.trim(),

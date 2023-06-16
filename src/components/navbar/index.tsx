@@ -222,8 +222,8 @@ const Navbar: React.FC = () => {
                 tabIndex={0}
                 className='flex cursor-pointer items-center gap-4 rounded-lg px-5 py-3 transition-colors hover:bg-gray-100'
               >
-                <ArrowDown />
-                <UserProfileImage src={user.image_src} size={40} />
+                <ArrowDown className='hidden md:block' />
+                <UserProfileImage src={user.image_src} size={40} rounded />
               </div>
             </label>
 
@@ -236,7 +236,7 @@ const Navbar: React.FC = () => {
                   className='bg-primary-200 text-2xl font-bold text-white'
                   href='/profile'
                 >
-                  @{user.name}
+                  @&nbsp;{user.name}
                 </Link>
               </li>
               <li>

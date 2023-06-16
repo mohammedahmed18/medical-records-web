@@ -1,12 +1,7 @@
 #!/bin/bash
+npm run kill
 
-cd ../server
 
-docker-compose up -d 
-
-npx prisma generate
-npx prisma migrate dev
-pnpm pm2 delete all
-pnpm run dev:old
-
-concurrently "cd ../client && yarn dev" "pnpm pm2 logs medical-records-server" 
+concurrently "npm run dev" \
+ "npm run pm2 logs medical-records-client" \
+ "cd ../server && ./start-server.sh" \ 
