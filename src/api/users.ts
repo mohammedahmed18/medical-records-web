@@ -15,7 +15,6 @@ export const getPublicUserInfo = (
   userId: string | undefined
 ): Promise<{ user: PublicUserInfo }> | null => {
   if (!userId) {
-    alert(userId);
     return null;
   }
   return api

@@ -14,6 +14,7 @@ import UserProfileImage from '@/components/common/UserProfileImage';
 import GenerateQrModal from '@/components/generateQrCode/generateQrModal';
 import IconButton from '@/components/IconButton';
 import NextImage from '@/components/NextImage';
+import { QRCODE_GENERATE } from '@/constant/queryKeys';
 import { useAuth } from '@/contexts/authContext';
 import { showToast } from '@/utils/toast';
 
@@ -123,6 +124,7 @@ const Navbar: React.FC = () => {
     isRefetching,
     status,
   } = useQuery({
+    queryKey: QRCODE_GENERATE,
     queryFn: generateQrcode,
     enabled: false,
     keepPreviousData: false,

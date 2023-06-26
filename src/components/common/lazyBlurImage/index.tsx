@@ -1,11 +1,11 @@
-import clsx from 'clsx';
 import Image, { ImageProps } from 'next/image';
+import { twMerge } from 'tailwind-merge';
 
 import { resizeCloudinaryImage } from '@/utils/resizeCloudinary';
 
 type Props = ImageProps;
 const LazyBlurImage = (props: Props) => {
-  const { alt, className = true, ...rest } = props;
+  const { alt, className, ...rest } = props;
 
   return (
     <Image
@@ -13,7 +13,7 @@ const LazyBlurImage = (props: Props) => {
       placeholder='blur'
       blurDataURL={resizeCloudinaryImage(props.src.toString(), 15)}
       alt={alt}
-      className={clsx(
+      className={twMerge(
         // !loaded && smooth && 'opacity-50',
         'transition-all duration-100 ease-in-out',
         className

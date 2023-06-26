@@ -201,3 +201,6 @@
 .center-content {
   @apply flex items-center justify-center;
 }
+.text-muted {
+  @apply text-zinc-500;
+}

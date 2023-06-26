@@ -9,6 +9,21 @@ export type GetDoctorsParams = {
   q?: string;
 };
 
+export type DoctorProfile = {
+  name: string;
+  image_src: string;
+  medicalSpecialization: string;
+  email?: string;
+  DoctorData: {
+    totalRating: number;
+    hasChatEnabled: boolean;
+  };
+  _count: {
+    writtenMedicalRecors: number;
+  };
+  report: Record<string, string | number>[];
+};
+
 export const scanQrCode = (qrCode: string) => {
   return api.post('/doctors/scan-qrCode', { qrCode }).then((res) => res.data);
 };
@@ -32,4 +47,8 @@ export const getAllDoctors = async (params: GetDoctorsParams) => {
       },
     })
     .then((res) => res.data);
+};
+
+export const getDoctorProfile = async (doctorId: string | undefined) => {
+  return api.get<DoctorProfile>(`/doctors/${doctorId}`).then((res) => res.data);
 };

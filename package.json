@@ -36,10 +36,12 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.5",
     "react-icons": "^4.8.0",
+    "react-is": "^18.2.0",
     "react-qr-code": "^2.0.11",
     "react-qr-reader": "2.2.1",
     "react-query": "^3.39.3",
     "react-toastify": "^9.1.1",
+    "recharts": "^2.7.2",
     "tailwind-merge": "^1.10.0",
     "uuid": "^9.0.0",
     "yup": "^1.0.2"
