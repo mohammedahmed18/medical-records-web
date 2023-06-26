@@ -35,7 +35,7 @@ function DoctorProfilePage() {
   //TODO: skeleton , make sure the user is doctor
   return (
     <Layout>
-      <Container narrow>
+      <Container>
         {doctor && (
           <DoctorProfile user={doctor} doctorId={id?.toString() || ''} />
         )}

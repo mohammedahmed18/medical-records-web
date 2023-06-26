@@ -24,6 +24,17 @@ export type DoctorProfile = {
   report: Record<string, string | number>[];
 };
 
+export type DoctorReview = {
+  id: string;
+  comment: string | null;
+  rating: number;
+  createdAt: Date;
+  reviewer: {
+    image_src: string;
+    name: string;
+  };
+};
+
 export const scanQrCode = (qrCode: string) => {
   return api.post('/doctors/scan-qrCode', { qrCode }).then((res) => res.data);
 };
@@ -51,4 +62,10 @@ export const getAllDoctors = async (params: GetDoctorsParams) => {
 
 export const getDoctorProfile = async (doctorId: string | undefined) => {
   return api.get<DoctorProfile>(`/doctors/${doctorId}`).then((res) => res.data);
+};
+
+export const getDoctorReviews = async (doctorId: string | undefined) => {
+  return api
+    .get<DoctorReview[]>(`/doctors/reviews`, { params: { doctorId } })
+    .then((res) => res.data);
 };

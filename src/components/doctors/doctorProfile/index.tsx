@@ -22,11 +22,11 @@ const DoctorProfile = (props: Props) => {
   return (
     <div className='flex flex-col items-center gap-7'>
       <UserProfileImage
-        className='my-3 h-[300px] ease-in-out'
         src={image_src}
         alt='profile'
-        size={300}
+        size={200}
         rounded
+        className='ring-8'
       />
       <span className='mt-4 rounded-full text-4xl'>Dr. {name}</span>
       <span className='badge-primary badge badge-lg flex items-center gap-3 bg-primary-300 py-5 text-2xl shadow-lg'>
@@ -35,7 +35,6 @@ const DoctorProfile = (props: Props) => {
       </span>
 
       <RatingStars value={DoctorData?.totalRating || 0} size='lg' />
-
       {/* FIXME: repeated  */}
       {DoctorData?.hasChatEnabled && (
         <IconButton
@@ -45,10 +44,9 @@ const DoctorProfile = (props: Props) => {
             router.push(`/messaging?u=${props.doctorId}`);
           }}
           Icon={SendMessageIcon}
-          className=' shadow-xl'
+          className='w-fit shadow-xl'
         />
       )}
-
       <div className='my-10 flex w-full flex-col items-center gap-7'>
         <h2 className='text-muted p-3 shadow-lg'>
           Dr. {name} Analytics this year
