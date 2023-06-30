@@ -5,6 +5,7 @@ import Container from '@/components/container';
 import DoctorReviewItem from '@/components/doctors/doctorReviewItem';
 import ReviewForm from '@/components/doctors/reviewForm';
 import { DOCTOR_REVIEWS } from '@/constant/queryKeys';
+import { useAuth } from '@/contexts/authContext';
 
 type Props = {
   doctorId: string;
@@ -12,6 +13,10 @@ type Props = {
 
 const DoctorReviews = (props: Props) => {
   const { doctorId } = props;
+  const {
+    user: { id: currentUserId },
+  } = useAuth();
+  const isMyProfile = currentUserId === doctorId;
   const { data } = useQuery([DOCTOR_REVIEWS, doctorId], {
     queryFn: () => getDoctorReviews(doctorId.toString()),
   });
@@ -25,7 +30,7 @@ const DoctorReviews = (props: Props) => {
         className='grid w-full grid-cols-1 justify-between gap-4 py-10'
         narrow
       >
-        <ReviewForm doctorId={doctorId} />
+        {!isMyProfile && <ReviewForm doctorId={doctorId} />}
         {reviews.map((review) => (
           <DoctorReviewItem key={review.id} review={review} />
         ))}

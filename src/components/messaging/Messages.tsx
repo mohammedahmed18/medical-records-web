@@ -1,3 +1,4 @@
+import moment from 'moment';
 import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
@@ -37,9 +38,25 @@ const Messages = ({ messages }: Props) => {
           />
         </div>
       )}
-      {messages.map((message, i) => (
-        <MessageItem message={message} key={i} />
-      ))}
+      {messages.map((message, i) => {
+        // TODO: combine this logic in a seperate component
+        const prevDate = i > 0 ? moment(messages[i - 1].createdAt) : null;
+        const currentDate = moment(message.createdAt);
+
+        const willShowDate =
+          currentDate.year() !== prevDate?.year() ||
+          currentDate.month() !== prevDate.month();
+        return (
+          <>
+            {willShowDate && (
+              <span className='mx-auto mb-4 block w-fit rounded-lg bg-zinc-200 px-4 py-1 text-center text-lg text-gray-600'>
+                {moment(message.createdAt).format('MMMM YYYY')}
+              </span>
+            )}
+            <MessageItem message={message} key={i} />
+          </>
+        );
+      })}
     </div>
   );
 };
