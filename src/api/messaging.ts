@@ -1,13 +1,14 @@
 import { api } from '@/api/axios';
 import { PublicUserInfo } from '@/api/users';
 
+export type MedicalRecordKindType = 'text' | 'image' | 'medicalRecord';
 export type RoomItemType = {
   id: string;
   isPrivate?: boolean;
   lastMessage: {
     id?: string;
     roomId?: string;
-    type: 'text' | 'image' | 'medicalRecord';
+    type: MedicalRecordKindType;
     value: string;
     senderId?: string; // not used I think
     createdAt: string;
@@ -24,7 +25,7 @@ export type RoomItemType = {
 export type RoomMessageType = {
   id?: string;
   roomId?: string;
-  type: string;
+  type: MedicalRecordKindType;
   value: string;
   senderId?: string;
   createdAt: Date;

@@ -69,7 +69,13 @@ const RoomItem = ({ room }: Props) => {
               className='font-bold'
             />
             <LongText
-              text={lastMessage.type === 'text' ? lastMessage.value : ''}
+              text={
+                lastMessage.type === 'text'
+                  ? lastMessage.value
+                  : lastMessage.type === 'medicalRecord'
+                  ? 'medical record'
+                  : 'Image'
+              }
               maxChars={7}
             />
           </span>
