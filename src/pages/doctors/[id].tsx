@@ -9,6 +9,7 @@ import Seo from '@components/Seo';
 import { getDoctorProfile } from '@/api/doctors';
 import protectedRoute from '@/components/common/protectedRoute';
 import DoctorProfile from '@/components/doctors/doctorProfile';
+import ProfileSkeleton from '@/components/skeletons/profile.skeleton';
 import { DOCTORP_ROFILE } from '@/constant/queryKeys';
 
 function DoctorProfilePage() {
@@ -30,12 +31,13 @@ function DoctorProfilePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  const _isLoading = status === 'loading';
+  const isLoading = status === 'loading';
 
   //TODO: skeleton , make sure the user is doctor
   return (
     <Layout>
       <Container>
+        {isLoading && <ProfileSkeleton />}
         {doctor && (
           <DoctorProfile user={doctor} doctorId={id?.toString() || ''} />
         )}
