@@ -26,7 +26,7 @@ const DoctorProfile = (props: Props) => {
         alt='profile'
         size={200}
         rounded
-        className='ring-8'
+        className='ring-8 ring-primary-200'
       />
       <span className='mt-4 rounded-full text-4xl'>Dr. {name}</span>
       <span className='badge-primary badge badge-lg flex items-center gap-3 bg-primary-300 py-5 text-2xl shadow-lg'>

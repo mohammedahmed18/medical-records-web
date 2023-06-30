@@ -1,5 +1,5 @@
 .textInput {
-  @apply border-2 border-gray-100 px-7 py-6 text-3xl tracking-wide outline-none transition-all duration-300;
+  @apply rounded-2xl border-2 border-gray-200 px-7 py-6 text-3xl tracking-wide outline-none transition-all duration-300;
 }
 
 .textInput::placeholder {

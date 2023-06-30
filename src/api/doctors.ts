@@ -35,6 +35,12 @@ export type DoctorReview = {
   };
 };
 
+export type MakeReviewInput = {
+  doctorId: string;
+  comment: string;
+  stars: number;
+};
+
 export const scanQrCode = (qrCode: string) => {
   return api.post('/doctors/scan-qrCode', { qrCode }).then((res) => res.data);
 };
@@ -68,4 +74,8 @@ export const getDoctorReviews = async (doctorId: string | undefined) => {
   return api
     .get<DoctorReview[]>(`/doctors/reviews`, { params: { doctorId } })
     .then((res) => res.data);
+};
+
+export const makeADoctorReview = async (data: MakeReviewInput) => {
+  return api.post(`/doctors/reviews`, data).then((res) => res.data);
 };

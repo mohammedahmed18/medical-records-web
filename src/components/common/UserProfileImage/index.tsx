@@ -23,7 +23,7 @@ const UserProfileImage: React.FC<props> = ({
       width={size || 70}
       height={size || 70}
       className={twMerge(
-        'object-cover ring-2 ring-primary-100',
+        'object-cover',
         rounded && 'rounded-full',
         !rounded && 'mask mask-squircle', //we seperate the mask because the ring is not applied if the mask is enabled , and we want to get the ring when the image is rounded
         className

@@ -5,8 +5,11 @@ import {
   Merge,
   UseFormRegisterReturn,
 } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
 import styles from './TextArea.module.css';
+
+import ErrorContainer from '@/components/common/errorContainer';
 
 import ErrorMessage from '../errorMsg';
 // TODO: add more properties for validation
@@ -17,7 +20,7 @@ type props = {
   label?: string;
   registeredProps?: UseFormRegisterReturn<string>;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
-};
+} & React.ComponentPropsWithRef<'textarea'>;
 const TextArea = ({
   placeholder = '',
   className,
@@ -25,6 +28,7 @@ const TextArea = ({
   registeredProps,
   error,
   wrapperClassName,
+  ...rest
 }: props) => {
   const errorMsg = error?.message?.toString();
   return (
@@ -37,13 +41,18 @@ const TextArea = ({
       <textarea
         {...registeredProps}
         placeholder={placeholder || ''}
-        className={clsx(
+        className={twMerge(
           styles.textInput,
           errorMsg && 'focus:border-red-900',
           className
         )}
+        {...rest}
       ></textarea>
-      {errorMsg && <ErrorMessage msg={errorMsg} />}
+      {errorMsg && (
+        <ErrorContainer>
+          <ErrorMessage msg={errorMsg} />
+        </ErrorContainer>
+      )}
     </div>
   );
 };

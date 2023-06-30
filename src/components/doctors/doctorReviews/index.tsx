@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { getDoctorReviews } from '@/api/doctors';
 import Container from '@/components/container';
 import DoctorReviewItem from '@/components/doctors/doctorReviewItem';
+import ReviewForm from '@/components/doctors/reviewForm';
 import { DOCTOR_REVIEWS } from '@/constant/queryKeys';
 
 type Props = {
@@ -24,6 +25,7 @@ const DoctorReviews = (props: Props) => {
         className='grid w-full grid-cols-1 justify-between gap-4 py-10'
         narrow
       >
+        <ReviewForm doctorId={doctorId} />
         {reviews.map((review) => (
           <DoctorReviewItem key={review.id} review={review} />
         ))}
