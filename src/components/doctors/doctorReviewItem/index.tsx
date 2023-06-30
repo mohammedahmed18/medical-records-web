@@ -59,7 +59,7 @@ const DoctorReviewItem = ({ review }: Props) => {
         <RatingStars value={rating} />
 
         {comment && (
-          <p className='text-muted mt-10 w-full text-center text-2xl'>
+          <p className='text-muted mt-10 mb-7 w-full text-center text-3xl leading-loose'>
             {comment}
           </p>
         )}

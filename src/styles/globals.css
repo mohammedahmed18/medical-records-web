@@ -202,5 +202,5 @@
   @apply flex items-center justify-center;
 }
 .text-muted {
-  @apply text-zinc-500;
+  @apply text-zinc-500/80;
 }

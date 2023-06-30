@@ -247,14 +247,18 @@ const Navbar: React.FC = () => {
                   onClick={handleShowQrModal}
                   Icon={QrCodeIcon}
                   className='center-content'
-                />
+                >
+                  Generate QR code
+                </IconButton>
               </li>
               <li>
                 <IconButton
                   onClick={logout}
                   Icon={LogoutIcon}
                   className='center-content'
-                />
+                >
+                  Logout
+                </IconButton>
               </li>
             </ul>
           </div>

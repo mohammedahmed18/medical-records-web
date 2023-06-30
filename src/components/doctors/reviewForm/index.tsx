@@ -71,7 +71,7 @@ const ReviewForm = ({ doctorId }: { doctorId: string }) => {
       onSubmit={handleSubmit(oneSubmit)}
       className='mb-20 border-2 px-4 py-7 shadow-md'
     >
-      <h3>Leave a review</h3>
+      <h3 className='text-muted mb-10 text-3xl'>Leave a review</h3>
 
       <StarsSelector
         currentStarsCount={watch('rating')}

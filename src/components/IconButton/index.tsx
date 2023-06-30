@@ -14,12 +14,12 @@ const IconButton = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {...rest}
         variant='light'
         className={clsx(
-          'rounded-2xl p-4 text-4xl transition-all duration-300 hover:shadow-md',
+          'flex justify-start rounded-2xl p-4 text-2xl transition-all duration-300 hover:shadow-md',
           rest.className
         )}
       >
         {Icon && <Icon className='text-4xl' />}
-        {children}
+        <span>{children}</span>
       </Button>
     );
   }
