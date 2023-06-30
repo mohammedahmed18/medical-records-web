@@ -50,7 +50,7 @@ const protectedRoute = (
       }
       if (isAnonymous && !reverse) {
         // if the user still Anonymous then redirect him to the login
-        router.push(`/login?redirect=${router.pathname}`);
+        router.push(`/login?redirect=${router.asPath}`);
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
