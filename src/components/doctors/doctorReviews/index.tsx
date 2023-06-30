@@ -33,6 +33,11 @@ const DoctorReviews = (props: Props) => {
       >
         {!isMyProfile && <ReviewForm doctorId={doctorId} />}
         {isLoading && <ReviewsSkeleton />}
+        {!isLoading && !reviews.length && (
+          <p className='text-muted my-10 text-center text-6xl font-light tracking-wider'>
+            No Reviews To Show
+          </p>
+        )}
         {reviews.map((review) => (
           <DoctorReviewItem key={review.id} review={review} />
         ))}
