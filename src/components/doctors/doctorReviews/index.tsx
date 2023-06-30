@@ -4,6 +4,7 @@ import { getDoctorReviews } from '@/api/doctors';
 import Container from '@/components/container';
 import DoctorReviewItem from '@/components/doctors/doctorReviewItem';
 import ReviewForm from '@/components/doctors/reviewForm';
+import ReviewsSkeleton from '@/components/skeletons/reviews.skeleton';
 import { DOCTOR_REVIEWS } from '@/constant/queryKeys';
 import { useAuth } from '@/contexts/authContext';
 
@@ -17,7 +18,7 @@ const DoctorReviews = (props: Props) => {
     user: { id: currentUserId },
   } = useAuth();
   const isMyProfile = currentUserId === doctorId;
-  const { data } = useQuery([DOCTOR_REVIEWS, doctorId], {
+  const { data, isLoading } = useQuery([DOCTOR_REVIEWS, doctorId], {
     queryFn: () => getDoctorReviews(doctorId.toString()),
   });
   const reviews = data || [];
@@ -31,6 +32,7 @@ const DoctorReviews = (props: Props) => {
         narrow
       >
         {!isMyProfile && <ReviewForm doctorId={doctorId} />}
+        {isLoading && <ReviewsSkeleton />}
         {reviews.map((review) => (
           <DoctorReviewItem key={review.id} review={review} />
         ))}
