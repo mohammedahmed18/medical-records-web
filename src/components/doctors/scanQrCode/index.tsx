@@ -1,8 +1,12 @@
 import clsx from 'clsx';
 import { useRef } from 'react';
-import QrReader from 'react-qr-reader';
+const QrReader = dynamic(() => import('react-qr-reader'), { ssr: false });
+
+import dynamic from 'next/dynamic';
 
 import styles from './styles.module.css';
+
+import { useMobile } from '@/hooks/useMobile';
 
 import Modal from '@components/common/modal';
 import Spinner from '@components/common/spinner';
@@ -25,7 +29,7 @@ const ScanQrCode = ({
   size,
 }: props) => {
   const qrTokenRef = useRef<string>();
-
+  const { isMobile } = useMobile();
   const handleMutation = async (token: string) => {
     if (token === qrTokenRef.current) return;
 
@@ -62,7 +66,7 @@ const ScanQrCode = ({
           //     showToast('something went wrong : ' + err.message, 'error');
           //   }
           // }}
-          facingMode='user'
+          facingMode={isMobile ? 'environment' : 'user'}
           style={{
             width: baseSize - 40,
             // paddingTop: '75%',
