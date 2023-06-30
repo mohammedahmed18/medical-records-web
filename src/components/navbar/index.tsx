@@ -236,7 +236,7 @@ const Navbar: React.FC = () => {
               <li>
                 <Link
                   className='bg-primary-200 text-2xl font-bold text-white'
-                  href='/profile'
+                  href={`/doctors/${user.id}`}
                 >
                   @&nbsp;{user.name}
                 </Link>

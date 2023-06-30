@@ -9,7 +9,7 @@ export type MedicalRecord = {
   createdAt: Date;
   updatedAt: Date;
   lifetime: boolean;
-  actionType: string; //TODO: create enum
+  actionType: keyof typeof AllMedicalRecordsActionTypes;
   doctor?: {
     id: string;
     name: string;

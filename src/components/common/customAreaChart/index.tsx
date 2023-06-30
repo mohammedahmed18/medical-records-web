@@ -10,6 +10,10 @@ import {
   YAxis,
 } from 'recharts';
 
+import { RecordTypesColors } from '@/utils/recordTypesColors';
+
+import { AllMedicalRecordsActionTypes } from '@/types/medicalRecords';
+
 type Color = { key: string; value: string };
 type Props = {
   data: Record<string, string | number>[];
@@ -19,11 +23,13 @@ const CustomAreaChart = ({ data }: Props) => {
 
   const colors: Color[] = columns.reduce((acc: Color[], current) => {
     const prev: Color[] = [...acc];
-    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
 
     prev.push({
       key: `c${current}`,
-      value: '#' + randomColor,
+      value:
+        RecordTypesColors[
+          current as keyof typeof AllMedicalRecordsActionTypes
+        ] || '',
     });
     return prev;
   }, []);

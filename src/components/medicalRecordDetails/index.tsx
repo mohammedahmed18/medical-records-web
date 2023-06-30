@@ -1,6 +1,9 @@
 import moment from 'moment';
 import Link from 'next/link';
 import { CiCalendar, CiLink, CiMail, CiTextAlignCenter } from 'react-icons/ci';
+import { twMerge } from 'tailwind-merge';
+
+import { RecordTypesColors } from '@/utils/recordTypesColors';
 
 import { MedicalRecord, MedicalRecordDetail } from '@/types/medicalRecords';
 type props = {
@@ -12,7 +15,14 @@ const MedicalRecordDetails = ({ record }: props) => {
   return (
     <div>
       <h3 className='text-4xl'>{title}</h3>
-      <span className='mt-4 inline-block rounded-full bg-zinc-400 px-7 py-2 text-lg font-bold text-white'>
+      <span
+        className={twMerge(
+          'mt-4 inline-block rounded-full px-7 py-2 text-lg font-bold text-white'
+        )}
+        style={{
+          background: RecordTypesColors[record.actionType],
+        }}
+      >
         {record.actionType}
       </span>
       <hr className='my-7' />
