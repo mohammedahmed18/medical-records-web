@@ -24,7 +24,9 @@
   --color-primary-700: rgb(var(--tw-color-primary-700));
   --color-primary-800: rgb(var(--tw-color-primary-800));
   --color-primary-900: rgb(var(--tw-color-primary-900));
-  /* #endregion  /**======== Primary Color =========== */
+  /* #endregion 
+  
+  /**======== Secondary Color =========== */
 
   /* secondary color */
   --tw-color-secondary-50: 48 218 230;

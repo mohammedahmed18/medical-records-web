@@ -53,6 +53,10 @@ api.interceptors.response.use(
         return showToast("you can't scan your qr code", 'error');
       }
 
+      if (errorCode === ERROR_CODES.USER_IS_NOT_A_DOCTOR) {
+        window.location.href = '/';
+      }
+
       // show default err code messages
       if (errorCode && message) {
         return showToast(message, 'error');
@@ -77,4 +81,5 @@ const ERROR_CODES = {
   INVALID_QR_CODE: 'P__ee05557',
   SCAN_YOUR_SELF_ERR_CODE: 'S__yy2',
   CHAT_USER_NOT_FOUND: 'P__e04558',
+  USER_IS_NOT_A_DOCTOR: 'P__e04559',
 };

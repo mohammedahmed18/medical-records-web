@@ -94,6 +94,7 @@ const SingleDetailForm = ({
           options={possibleDetails}
           registeredProps={registeredProps['type']}
           placeholder='select type'
+          watchedValue={watchedValues['type']}
           setValue={(v) => {
             setType(v);
             setValue(''); // when the type changes reset the value

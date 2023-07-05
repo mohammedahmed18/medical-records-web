@@ -6,3 +6,4 @@ export const GET_MY_ROOMS = 'GET_MY_ROOMS';
 export const DOCTORP_ROFILE = 'DOCTORP_ROFILE';
 export const QRCODE_GENERATE = 'QRCODE_GENERATE';
 export const DOCTOR_REVIEWS = 'DOCTOR_REVIEWS';
+export const GET_ML_MODELS = 'GET_ML_MODELS';

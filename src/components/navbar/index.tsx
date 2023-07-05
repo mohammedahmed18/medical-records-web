@@ -21,11 +21,13 @@ import { showToast } from '@/utils/toast';
 import LogoV2 from '~/images/logo-v2.png';
 import AddDocumentIcon from '~/svg/add-document-icon.svg';
 import ArrowDown from '~/svg/arrow-down.svg';
+import DoctorTeamIcon from '~/svg/doctor-team-icon.svg';
 import HomePageIcon from '~/svg/homepage.svg';
 import LogoutIcon from '~/svg/logout.svg';
 import ChatIcon from '~/svg/message-bubble-icon.svg';
 // import GenerateQrCode from '@/components/generateQrCode';
 import QrCodeIcon from '~/svg/qr-code.svg';
+import RecordsIcon from '~/svg/records-icon.svg';
 import ScanIcon from '~/svg/scan-icon.svg';
 
 type NavbarButtonProps = {
@@ -68,13 +70,15 @@ const NavbarButton = (props: NavbarButtonProps) => {
   );
 };
 
-const Navbar: React.FC = () => {
+type Props = {
+  loading: boolean;
+};
+const Navbar: React.FC<Props> = ({ loading }) => {
   const [activeContainerStyle, setActiveContainerStyle] = useState<{
     width: number;
     offset: number;
   }>({ width: 0, offset: 0 });
   const { user, logout } = useAuth();
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSetActive = (width: number, offset: number) =>
@@ -82,25 +86,35 @@ const Navbar: React.FC = () => {
 
   const links = [
     {
-      label: 'Homepage',
+      label: 'Home',
       href: '/',
       Icon: HomePageIcon,
       requireDoctor: false,
     },
     {
-      label: 'create medical record',
+      label: 'Records',
+      href: '/medical-records',
+      Icon: RecordsIcon,
+    },
+    {
+      label: 'create a record',
       href: '/create-medical-record',
       Icon: AddDocumentIcon,
       requireDoctor: true,
     },
     {
-      label: 'scan patient qr code',
+      label: 'view patient info',
       href: '/user-records',
       Icon: ScanIcon,
       requireDoctor: true,
     },
     {
-      label: 'Messages',
+      label: 'Doctors',
+      href: '/doctors',
+      Icon: DoctorTeamIcon,
+    },
+    {
+      label: 'Chat',
       href: '/messaging',
       Icon: ChatIcon,
       requireDoctor: false,
@@ -162,26 +176,6 @@ const Navbar: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.pathname]);
 
-  useEffect(() => {
-    const handleStart = (_url: string) => {
-      setLoading(true);
-    };
-
-    const handleComplete = (_url: string) => {
-      setLoading(false);
-    };
-
-    router.events.on('routeChangeStart', handleStart);
-    router.events.on('routeChangeComplete', handleComplete);
-    router.events.on('routeChangeError', handleComplete);
-
-    return () => {
-      router.events.off('routeChangeStart', handleStart);
-      router.events.off('routeChangeComplete', handleComplete);
-      router.events.off('routeChangeError', handleComplete);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const isDoctor = user.isDoctor;
 
   if (user.isAnonymous) return null;
@@ -233,14 +227,16 @@ const Navbar: React.FC = () => {
               tabIndex={0}
               className='dropdown-content menu rounded-box w-80 gap-4 bg-white px-2 py-5'
             >
-              <li>
-                <Link
-                  className='bg-primary-200 text-2xl font-bold text-white'
-                  href={`/doctors/${user.id}`}
-                >
-                  @&nbsp;{user.name}
-                </Link>
-              </li>
+              {user.isDoctor && (
+                <li>
+                  <Link
+                    className='bg-primary-200 text-2xl font-bold text-white'
+                    href={`/doctors/${user.id}`}
+                  >
+                    Your doctor profile
+                  </Link>
+                </li>
+              )}
               <li>
                 {/* <GenerateQrCode /> */}
                 <IconButton

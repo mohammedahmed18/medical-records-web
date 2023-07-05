@@ -3,13 +3,15 @@ import Image from 'next/image';
 import { useEffect, useRef } from 'react';
 
 import { RoomMessageType } from '@/api/messaging';
+import { PublicUserInfo } from '@/api/users';
 import MessageItem from '@/components/messaging/MessageItem';
 
 type Props = {
   messages: RoomMessageType[];
+  otherUser?: PublicUserInfo;
 };
 
-const Messages = ({ messages }: Props) => {
+const Messages = ({ messages, otherUser }: Props) => {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   // const [showScrollToBottom, setShowScrollToBottom] = useState(false);
   const scrollToBottom = (smoothe = false) => {
@@ -53,7 +55,11 @@ const Messages = ({ messages }: Props) => {
                 {moment(message.createdAt).format('MMMM YYYY')}
               </span>
             )}
-            <MessageItem message={message} key={i} />
+            <MessageItem
+              message={message}
+              key={i}
+              otherUserImage={otherUser?.image_src}
+            />
           </>
         );
       })}

@@ -17,7 +17,7 @@ import ErrorMessage from '../errorMsg';
 import ArrowDownIcon from '~/svg/arrow-down.svg';
 
 type SingleOption = {
-  value: string;
+  value: string | number;
   label?: string;
 };
 
@@ -27,6 +27,7 @@ type Props = {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   formLabel?: string;
   setValue?: (v: string) => void;
+  watchedValue?: string;
   placeholder?: string;
   className?: string;
   defaultValue?: string;
@@ -46,6 +47,7 @@ const SelectInput = (props: Props) => {
     setValue,
     defaultValue,
     minOptionsToShowSearch = 4,
+    watchedValue,
   } = props;
   const errorMsg = error?.message?.toString();
 
@@ -59,18 +61,28 @@ const SelectInput = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const getLabelByValue = (v: string) => {
+    const label = options.find((o) => o.value == v)?.label;
+    return label;
+  };
   const filteredOptions =
     search.trim() !== ''
       ? options.filter(
           (o) =>
-            o.label?.toLowerCase().includes(search.trim().toLowerCase()) ||
-            o.value.toLowerCase().includes(search.trim().toLowerCase())
+            o.label
+              ?.toString()
+              .toLowerCase()
+              .includes(search.trim().toLowerCase()) ||
+            o.value
+              .toString()
+              .toLowerCase()
+              .includes(search.trim().toLowerCase())
         )
       : options;
 
   return (
     <div>
-      <div className={clsx('my-3 flex flex-col', className)}>
+      <div className={clsx('mb-7 flex flex-col', className)}>
         {formLabel && (
           <label className='mb-3 block text-2xl font-semibold text-zinc-700'>
             {formLabel}
@@ -79,12 +91,15 @@ const SelectInput = (props: Props) => {
         <div className='relative'>
           <input
             type='text'
-            className={styles.select}
+            className={clsx(styles.select, 'text-transparent')}
             readOnly
             placeholder={placeholder || `select ${formLabel}`}
             {...registeredProps}
             onClick={() => setShowList(true)}
           />
+          <span className='absolute left-7 top-1/2 -z-[1] -translate-y-1/2 select-none text-2xl text-black'>
+            {getLabelByValue(watchedValue || '')}
+          </span>
           <ArrowDownIcon className='absolute top-1/2 right-4 -translate-y-1/2 fill-zinc-400' />
 
           {showList && (
@@ -116,7 +131,7 @@ const SelectInput = (props: Props) => {
               >
                 {filteredOptions.map((o) => (
                   <span
-                    onClick={() => handleSelectOption(o.value)}
+                    onClick={() => handleSelectOption(o.value.toString())}
                     key={o.value}
                     className={styles.listItem}
                   >

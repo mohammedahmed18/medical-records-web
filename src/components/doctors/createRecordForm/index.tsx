@@ -12,29 +12,20 @@ import SelectInput from '@components/common/selectInput';
 import Spinner from '@components/common/spinner';
 import TextInput from '@components/common/textInput';
 import DetailsForm from '@components/doctors/detailsForm';
-import PatientCard from '@components/doctors/patientCard';
-import ScanQrCode from '@components/doctors/scanQrCode';
 
-import { createMedicalRecord, scanQrCode } from '@/api/doctors';
+import { createMedicalRecord } from '@/api/doctors';
 import { ALL_ACTION_TYPES_OPTIONS } from '@/constant/common';
 import { showToast } from '@/utils/toast';
 
 import { MedicalRecordsActionTypes } from '@/types/medicalRecords';
+import { PatientQrInfo } from '@/types/user';
 
-import QrIcon from '~/svg/qr-code.svg';
-
-const CreateRecordForm = () => {
-  const [showQrModal, setShowQrModal] = useState(false);
-
+type Props = {
+  patientData?: PatientQrInfo;
+};
+const CreateRecordForm = (props: Props) => {
+  const { patientData } = props;
   const [detailsNumberArr, setDetailsNumberArr] = useState([1]);
-
-  const {
-    data: patientData,
-    isLoading,
-    mutate,
-  } = useMutation({
-    mutationFn: scanQrCode,
-  });
 
   const { isLoading: createLoading, mutate: createRecord } = useMutation({
     mutationFn: createMedicalRecord,
@@ -135,28 +126,6 @@ const CreateRecordForm = () => {
     <div>
       {/* fields */}
       <form className='p-7 shadow-md' onSubmit={onValid}>
-        <Button
-          variant='light'
-          size='lg'
-          onClick={() => setShowQrModal(true)}
-          className='gap-4 rounded-lg'
-        >
-          <QrIcon />
-          <span>scan qr code</span>
-        </Button>
-        {/* scan user qr code */}
-        <ScanQrCode
-          mutate={mutate}
-          isLoading={isLoading}
-          showQrModal={showQrModal}
-          onClose={() => setShowQrModal(false)}
-        />
-        {isLoading && <Spinner className='my-4' />}
-        {/* patient info */}
-        {patientData && <PatientCard patient={patientData} />}
-
-        <div className='mb-10'></div>
-
         {/* ----------- end scan qr code ------------ */}
 
         <TextInput
@@ -172,6 +141,7 @@ const CreateRecordForm = () => {
           registeredProps={register('actionType')}
           formLabel='Medical record type'
           error={errors['actionType']}
+          watchedValue={watch('actionType')}
           setValue={(v) => setValue('actionType', v)}
           defaultValue={MedicalRecordsActionTypes.Generic}
         />

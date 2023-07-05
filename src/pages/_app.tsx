@@ -9,6 +9,8 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import { AppProps } from 'next/app';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastContainer } from 'react-toastify';
@@ -72,12 +74,35 @@ const queryClient = new QueryClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const [pageLoading, setPageLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = (_url: string) => {
+      setPageLoading(true);
+    };
+
+    const handleComplete = (_url: string) => {
+      setPageLoading(false);
+    };
+
+    router.events.on('routeChangeStart', handleStart);
+    router.events.on('routeChangeComplete', handleComplete);
+    router.events.on('routeChangeError', handleComplete);
+
+    return () => {
+      router.events.off('routeChangeStart', handleStart);
+      router.events.off('routeChangeComplete', handleComplete);
+      router.events.off('routeChangeError', handleComplete);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <ApolloProvider client={graphqlClient}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ToastContainer />
-          <Navbar />
+          <Navbar loading={pageLoading} />
           <Component {...pageProps} />
           {!isProd && <ReactQueryDevtools />}
         </AuthProvider>

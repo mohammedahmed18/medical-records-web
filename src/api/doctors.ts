@@ -2,6 +2,8 @@ import { SingleDoctorSearch } from '@/components/doctors/doctorSearchCard';
 
 import { api } from './axios';
 
+import { PatientQrInfo } from '@/types/user';
+
 // TYPES
 
 export type GetDoctorsParams = {
@@ -42,7 +44,9 @@ export type MakeReviewInput = {
 };
 
 export const scanQrCode = (qrCode: string) => {
-  return api.post('/doctors/scan-qrCode', { qrCode }).then((res) => res.data);
+  return api
+    .post<PatientQrInfo>('/doctors/scan-qrCode', { qrCode })
+    .then((res) => res.data);
 };
 
 export const readUserRecords = async (qrCode: string) => {

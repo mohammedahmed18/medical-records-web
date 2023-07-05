@@ -127,22 +127,22 @@ const ChatView = () => {
       variables: {
         value: medicalRecordString,
         type,
-        toId: otherUser?.id,
+        toId: data?.otherUser?.id,
       },
     });
-    addMyMessageToTheUi(medicalRecordString, type, otherUser, true);
+    addMyMessageToTheUi(medicalRecordString, type, data?.otherUser, true);
   };
 
   useSubscription(RECIEVE_MESSAGE, {
-    onData: ({ data }) => {
-      const recievedMessage = data.data.messageSent;
+    onData: ({ data: recievedMessageData }) => {
+      const recievedMessage = recievedMessageData.data.messageSent;
       addMyMessageToTheUi(
         recievedMessage?.value,
         'text',
         {
           ...recievedMessage.sentUser,
         },
-        isPrivateChat ? true : false
+        data?.isPrivateChat ? true : false
       );
     },
   });
@@ -153,10 +153,6 @@ const ChatView = () => {
     !cached && fetcMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [otherUserIdQuery]);
-
-  const { otherUser, messages, isPrivateChat } = data
-    ? data
-    : { messages: [], otherUser: null, isPrivateChat: false };
 
   const isLoading = status === 'loading';
   const noChatIsSelected = status === 'idle';
@@ -179,27 +175,31 @@ const ChatView = () => {
       <div className='sticky inset-x-0 top-0 py-4 px-5 shadow-lg backdrop-blur-lg'>
         <div className='flex items-center gap-4'>
           {/* image */}
-          <UserProfileImage rounded src={otherUser?.image_src} size={50} />
+          <UserProfileImage
+            rounded
+            src={data?.otherUser?.image_src}
+            size={50}
+          />
 
           {/* name and medical specialization */}
-          {otherUser && (
+          {data?.otherUser && (
             <div className='flex flex-col'>
               <div className='flex items-center'>
                 <LongText
-                  text={otherUser.name}
+                  text={data.otherUser.name}
                   maxChars={50}
                   className='text-3xl'
                 />
-                {isPrivateChat && (
+                {data.isPrivateChat && (
                   <span className='mx-4 rounded-lg bg-primary-200 px-2 text-lg text-white'>
                     Message yourself
                   </span>
                 )}
               </div>
-              {otherUser.medicalSpecialization && (
+              {data.otherUser.medicalSpecialization && (
                 <div className='flex items-center gap-3 fill-gray-500 text-2xl text-gray-500'>
                   <StethoScopeIcon />
-                  <span>{otherUser.medicalSpecialization}</span>
+                  <span>{data.otherUser.medicalSpecialization}</span>
                 </div>
               )}
             </div>
@@ -214,12 +214,12 @@ const ChatView = () => {
         )} */}
       </div>
 
-      <Messages messages={messages} />
+      <Messages messages={data?.messages || []} otherUser={data?.otherUser} />
 
       <SendMessageInput
         handleOpenRecordsModal={handleOpenRecordsModal}
         addMyMessageToTheUi={(v) =>
-          addMyMessageToTheUi(v, 'text', otherUser, true)
+          addMyMessageToTheUi(v, 'text', data?.otherUser, true)
         }
       />
 
