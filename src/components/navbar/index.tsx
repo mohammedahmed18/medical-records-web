@@ -29,6 +29,7 @@ import ChatIcon from '~/svg/message-bubble-icon.svg';
 import QrCodeIcon from '~/svg/qr-code.svg';
 import RecordsIcon from '~/svg/records-icon.svg';
 import ScanIcon from '~/svg/scan-icon.svg';
+import SendMessageIcon from '~/svg/send-message-icon.svg';
 
 type NavbarButtonProps = {
   label: string;
@@ -238,13 +239,22 @@ const Navbar: React.FC<Props> = ({ loading }) => {
                 </li>
               )}
               <li>
-                {/* <GenerateQrCode /> */}
                 <IconButton
                   onClick={handleShowQrModal}
                   Icon={QrCodeIcon}
                   className='center-content'
                 >
                   Generate QR code
+                </IconButton>
+              </li>
+              <li>
+                {/* <GenerateQrCode /> */}
+                <IconButton
+                  onClick={() => router.push(`/messaging?u=${user.id}`)}
+                  Icon={SendMessageIcon}
+                  className='center-content'
+                >
+                  Message yourself
                 </IconButton>
               </li>
               <li>
