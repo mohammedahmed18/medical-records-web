@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   FieldError,
   FieldErrorsImpl,
@@ -27,7 +27,6 @@ type Props = {
   error?: FieldError | Merge<FieldError, FieldErrorsImpl>;
   formLabel?: string;
   setValue?: (v: string) => void;
-  watchedValue?: string;
   placeholder?: string;
   className?: string;
   defaultValue?: string;
@@ -37,6 +36,7 @@ type Props = {
 const SelectInput = (props: Props) => {
   const [showList, setShowList] = useState(false);
   const [search, setSearch] = useState<string>('');
+  const selectRef = useRef<HTMLInputElement>(null);
   const {
     className,
     placeholder,
@@ -47,32 +47,30 @@ const SelectInput = (props: Props) => {
     setValue,
     defaultValue,
     minOptionsToShowSearch = 4,
-    watchedValue,
   } = props;
   const errorMsg = error?.message?.toString();
 
   const handleSelectOption = (value: string) => {
     setValue && setValue(value);
+
     setShowList(false);
+
+    const correspondingLabel =
+      options.find((o) => o.value == value)?.label || value;
+
+    if (selectRef.current) selectRef.current.value = correspondingLabel;
   };
 
   useEffect(() => {
-    if (defaultValue && setValue) setValue(defaultValue);
+    if (defaultValue && setValue) handleSelectOption(defaultValue);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const getLabelByValue = (v: string) => {
-    const label = options.find((o) => o.value == v)?.label;
-    return label;
-  };
   const filteredOptions =
     search.trim() !== ''
       ? options.filter(
           (o) =>
-            o.label
-              ?.toString()
-              .toLowerCase()
-              .includes(search.trim().toLowerCase()) ||
+            o.label?.toLowerCase().includes(search.trim().toLowerCase()) ||
             o.value
               .toString()
               .toLowerCase()
@@ -82,7 +80,7 @@ const SelectInput = (props: Props) => {
 
   return (
     <div>
-      <div className={clsx('mb-7 flex flex-col', className)}>
+      <div className={clsx('my-3 flex flex-col', className)}>
         {formLabel && (
           <label className='mb-3 block text-2xl font-semibold text-zinc-700'>
             {formLabel}
@@ -91,15 +89,13 @@ const SelectInput = (props: Props) => {
         <div className='relative'>
           <input
             type='text'
-            className={clsx(styles.select, 'text-transparent')}
+            className={styles.select}
             readOnly
             placeholder={placeholder || `select ${formLabel}`}
             {...registeredProps}
+            ref={selectRef}
             onClick={() => setShowList(true)}
           />
-          <span className='absolute left-7 top-1/2 -z-[1] -translate-y-1/2 select-none text-2xl text-black'>
-            {getLabelByValue(watchedValue || '')}
-          </span>
           <ArrowDownIcon className='absolute top-1/2 right-4 -translate-y-1/2 fill-zinc-400' />
 
           {showList && (

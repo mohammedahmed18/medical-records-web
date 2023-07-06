@@ -73,7 +73,7 @@ function CreateMedicalRecordPage() {
               onClick={() => onSelectTab('normal')}
               className={tabClass('normal')}
             >
-              Noraml Medical record
+              Normal Medical record
             </span>
             <span
               onClick={() => onSelectTab('mlTest')}

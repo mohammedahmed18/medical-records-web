@@ -21,7 +21,6 @@ const DoctorsFilters = ({ setSearchParams, clearFilters }: Props) => {
     register,
     handleSubmit,
     setValue,
-    watch,
     reset,
     formState: { errors },
   } = useForm({
@@ -65,7 +64,6 @@ const DoctorsFilters = ({ setSearchParams, clearFilters }: Props) => {
         formLabel='Medical Specialization'
         error={errors['medicalSpecialization']}
         setValue={(v) => setValue('medicalSpecialization', v)}
-        watchedValue={watch('medicalSpecialization')}
       />
 
       <SelectInput
@@ -73,7 +71,6 @@ const DoctorsFilters = ({ setSearchParams, clearFilters }: Props) => {
         registeredProps={register('topRated')}
         formLabel='Top Rated'
         error={errors['topRated']}
-        watchedValue={watch('topRated')}
         setValue={(v) => setValue('topRated', v)}
       />
 
@@ -82,7 +79,6 @@ const DoctorsFilters = ({ setSearchParams, clearFilters }: Props) => {
         registeredProps={register('mostReviews')}
         formLabel='Most Reviews'
         error={errors['mostReviews']}
-        watchedValue={watch('mostReviews')}
         setValue={(v) => setValue('mostReviews', v)}
       />
 

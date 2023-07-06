@@ -141,7 +141,6 @@ const CreateRecordForm = (props: Props) => {
           registeredProps={register('actionType')}
           formLabel='Medical record type'
           error={errors['actionType']}
-          watchedValue={watch('actionType')}
           setValue={(v) => setValue('actionType', v)}
           defaultValue={MedicalRecordsActionTypes.Generic}
         />

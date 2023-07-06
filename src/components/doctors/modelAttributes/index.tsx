@@ -44,7 +44,6 @@ const ModelAttributesForm = (props: Props) => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm({
@@ -78,7 +77,6 @@ const ModelAttributesForm = (props: Props) => {
               formLabel={attribute.label}
               error={errors[attribute.label]}
               setValue={(v) => setValue(attribute.label, v)}
-              watchedValue={watch(attribute.label)}
               defaultValue={
                 attribute.selectOptions
                   ? attribute.selectOptions[0].value.toString()

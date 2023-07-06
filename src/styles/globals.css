@@ -205,3 +205,56 @@
 .text-muted {
   @apply text-zinc-500/80;
 }
+
+/* animated shadow */
+.animated-shadow {
+  position: relative;
+  overflow: visible !important;
+  border-radius: 15px !important;
+}
+.animated-shadow::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  bottom: 1px;
+  left: 1px;
+  border-radius: 15px;
+  background: linear-gradient(
+    -90deg,
+    var(--color-primary-50),
+    var(--color-primary-400),
+    var(--color-secondary-200),
+    var(--color-secondary-50)
+  );
+  background-size: 400% 100%;
+  border: none;
+  z-index: -99999999;
+  transform: scale(1.01);
+  padding: 0;
+  margin: 0;
+  animation: backgroundAnimation 8s ease-in-out infinite;
+  @apply blur-md;
+}
+
+@keyframes backgroundAnimation {
+  50% {
+    background-position: 140% 50%;
+    /* transform: skew(-2deg); */
+  }
+}
+
+/* .button-background:after {
+  content: '';
+  position: absolute;
+  background-size: inherit;
+  background-image: inherit;
+  -webkit-animation: inherit;
+  animation: inherit;
+  left: 0;
+  right: 0;
+  top: 2px;
+  height: 100%;
+  filter: blur(0.5rem);
+} */

@@ -1,10 +1,17 @@
 import * as React from 'react';
+import { twMerge } from 'tailwind-merge';
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
   // Put Header or Footer Here
   return (
     <>
-      <div className='mt-36'>{children}</div>
+      <div className={twMerge('mt-36', className)}>{children}</div>
     </>
   );
 }

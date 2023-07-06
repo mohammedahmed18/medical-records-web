@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FieldValues, useForm } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
 import loginSchema from '@/lib/formSchemas/loginSchema';
 
@@ -13,6 +14,19 @@ import Container from '../container';
 
 import IdIcon from '~/svg/id-card-icon.svg';
 import LockIcon from '~/svg/lock-icon.svg';
+
+export const Bubble = ({ size = 50, className = '' }) => {
+  return (
+    <div
+      style={{ width: size, height: size }}
+      className={twMerge(
+        'absolute -z-[99999999] rounded-full bg-primary-100/20 blur-sm',
+        className
+      )}
+    ></div>
+  );
+};
+
 const LoginForm = () => {
   const { login } = useAuth();
   //  TODO: create a form builder instead of writing all of this every time
@@ -29,6 +43,7 @@ const LoginForm = () => {
   };
   return (
     <form onSubmit={handleSubmit(onLogin)}>
+      {/* <Bubble className='left-1/2' size={500} /> */}
       <Container narrow className='py-7'>
         <section className='my-auto flex h-[90vh] flex-col items-center justify-center overflow-hidden rounded-3xl border-2 bg-white shadow-2xl md:flex-row'>
           {/* <div className='relative hidden h-full w-1/2 md:block'>

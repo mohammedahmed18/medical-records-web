@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { useQuery } from 'react-query';
+import { FieldValues } from 'react-hook-form';
+import { useMutation, useQuery } from 'react-query';
 
-import { getAllModels, MlModel } from '@/api/ml';
+import { getAllModels, MlModel, saveAiTest } from '@/api/ml';
 import Button from '@/components/buttons/Button';
 import BetaLabel from '@/components/common/beta';
 import Modal from '@/components/common/modal';
 import Spinner from '@/components/common/spinner';
 import ModelAttributesForm from '@/components/doctors/modelAttributes';
 import { GET_ML_MODELS } from '@/constant/queryKeys';
+import { showToast } from '@/utils/toast';
 
 import { PatientQrInfo } from '@/types/user';
 
@@ -16,14 +18,29 @@ import CheckIcon from '~/svg/check-mark-circle-icon.svg';
 type Props = {
   patientData?: PatientQrInfo;
 };
-const AiTestsForm = (_props: Props) => {
+const AiTestsForm = ({ patientData }: Props) => {
   const [showModelsModal, setShowModelsModal] = useState(true);
   const [selectedModel, setSelectedModel] = useState<MlModel>();
   const { data: models, isLoading } = useQuery(GET_ML_MODELS, {
     queryFn: getAllModels,
   });
 
+  const { mutate } = useMutation({
+    mutationFn: saveAiTest,
+  });
+
   const handleCloseModal = () => setShowModelsModal(false);
+
+  const onSubmitTest = (data: FieldValues) => {
+    if (!patientData) return showToast('you must scan the qr code', 'error');
+    if (!selectedModel) return;
+
+    mutate({
+      userId: patientData.id,
+      inputData: data,
+      modelKey: selectedModel.modelKey,
+    });
+  };
 
   return (
     <div className='flex flex-col gap-4'>
@@ -48,7 +65,7 @@ const AiTestsForm = (_props: Props) => {
         )}
         {models && (
           <>
-            <div className='mb-10 ml-auto w-fit'>
+            <div className='mb-10 w-fit'>
               <BetaLabel theme='dark' />
             </div>
             <div className='grid h-[400px] grid-cols-1 overflow-y-auto md:grid-cols-2 lg:grid-cols-3'>
@@ -90,7 +107,7 @@ const AiTestsForm = (_props: Props) => {
 
           <ModelAttributesForm
             attributes={selectedModel.attributes}
-            onSubmit={(data) => alert(JSON.stringify(data))}
+            onSubmit={onSubmitTest}
           />
         </div>
       )}

@@ -9,6 +9,7 @@ import { useTimeoutAsync } from '@/hooks/useTimeoutAsync';
 import Container from '@components/container';
 
 import { generateQrcode } from '@/api/users';
+import Button from '@/components/buttons/Button';
 import NeonLoader from '@/components/common/NeonLoader';
 import UserProfileImage from '@/components/common/UserProfileImage';
 import GenerateQrModal from '@/components/generateQrCode/generateQrModal';
@@ -179,7 +180,7 @@ const Navbar: React.FC<Props> = ({ loading }) => {
 
   const isDoctor = user.isDoctor;
 
-  if (user.isAnonymous) return null;
+  // if (user.isAnonymous) return null;
   return (
     <nav className='fixed inset-x-0 top-0 z-40 py-3 backdrop-blur-md md:py-0'>
       <Container className='flex items-center justify-between'>
@@ -192,83 +193,97 @@ const Navbar: React.FC<Props> = ({ loading }) => {
           {/* <UserProfileImage src={user.image_src} size={40} /> */}
         </Link>
 
-        <div className='relative ml-4 flex items-center gap-3 md:gap-4 lg:gap-6'>
-          <div
-            className='absolute bottom-0 h-2 rounded-2xl bg-primary-100 transition-all duration-300 ease-in-out'
-            style={{
-              width: activeContainerStyle.width,
-              left: activeContainerStyle.offset,
-            }}
-          />
-
-          {links.map((link) =>
-            link.requireDoctor && !isDoctor ? null : (
-              <NavbarButton
-                key={link.label}
-                label={link.label}
-                href={link.href}
-                Icon={link.Icon}
-                setActive={handleSetActive}
-              />
-            )
-          )}
-
-          <div className='dropdown-end dropdown'>
-            <label>
-              <div
-                tabIndex={0}
-                className='flex cursor-pointer items-center gap-4 rounded-lg px-5 py-3 transition-colors hover:bg-gray-100'
+        {user.isAnonymous ? (
+          <div>
+            <Link href='/login'>
+              <Button
+                size='lg'
+                variant='light'
+                className='rounded-2xl px-7 py-4 text-3xl'
               >
-                <ArrowDown className='hidden md:block' />
-                <UserProfileImage src={user.image_src} size={40} rounded />
-              </div>
-            </label>
-
-            <ul
-              tabIndex={0}
-              className='dropdown-content menu rounded-box w-80 gap-4 bg-white px-2 py-5'
-            >
-              {user.isDoctor && (
-                <li>
-                  <Link
-                    className='bg-primary-200 text-2xl font-bold text-white'
-                    href={`/doctors/${user.id}`}
-                  >
-                    Your doctor profile
-                  </Link>
-                </li>
-              )}
-              <li>
-                <IconButton
-                  onClick={handleShowQrModal}
-                  Icon={QrCodeIcon}
-                  className='center-content'
-                >
-                  Generate QR code
-                </IconButton>
-              </li>
-              <li>
-                {/* <GenerateQrCode /> */}
-                <IconButton
-                  onClick={() => router.push(`/messaging?u=${user.id}`)}
-                  Icon={SendMessageIcon}
-                  className='center-content'
-                >
-                  Message yourself
-                </IconButton>
-              </li>
-              <li>
-                <IconButton
-                  onClick={logout}
-                  Icon={LogoutIcon}
-                  className='center-content'
-                >
-                  Logout
-                </IconButton>
-              </li>
-            </ul>
+                Login
+              </Button>
+            </Link>
           </div>
-        </div>
+        ) : (
+          <div className='relative ml-4 flex items-center gap-3 md:gap-4 lg:gap-6'>
+            <div
+              className='absolute bottom-0 h-2 rounded-2xl bg-primary-100 transition-all duration-300 ease-in-out'
+              style={{
+                width: activeContainerStyle.width,
+                left: activeContainerStyle.offset,
+              }}
+            />
+
+            {links.map((link) =>
+              link.requireDoctor && !isDoctor ? null : (
+                <NavbarButton
+                  key={link.label}
+                  label={link.label}
+                  href={link.href}
+                  Icon={link.Icon}
+                  setActive={handleSetActive}
+                />
+              )
+            )}
+
+            <div className='dropdown-end dropdown'>
+              <label>
+                <div
+                  tabIndex={0}
+                  className='flex cursor-pointer items-center gap-4 rounded-lg px-5 py-3 transition-colors hover:bg-gray-100'
+                >
+                  <ArrowDown className='hidden md:block' />
+                  <UserProfileImage src={user.image_src} size={40} rounded />
+                </div>
+              </label>
+
+              <ul
+                tabIndex={0}
+                className='dropdown-content menu rounded-box w-80 gap-4 bg-white px-2 py-5'
+              >
+                {user.isDoctor && (
+                  <li>
+                    <Link
+                      className='bg-primary-200 text-2xl font-bold text-white'
+                      href={`/doctors/${user.id}`}
+                    >
+                      Your doctor profile
+                    </Link>
+                  </li>
+                )}
+                <li>
+                  <IconButton
+                    onClick={handleShowQrModal}
+                    Icon={QrCodeIcon}
+                    className='center-content'
+                  >
+                    Generate QR code
+                  </IconButton>
+                </li>
+                <li>
+                  {/* <GenerateQrCode /> */}
+                  <IconButton
+                    onClick={() => router.push(`/messaging?u=${user.id}`)}
+                    Icon={SendMessageIcon}
+                    className='center-content'
+                  >
+                    Message yourself
+                  </IconButton>
+                </li>
+                <li>
+                  <IconButton
+                    onClick={logout}
+                    Icon={LogoutIcon}
+                    className='center-content'
+                  >
+                    Logout
+                  </IconButton>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
 
         {/* <div className='flex items-center'>
           <Tooltip direction='tooltip-bottom' title='generate qr code'>

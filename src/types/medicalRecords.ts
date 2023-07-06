@@ -25,6 +25,7 @@ export enum MedicalRecordsActionTypes {
   Illness = 'Illness',
   Allergy = 'Allergy',
   LabTest = 'LabTest',
+  AI_TEST = 'AI_TEST',
 }
 export enum AllMedicalRecordsActionTypes {
   Generic = 'Generic',
@@ -33,7 +34,7 @@ export enum AllMedicalRecordsActionTypes {
   Illness = 'Illness',
   Allergy = 'Allergy',
   LabTest = 'LabTest',
-
+  AI_TEST = 'AI_TEST',
   Birth = 'Birth',
   Death = 'Death',
 }

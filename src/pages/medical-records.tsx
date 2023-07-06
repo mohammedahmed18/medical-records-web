@@ -33,7 +33,7 @@ const FilterItem = ({
           : 'bg-transparent hover:bg-gray-100'
       )}
     >
-      {value}
+      {value.replace('_', ' ')}
     </span>
   );
 };

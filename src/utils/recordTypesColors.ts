@@ -11,4 +11,5 @@ export const RecordTypesColors: Partial<
   LabTest: '#472892',
   Birth: '#0F9313',
   Death: '#B80D0D',
+  AI_TEST: '#d68e22',
 };

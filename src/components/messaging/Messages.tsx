@@ -49,7 +49,7 @@ const Messages = ({ messages, otherUser }: Props) => {
           currentDate.year() !== prevDate?.year() ||
           currentDate.month() !== prevDate.month();
         return (
-          <>
+          <div key={i}>
             {willShowDate && (
               <span className='mx-auto mb-4 block w-fit rounded-lg bg-zinc-200 px-4 py-1 text-center text-lg text-gray-600'>
                 {moment(message.createdAt).format('MMMM YYYY')}
@@ -60,7 +60,7 @@ const Messages = ({ messages, otherUser }: Props) => {
               key={i}
               otherUserImage={otherUser?.image_src}
             />
-          </>
+          </div>
         );
       })}
     </div>
