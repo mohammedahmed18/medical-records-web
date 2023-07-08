@@ -6,6 +6,7 @@ import UserProfileImage from '@/components/common/UserProfileImage';
 import DoctorReviews from '@/components/doctors/doctorReviews';
 import RatingStars from '@/components/doctors/ratingStars.tsx';
 import IconButton from '@/components/IconButton';
+import { resizeCloudinaryImage } from '@/utils/resizeCloudinary';
 
 import SendMessageIcon from '~/svg/send-message-icon.svg';
 import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
@@ -22,7 +23,7 @@ const DoctorProfile = (props: Props) => {
   return (
     <div className='flex flex-col items-center gap-7'>
       <UserProfileImage
-        src={image_src}
+        src={resizeCloudinaryImage(image_src, 400)}
         alt='profile'
         size={200}
         rounded
