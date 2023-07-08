@@ -4,16 +4,16 @@
 
 :root {
   /* #region  /**=========== Primary Color =========== */
-  --tw-color-primary-50: 184 180 249;
-  --tw-color-primary-100: 143 136 237;
-  --tw-color-primary-200: 110 105 191;
-  --tw-color-primary-300: 92 88 162;
-  --tw-color-primary-400: 74 71 132;
-  --tw-color-primary-500: 56 53 99;
-  --tw-color-primary-600: 50 48 88;
-  --tw-color-primary-700: 40 39 72;
-  --tw-color-primary-800: 30 29 55;
-  --tw-color-primary-900: 18 17 34;
+  --tw-color-primary-50: 1 73 110;
+  --tw-color-primary-100: 0 53 80;
+  --tw-color-primary-200: 0 46 68;
+  --tw-color-primary-300: 0 42 63;
+  --tw-color-primary-400: 0 44 66;
+  --tw-color-primary-500: 0 40 66;
+  --tw-color-primary-600: 0 35 66;
+  --tw-color-primary-700: 0 30 66;
+  --tw-color-primary-800: 0 25 66;
+  --tw-color-primary-900: 0 20 66;
   --color-primary-50: rgb(var(--tw-color-primary-50));
   --color-primary-100: rgb(var(--tw-color-primary-100));
   --color-primary-200: rgb(var(--tw-color-primary-200));

@@ -1,0 +1,16 @@
+.sidebar_icon {
+  @apply relative mx-auto mt-2 mb-4 flex
+             cursor-pointer flex-col items-center justify-center
+            rounded-full
+             p-5
+             shadow-lg transition-all duration-300
+             ease-linear hover:bg-primary-200 hover:text-white;
+}
+
+.sidebar_hr {
+  @apply mx-2
+    h-1 rounded-full
+     border-primary-500;
+
+  background-color: var(--gray-3);
+}

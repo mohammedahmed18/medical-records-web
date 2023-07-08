@@ -181,18 +181,27 @@ const Navbar: React.FC<Props> = ({ loading }) => {
   const isDoctor = user.isDoctor;
 
   // if (user.isAnonymous) return null;
+  if (router.pathname.startsWith('/admin')) return null;
   return (
     <nav className='fixed inset-x-0 top-0 z-40 py-3 backdrop-blur-md md:py-0'>
-      <Container className='flex items-center justify-between'>
-        <Link href='/' className='center-content rounded-2xl px-10'>
-          {/* <Logo className='h-20 w-20 ' /> */}
-          <NextImage src={LogoV2} width={70} height={70} alt='Logo' />
-          <h2 className='hidden bg-gradient-to-r from-primary-100 to-primary-300 bg-clip-text text-3xl text-transparent md:block'>
-            Medical records
-          </h2>
-          {/* <UserProfileImage src={user.image_src} size={40} /> */}
-        </Link>
-
+      <Container className='flex items-center justify-between' removeSpacing>
+        <div className='flex items-center gap-3'>
+          <Link href='/' className='center-content rounded-2xl px-10'>
+            {/* <Logo className='h-20 w-20 ' /> */}
+            <NextImage src={LogoV2} width={70} height={70} alt='Logo' />
+            <h2 className='hidden bg-gradient-to-r from-primary-100 to-primary-300 bg-clip-text text-3xl text-transparent md:block'>
+              Medical records
+            </h2>
+            {/* <UserProfileImage src={user.image_src} size={40} /> */}
+          </Link>
+          {user.isAdmin && (
+            <Link href='/admin'>
+              <Button variant='dark' size='lg'>
+                Admin Profile
+              </Button>
+            </Link>
+          )}
+        </div>
         {user.isAnonymous ? (
           <div>
             <Link href='/login'>

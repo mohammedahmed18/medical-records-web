@@ -2,7 +2,7 @@
   "name": "@medical-records/client",
   "version": "0.1.0",
   "private": true,
-  "licence" : "MIT",
+  "licence": "MIT",
   "scripts": {
     "dev": "pm2 start \"next dev -p 3001\" --name medical-records-client",
     "kill": "pm2 delete all",
@@ -76,6 +76,7 @@
     "prettier": "^2.8.4",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "tailwindcss": "^3.2.7",
+    "tailwindcss-rtl": "^0.9.0",
     "typescript": "^4.9.5"
   },
   "lint-staged": {

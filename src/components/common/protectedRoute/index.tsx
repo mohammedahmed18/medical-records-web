@@ -25,9 +25,16 @@ const protectedRoute = (
     Seo?: React.ElementType;
     reverse?: boolean;
     requireDoctor?: boolean;
+    requireAdmin?: boolean;
   }
 ) => {
-  const { Seo, Skeleton, reverse = false, requireDoctor = false } = options;
+  const {
+    Seo,
+    Skeleton,
+    reverse = false,
+    requireDoctor = false,
+    requireAdmin = false,
+  } = options;
 
   const Component = ({ ...props }) => {
     const { isAnonymous, loading, user } = useAuth();
@@ -74,6 +81,7 @@ const protectedRoute = (
     // the user is authenticated
 
     if (requireDoctor && !user.isDoctor) return <NotFoundPage />;
+    if (requireAdmin && !user.isAdmin) return <NotFoundPage />;
     return (
       <>
         {Seo && <Seo />}

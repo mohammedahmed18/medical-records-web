@@ -1,5 +1,6 @@
 import { useMutation, useSubscription } from '@apollo/client';
 import moment from 'moment';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from 'react-query';
@@ -158,7 +159,16 @@ const ChatView = () => {
   const noChatIsSelected = status === 'idle';
 
   if (noChatIsSelected) {
-    return <div className='h-full bg-secondary-600/80' />;
+    return (
+      <div className='relative h-full bg-secondary-600/80'>
+        <Image
+          src='/images/chat-bg.jpg'
+          fill
+          alt='chat bg'
+          className='object-cover'
+        />
+      </div>
+    );
   }
 
   if (isLoading) {

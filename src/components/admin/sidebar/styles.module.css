@@ -1,0 +1,9 @@
+.sidebar {
+  @apply top-0 left-0 m-0 flex h-screen
+   flex-col bg-primary-300
+ px-5 text-white shadow-lg;
+}
+
+.logout {
+  margin-top: auto;
+}

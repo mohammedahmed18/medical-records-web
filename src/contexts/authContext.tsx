@@ -12,9 +12,17 @@ import {
 import { useQueryClient } from 'react-query';
 
 import { api } from '@/api/axios';
+export type AdminType = {
+  id: string;
+  roleId: string;
+  userId: string;
+};
 
+// export type AdminType =
 // TODO: change the location of this
 export type User = {
+  admin: AdminType | null;
+  isAdmin: boolean;
   id?: string;
   nationalId?: string;
   name?: string;
@@ -54,6 +62,8 @@ const defaultUser: User = {
   isDoctor: false,
   medicalSpecialization: '',
   isAnonymous: true,
+  admin: null,
+  isAdmin: false,
 };
 
 type ContextType = {
@@ -94,9 +104,12 @@ export const AuthProvider = ({ children }: props) => {
     if (token) api.defaults.headers.Authorization = `Bearer ${token}`;
     const response = await api.get('users/me');
     const user: User = response?.data;
+
     const isDoctor = !!user?.medicalSpecialization;
+    const isAdmin = !!user?.admin;
+
     if (user) {
-      setUser({ ...user, isAnonymous: false, isDoctor });
+      setUser({ ...user, isAnonymous: false, isDoctor, isAdmin });
       return { success: true };
     }
   }
