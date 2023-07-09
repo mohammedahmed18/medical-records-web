@@ -4,6 +4,10 @@ export default function Document() {
   return (
     <Html lang='en' data-theme='light'>
       <Head>
+        <meta
+          http-equiv='Content-Security-Policy'
+          content='upgrade-insecure-requests'
+        />
         <link
           rel='preload'
           href='/fonts/inter-var-latin.woff2'
