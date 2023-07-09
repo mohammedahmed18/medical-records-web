@@ -5,7 +5,7 @@ import { isProd } from '@/constant/env';
 import { showToast } from '@/utils/toast';
 
 export const SERVER_URL = isProd
-  ? 'https://medical-records-server1.onrender.com'
+  ? 'http://3.138.142.207:3000'
   : 'http://localhost:3000';
 
 export const GRAPHQL_URL = SERVER_URL + '/graphql';
