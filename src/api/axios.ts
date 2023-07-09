@@ -5,7 +5,7 @@ import { isProd } from '@/constant/env';
 import { showToast } from '@/utils/toast';
 
 export const SERVER_URL = isProd
-  ? 'http://ec2-3-138-142-207.us-east-2.compute.amazonaws.com:3000'
+  ? 'https://ec2-3-138-142-207.us-east-2.compute.amazonaws.com:3000'
   : 'http://localhost:3000';
 
 export const GRAPHQL_URL = SERVER_URL + '/graphql';
