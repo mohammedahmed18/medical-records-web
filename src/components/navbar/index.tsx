@@ -181,7 +181,11 @@ const Navbar: React.FC<Props> = ({ loading }) => {
   const isDoctor = user.isDoctor;
 
   // if (user.isAnonymous) return null;
-  if (router.pathname.startsWith('/admin')) return null;
+  if (
+    router.pathname.startsWith('/admin') ||
+    router.pathname.startsWith('/login')
+  )
+    return null;
   return (
     <nav className='fixed inset-x-0 top-0 z-40 py-3 backdrop-blur-md md:py-0'>
       <Container className='flex items-center justify-between' removeSpacing>

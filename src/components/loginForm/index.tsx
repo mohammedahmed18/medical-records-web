@@ -45,7 +45,7 @@ const LoginForm = () => {
     <form onSubmit={handleSubmit(onLogin)}>
       {/* <Bubble className='left-1/2' size={500} /> */}
       <Container narrow className='py-7'>
-        <section className='my-auto flex h-[90vh] flex-col items-center justify-center overflow-hidden rounded-3xl border-2 bg-white shadow-2xl md:flex-row'>
+        <section className='my-auto flex h-[90vh] flex-col items-center justify-center overflow-hidden rounded-b-3xl border-2 border-t-primary-500 bg-white shadow-2xl md:flex-row'>
           {/* <div className='relative hidden h-full w-1/2 md:block'>
           <div className='loginClipper absolute bottom-0 h-full w-full bg-indigo-900'></div>
         </div> */}
@@ -75,7 +75,11 @@ const LoginForm = () => {
               className='mx-auto mt-10 flex justify-center rounded-full bg-indigo-900 px-20 text-white'
               disabled={isSubmitting}
             >
-              {isSubmitting ? <Spinner size={20} /> : 'Log in'}
+              {isSubmitting ? (
+                <Spinner className='border-white' size={20} />
+              ) : (
+                'Log in'
+              )}
             </TextButton>
           </div>
         </section>

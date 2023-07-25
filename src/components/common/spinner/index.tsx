@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 import styles from './Spinner.module.css';
 const Spinner = ({
@@ -9,7 +9,11 @@ const Spinner = ({
 }) => {
   return (
     <div
-      className={clsx(styles.spinner, reversed && styles.reversed, className)}
+      className={twMerge(
+        styles.spinner,
+        reversed && styles.reversed,
+        className
+      )}
       style={{ width: size, height: size, ...customStyle }}
     ></div>
   );

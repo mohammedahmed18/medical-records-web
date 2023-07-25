@@ -15,6 +15,7 @@ import Messages from '@/components/messaging/Messages';
 import RecordsModal from '@/components/messaging/RecordsModal';
 import SendMessageInput from '@/components/messaging/SendMessageInput';
 import { GET_MY_ROOMS, ROOM_MESSAGES } from '@/constant/queryKeys';
+import { useAuth } from '@/contexts/authContext';
 import { RECIEVE_MESSAGE, SEND_MESSAGE } from '@/graphql/messages';
 
 import { MedicalRecord } from '@/types/medicalRecords';
@@ -23,6 +24,7 @@ import StethoScopeIcon from '~/svg/stethoscope-icon.svg';
 
 const ChatView = () => {
   const router = useRouter();
+  const { user } = useAuth();
   const [showRecordsModal, setShowRecordsModal] = useState(false);
   const { u: otherUserIdQuery } = router.query;
   const queryCache = useQueryClient();
@@ -137,21 +139,22 @@ const ChatView = () => {
   useSubscription(RECIEVE_MESSAGE, {
     onData: ({ data: recievedMessageData }) => {
       const recievedMessage = recievedMessageData.data.messageSent;
+      const isPrivateChat = recievedMessage.senderId === user.id;
+
       addMyMessageToTheUi(
         recievedMessage?.value,
-        'text',
+        recievedMessage.type,
         {
           ...recievedMessage.sentUser,
         },
-        data?.isPrivateChat ? true : false
+        isPrivateChat
       );
     },
   });
 
   useEffect(() => {
     if (!otherUserIdQuery) return;
-    const cached = queryCache.getQueryData([ROOM_MESSAGES, otherUserIdQuery]);
-    !cached && fetcMessages();
+    fetcMessages();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [otherUserIdQuery]);
 
